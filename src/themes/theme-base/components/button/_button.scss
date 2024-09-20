@@ -1,0 +1,39 @@
+button {
+  border-radius: 9999px;
+}
+
+button {
+  &.xs {
+    @apply px-4 py-[10px];
+  }
+  &.sm {
+    @apply px-[18px] py-3;
+  }
+  &.md {
+    @apply px-5 py-[14px];
+  }
+  &.lg {
+    @apply px-[22px] py-4;
+  }
+  &.xl {
+    @apply px-[26px] py-5;
+  }
+  &.xxl {
+    @apply px-[30px] py-6;
+  }
+  &.frosted-glass {
+    backdrop-filter: blur(6px);
+    background-color: rgba(232, 231, 234, 0.1);
+    box-shadow: inset 0px 4px 10px rgba(255, 255, 255, 0.1);
+  }
+  &.outlined {
+    background-color: transparent;
+    border: solid 1px white;
+  }
+}
+button.primary {
+  @apply rounded-full;
+}
+button.secondary {
+  @apply rounded-md;
+}

@@ -6,6 +6,7 @@ function TestApi() {
   const testApi = async () => {
     return await callApi("get", "pet", null, "Successfully Call API");
   };
+
   const AddnewAPI = async () => {
     return await callApi(
       "post",

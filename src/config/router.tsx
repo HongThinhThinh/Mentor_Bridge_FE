@@ -13,18 +13,20 @@ function TestAPi() {
     const response = await testApi();
     setTest(response);
   };
+  console.log(test);
+
   return (
     <div>
       <h1>Testing API Call</h1>
-      {test &&
-        test?.map((item) => (
-          <div key={item.id}>
+      {/* {test &&
+        test?.map((item: any) => (
+          <div key={item?.id}>
             <h1>
               {" "}
               {item?.id} {item.name}
             </h1>
           </div>
-        ))}
+        ))} */}
     </div>
   );
 }

@@ -6,7 +6,10 @@ export const userSlice = createSlice({
   name: "user",
   initialState, //initialState : initialState, : viết tắt khi tên field và tên biến trùng nhau
   reducers: {
-    login: (state, action) => (state = action.payload),
+    login: (state, action) => {
+      console.log(state);
+      return action.payload; // Trả về trạng thái mới
+    },
     logout: () => initialState,
   },
 });

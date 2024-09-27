@@ -1,0 +1,95 @@
+.login {
+  overflow-y: hidden;
+  height: 100vh;
+
+  &__sidebar {
+    position: relative;
+    &__bg {
+      filter: brightness(1.25);
+    }
+    &__intro {
+      position: absolute;
+      bottom: 33px;
+      left: 41px;
+      width: 725px;
+      height: 220px;
+      background-color: #0000004d;
+      border-radius: 15px;
+      backdrop-filter: blur(3px);
+
+      &__content {
+        padding: 23px 33px;
+        color: var(--shade-N300);
+      }
+    }
+  }
+
+  &__form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__container {
+      h1 {
+        font-size: 24px;
+        font-weight: 700;
+        font-family: "MediumCereal";
+        padding-bottom: 72px;
+      }
+
+      &__btnGg {
+        width: 369px;
+        height: 47px;
+        border-color: #d5d5d7;
+        border-radius: 9999px;
+        font-family: "MediumCereal";
+        font-size: 12px;
+        // margin-bottom: 41px;
+      }
+      &__divider {
+        font-family: "LightCereal";
+        .ant-divider-horizontal.ant-divider-with-text {
+          margin: 0;
+          padding-top: 41px;
+        }
+        .ant-divider-inner-text {
+          color: var(--shade-N800);
+          font-weight: 300;
+          font-size: 12px;
+        }
+      }
+
+      &__namepass {
+        width: 369px;
+        &__item {
+          .ant-form-item-label > label {
+            width: 100%;
+            font-family: "BoldCereal";
+            font-size: 12px;
+            line-height: 16px;
+          }
+        }
+
+        &__input {
+          height: 46px;
+          //   width: 369px;
+
+          &.ant-input-outlined {
+            background: white;
+            border: 1px solid var(--shade-N800);
+          }
+        }
+      }
+      &__btnNamepass {
+        width: 369px;
+        height: 47px;
+        border-radius: 9999px;
+        background: linear-gradient(88.35deg, #ff6001 43.73%, #f9a26e 99.08%);
+        color: var(--shade-N300);
+        font-family: "MediumCereal";
+        font-size: 12px;
+        line-height: 16px;
+      }
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import TestApi from "../services/testApi";
+import Login from "../pages/login/Login";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -35,5 +36,9 @@ export const router = createBrowserRouter([
   {
     path: "/test",
     element: <TestAPi />,
+  },
+  {
+    path: "/login",
+    element: <Login/>,
   },
 ]);

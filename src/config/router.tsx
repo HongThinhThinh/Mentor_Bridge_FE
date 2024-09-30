@@ -2,6 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import TestApi from "../services/testApi";
 import Login from "../pages/login/Login";
+import ManageTopic from "../pages/admin/manage-topic";
+import DashboardLayout from "../components/dashboard/dashboard-layout";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -37,8 +39,19 @@ export const router = createBrowserRouter([
     path: "/test",
     element: <TestAPi />,
   },
+
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: "topic",
+        element: <ManageTopic />,
+      },
+    ],
+  },
   {
     path: "/login",
-    element: <Login/>,
+    element: <Login />,
   },
 ]);

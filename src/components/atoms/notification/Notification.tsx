@@ -1,4 +1,4 @@
-import { Badge } from "antd";
+import { Badge, Dropdown, MenuProps } from "antd";
 import { FontSize, FontWeight } from "../../../constants/typography";
 
 export interface NotificationProps {
@@ -10,6 +10,18 @@ export interface NotificationProps {
   fontSize?: FontSize;
   /** Badge children'ss contents */
   children?: React.ReactNode;
+  /** Notification items in menu dropdown */
+  items: MenuProps["items"];
+  /** Dropdown placement */
+  placement?:
+    | "topLeft"
+    | "topCenter"
+    | "topRight"
+    | "bottomLeft"
+    | "bottomCenter"
+    | "bottomRight"
+    | "top"
+    | "bottom";
   /** Badge contents */
   count?: React.ReactNode;
   /** Optional click handler */
@@ -21,17 +33,23 @@ export const Notification = ({
   fontSize = "base",
   fontWeight = "medium",
   styleClass,
+  items,
+  placement,
   children,
   count,
   ...props
 }: NotificationProps) => {
   return (
-    <Badge
-      className={[`text-${fontSize}-${fontWeight}`, styleClass].join(" ")}
-      count={count}
-      {...props}
-    >
-      {children}
-    </Badge>
+    <>
+      <Dropdown menu={{ items }} placement={placement}>
+        <Badge
+          className={[`text-${fontSize}-${fontWeight}`, styleClass].join(" ")}
+          count={count}
+          {...props}
+        >
+          {children}
+        </Badge>
+      </Dropdown>
+    </>
   );
 };

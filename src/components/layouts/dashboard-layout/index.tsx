@@ -7,7 +7,7 @@ import Header from "../../organisisms/header";
 const { Content, Footer, Sider } = Layout;
 
 const DashboardLayout: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const [currentItem, setCurrentItem] = useState(mentorMenuItems[0]);
 
   const {
@@ -16,18 +16,14 @@ const DashboardLayout: React.FC = () => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
-      >
+      <Sider collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <div className="demo-logo-vertical" />
         <Menu
           theme="dark"
           defaultSelectedKeys={["1"]}
           mode="inline"
           items={mentorMenuItems}
-          onClick={(e) => console.log(e)}
+          onClick={(e) => setCurrentItem(e)}
         />
       </Sider>
       <Layout style={{ padding: "0 26px", background: colorBgContainer }}>

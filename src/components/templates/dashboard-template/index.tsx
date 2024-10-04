@@ -30,7 +30,7 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
   const [formTag] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
-  const [isFetching, setIsFetching] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
   const [tableColumns, setTableColumns] = useState<Column[]>([]);
 
   useEffect(() => {

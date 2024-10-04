@@ -1,1 +1,1 @@
-export const MENTOR_HOME = "/home/mentor";
+export const HOME = "home";

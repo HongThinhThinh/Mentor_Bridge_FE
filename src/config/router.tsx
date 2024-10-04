@@ -4,7 +4,8 @@ import TestApi from "../services/testApi";
 import Login from "../pages/login/Login";
 import ManageTopic from "../pages/admin/manage-topic";
 import DashboardLayout from "../components/layouts/dashboard-layout";
-import { MENTOR_HOME } from "../constants/routes";
+import { HOME } from "../constants/routes";
+import MentorHomePage from "../pages/mentor/home";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -48,10 +49,14 @@ export const router = createBrowserRouter([
         path: "topic",
         element: <ManageTopic />,
       },
+      {
+        path: HOME,
+        element: <MentorHomePage />,
+      },
     ],
   },
   {
-    path: MENTOR_HOME,
+    path: HOME,
     element: <DashboardLayout />,
   },
   {

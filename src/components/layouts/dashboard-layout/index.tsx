@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Layout, Menu, theme } from "antd";
 import { Outlet } from "react-router-dom";
-import { mentorMenuItems } from "../../../constants/menuItems";
+import { getLabel, mentorMenuItems } from "../../../constants/menuItems";
 import Header from "../../organisisms/header";
 
 const { Content, Footer, Sider } = Layout;
@@ -27,7 +27,7 @@ const DashboardLayout: React.FC = () => {
         />
       </Sider>
       <Layout style={{ padding: "0 26px", background: colorBgContainer }}>
-        <Header title={currentItem?.key} />
+        <Header title={getLabel(currentItem?.key)} />
         <Content>
           <div
             style={{

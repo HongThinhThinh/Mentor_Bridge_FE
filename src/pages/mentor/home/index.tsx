@@ -1,7 +1,7 @@
-import React from "react";
+import HomeTemplate from "../../../components/templates/home";
 
-const MentorHomePages = () => {
-  return <div>index</div>;
+const MentorHomePage = () => {
+  return <HomeTemplate />;
 };
 
-export default MentorHomePages;
+export default MentorHomePage;

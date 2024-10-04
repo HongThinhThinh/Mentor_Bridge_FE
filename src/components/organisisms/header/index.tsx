@@ -4,7 +4,7 @@ import { Notification } from "../../atoms/notification/Notification";
 import Account from "../../molecules/account/Account";
 
 interface HeaderProps {
-  title?: React.Key;
+  title?: string;
   items?: [];
 }
 

@@ -2,7 +2,7 @@ import { Form, Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import DashboardTemplate, {
   Column,
-} from "../../../components/dashboard/dashboard-template";
+} from "../../../components/templates/dashboard-template";
 
 function ManageTopic() {
   const title = "Topic";

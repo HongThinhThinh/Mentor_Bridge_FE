@@ -14,7 +14,7 @@ export interface ButtonProps {
   /** The size of the font used in the button text. */
   fontSize?: FontSize;
   /** Button contents */
-  children : React.ReactNode,
+  children: React.ReactNode;
   /** Optional click handler */
   onClick?: () => void;
 }
@@ -25,8 +25,8 @@ export const Button = ({
   fontSize = "base",
   fontWeight = "medium",
   size = "md",
-  styleClass = "text-white",
-  background = "bg-shade-900",
+  styleClass,
+  background,
   children,
   ...props
 }: ButtonProps) => {

@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import TestApi from "../services/testApi";
 import Login from "../pages/login/Login";
 import ManageTopic from "../pages/admin/manage-topic";
-import DashboardLayout from "../components/dashboard/dashboard-layout";
+import DashboardLayout from "../components/layouts/dashboard-layout";
+import { HOME } from "../constants/routes";
+import MentorHomePage from "../pages/mentor/home";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -39,7 +41,6 @@ export const router = createBrowserRouter([
     path: "/test",
     element: <TestAPi />,
   },
-
   {
     path: "/dashboard",
     element: <DashboardLayout />,
@@ -48,7 +49,15 @@ export const router = createBrowserRouter([
         path: "topic",
         element: <ManageTopic />,
       },
+      {
+        path: HOME,
+        element: <MentorHomePage />,
+      },
     ],
+  },
+  {
+    path: HOME,
+    element: <DashboardLayout />,
   },
   {
     path: "/login",

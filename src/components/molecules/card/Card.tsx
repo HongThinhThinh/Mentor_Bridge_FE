@@ -25,8 +25,8 @@ const CustomizedCard: FC<CustomizedCardProps> = ({
     <Skeleton height="100%" width="100%" />
   ) : (
     <Card
-      className={[`w-full h-full`, styleClass].join(" ")}
-      style={{ background: background }}
+      className={[`w-full h-full bg-cover`, styleClass].join(" ")}
+      style={{ backgroundImage: background }}
       {...props}
     >
       {children}

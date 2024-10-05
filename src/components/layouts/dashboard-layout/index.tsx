@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import { getLabel, mentorMenuItems } from "../../../constants/menuItems";
 import Header from "../../organisisms/header";
 
-const { Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 const DashboardLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(true);
@@ -31,7 +31,6 @@ const DashboardLayout: React.FC = () => {
         <Content>
           <div
             style={{
-              padding: 24,
               minHeight: 360,
               height: "100%",
               background: colorBgContainer,
@@ -41,9 +40,9 @@ const DashboardLayout: React.FC = () => {
             <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>
+        {/* <Footer style={{ textAlign: "center" }}>
           Ant Design ©{new Date().getFullYear()} Created by Ant UED
-        </Footer>
+        </Footer> */}
       </Layout>
     </Layout>
   );

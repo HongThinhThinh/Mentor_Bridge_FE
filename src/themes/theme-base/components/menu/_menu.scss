@@ -7,8 +7,13 @@
     width: 51px;
     height: 51px;
     & > span:first-child {
-      transform: translateY(30%) translateX(25%);
+      transform: translateY(35%) translateX(15%);
       color: var(--shade-N300);
+      font-size: 18px;
+      & > svg {
+        stroke: white;
+        stroke-width: 10px;
+      }
     }
   }
   .ant-menu-item-selected {

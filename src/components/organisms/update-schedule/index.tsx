@@ -3,7 +3,6 @@ import { Button } from "../../atoms/button/Button";
 import { CustomModal } from "../../molecules/modal/Modal";
 import { MultipleTime } from "../../molecules/mutiple-time/MultipleTime";
 import { useState } from "react";
-import { Form } from "antd";
 
 function UpdateScheduler() {
   const [open, setOpen] = useState(false);
@@ -43,6 +42,7 @@ function UpdateScheduler() {
         }
         size="sm"
         styleClass="bg-gradient-to-r from-[#FF6001] to-[#F9A26E] text-white"
+        type="submit"
       />
     </div>
   );

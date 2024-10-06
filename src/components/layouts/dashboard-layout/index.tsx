@@ -18,7 +18,11 @@ const DashboardLayout: React.FC = () => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Sider collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+      <Sider
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)}
+        style={{ position: "fixed", height: "100vh" }}
+      >
         <div className="flex py-9 flex-col justify-between h-full">
           <img className="demo-logo-vertical h-9" src="/src/assets/logo.svg" />
           <Menu
@@ -33,13 +37,15 @@ const DashboardLayout: React.FC = () => {
           </Button>
         </div>
       </Sider>
-      <Layout style={{ padding: "0 26px", background: colorBgContainer }}>
+      <Layout
+        style={{ padding: "0 26px 0 106px", background: colorBgContainer }}
+      >
         <Header title={getLabel(currentItem?.key)} />
         <Content>
           <div
             style={{
               minHeight: 360,
-              height: "100%",
+              height: "88vh",
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
             }}

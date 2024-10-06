@@ -14,6 +14,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
     "@headlessui/react": "^2.1.9",
+    "@nivo/pie": "^0.87.0",
     "@reduxjs/toolkit": "^2.2.7",
     "antd": "^5.20.5",
     "aos": "^2.3.4",

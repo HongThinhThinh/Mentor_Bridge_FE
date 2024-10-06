@@ -17,4 +17,11 @@
   .ant-modal-close-x {
     color: black;
   }
+  .ant-modal-body {
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+  }
 }

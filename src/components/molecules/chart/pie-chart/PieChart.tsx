@@ -7,12 +7,12 @@ export interface PieChartProps {
 export const PieChart = ({ data }: PieChartProps) => (
   <ResponsivePie
     data={data}
-    margin={{ top: 20, right: 40, bottom: 40, left: 40 }}
+    margin={{ top: 0, right: 25, bottom: 40, left: 25 }}
     startAngle={-68}
-    innerRadius={0.45}
+    innerRadius={0.5}
     cornerRadius={45}
-    activeInnerRadiusOffset={14}
-    activeOuterRadiusOffset={7}
+    activeInnerRadiusOffset={7}
+    activeOuterRadiusOffset={5}
     borderWidth={1}
     borderColor={{
       from: "color",

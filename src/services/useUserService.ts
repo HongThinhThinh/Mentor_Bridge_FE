@@ -39,7 +39,7 @@ const useAuthService = () => {
         const { role } = response.data;
         toast.success("Login Successfully");
         if (role == "ADMIN") {
-          navigate("/dashboard");
+          navigate("/admin");
         }
         return response?.data;
       } catch (e: any) {

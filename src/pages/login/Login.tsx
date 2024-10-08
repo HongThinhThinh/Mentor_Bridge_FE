@@ -11,12 +11,7 @@ function Login() {
   const { login } = useAuthService();
 
   const handleLogin = async (values: any) => {
-    try {
-      const response = await login(values);
-      console.log(response);
-    } catch (error) {
-      console.error("Login failed:", error);
-    }
+    await login(values);
   };
 
   return (

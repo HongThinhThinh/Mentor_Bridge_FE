@@ -22,7 +22,6 @@ const useApi = () => {
         return response.data;
       } catch (e: any) {
         console.error(e);
-        // alert(e?.response?.data || "Fail to ...");
         throw e;
       } finally {
         setIsLoading(false);

@@ -3,6 +3,7 @@ import { Button, Form, Input, Modal, Popconfirm, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../../../config/api";
+import UploadFile from "../../atoms/upload-file";
 
 // Define interfaces for more type-safe components
 export interface Column {
@@ -13,6 +14,7 @@ export interface Column {
 }
 
 export interface DashboardTemplateProps {
+  isImport?: boolean;
   title: string;
   columns: Column[];
   formItems: React.ReactNode;
@@ -20,6 +22,7 @@ export interface DashboardTemplateProps {
 }
 
 export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
+  isImport = false,
   columns,
   title,
   formItems,
@@ -72,7 +75,8 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
   const fetchData = async () => {
     try {
       const response = await api.get(apiURI);
-      setDataSource(response.data);
+      console.log(response.data.data);
+      setDataSource(response.data.data.content || response.data.data);
       setIsFetching(false);
     } catch (err: any) {
       toast.error(err.response?.data || "An error occurred");
@@ -124,9 +128,14 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
   return (
     <div>
       {/* <SearchBar apiURI={apiURI} /> */}
-      <Button onClick={() => handleOpenModal()} type="primary">
-        Add new {title}
-      </Button>
+      {isImport ? (
+        <UploadFile setDataSource={setDataSource} />
+      ) : (
+        <Button onClick={() => handleOpenModal()} type="primary">
+          Add new {title}
+        </Button>
+      )}
+
       <Table
         columns={tableColumns}
         dataSource={dataSource}

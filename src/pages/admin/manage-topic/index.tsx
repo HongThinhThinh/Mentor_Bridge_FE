@@ -32,6 +32,7 @@ function ManageTopic() {
   return (
     <div>
       <DashboardTemplate
+        isImport
         apiURI="topic"
         formItems={formItems}
         title={title}

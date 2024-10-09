@@ -13,6 +13,8 @@ export interface ButtonProps {
   fontWeight?: FontWeight;
   /** The size of the font used in the button text. */
   fontSize?: FontSize;
+  /** Button type (button, submit, reset) */
+  type?: "button" | "submit" | "reset"; // Updated type definition
   /** Button contents */
   children: React.ReactNode;
   /** Optional click handler */
@@ -30,7 +32,7 @@ export const Button = ({
   styleClass,
   background,
   children,
-  type = "button",
+  type = "button", // Default type is set to "button"
   ...props
 }: ButtonProps) => {
   return (
@@ -40,7 +42,7 @@ export const Button = ({
         `text-${fontSize}-${fontWeight}`,
         size,
         variant,
-        variant == "default" ? background : "",
+        variant === "default" ? background : "",
         styleClass,
       ].join(" ")}
       {...props}

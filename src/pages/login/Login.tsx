@@ -5,8 +5,15 @@ import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import { Button } from "../../components/atoms/button/Button";
 import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
+import useAuthService from "../../services/useUserService";
 
 function Login() {
+  const { login } = useAuthService();
+
+  const handleLogin = async (values: any) => {
+    await login(values);
+  };
+
   return (
     <Row className="overflow-y-hidden h-[100vh]">
       <Col md={9} className="flex justify-center items-center">
@@ -16,7 +23,7 @@ function Login() {
             <Button
               children={
                 <div className="flex items-center justify-center">
-                  <FcGoogle size={18} />{" "}
+                  <FcGoogle size={18} />
                   <p className="pl-1">Đăng nhập với Google</p>
                 </div>
               }
@@ -27,8 +34,14 @@ function Login() {
             <Divider className="login__divider">
               Hoặc đăng nhập bằng tên tài khoản
             </Divider>
-            <Form layout="vertical">
-              <Form.Item label="Tên tài khoản">
+            <Form layout="vertical" onFinish={handleLogin}>
+              <Form.Item
+                label="Tên tài khoản"
+                name="username" // Added name prop
+                rules={[
+                  { required: true, message: "Please input your username!" },
+                ]} // Validation
+              >
                 <Input />
               </Form.Item>
               <Form.Item
@@ -40,17 +53,22 @@ function Login() {
                     </Link>
                   </div>
                 }
+                name="password" // Added name prop
                 className="pb-[20px]"
+                rules={[
+                  { required: true, message: "Please input your password!" },
+                ]} // Validation
               >
                 <Input.Password />
               </Form.Item>
+              <Button
+                type="submit"
+                children="Đăng nhập"
+                styleClass="w-[369px] h-[46px] text-shade-300 bg-transparent border border-[#D5D5D7] 
+         bg-gradient-to-r from-[#FF6001] from-43.73%  to-[#F9A26E] to-99.08%"
+                fontSize="xs"
+              />
             </Form>
-            <Button
-              children="Đăng nhập"
-              styleClass="w-[369px] h-[46px] text-shade-300 bg-transparent border border-[#D5D5D7] 
-        bg-gradient-to-r from-[#FF6001] from-43.73%  to-[#F9A26E] to-99.08%"
-              fontSize="xs"
-            />
           </Col>
         </Row>
       </Col>

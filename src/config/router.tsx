@@ -4,9 +4,12 @@ import TestApi from "../services/testApi";
 import Login from "../pages/login/Login";
 import ManageTopic from "../pages/admin/manage-topic";
 import DashboardLayout from "../components/layouts/dashboard-layout";
-import { HOME } from "../constants/routes";
+import { ADMIN, ADMIN_TOPIC, ADMIN_USER, HOME } from "../constants/routes";
 import MentorHomePage from "../pages/mentor/home";
 import UpdateScheduler from "../components/organisms/update-schedule";
+import AdminLayout from "../components/layouts/admin-layout";
+import ManageUser from "../pages/admin/manage-user";
+
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -62,6 +65,22 @@ export const router = createBrowserRouter([
     path: HOME,
     element: <DashboardLayout />,
   },
+
+  {
+    path: ADMIN,
+    element: <AdminLayout />,
+    children: [
+      {
+        path: ADMIN_TOPIC,
+        element: <ManageTopic />,
+      },
+      {
+        path: ADMIN_USER,
+        element: <ManageUser />,
+      },
+    ],
+  },
+
   {
     path: "/login",
     element: <Login />,

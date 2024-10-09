@@ -6,12 +6,15 @@ import ManageTopic from "../pages/admin/manage-topic";
 import DashboardLayout from "../components/layouts/dashboard-layout";
 import { ADMIN, ADMIN_TOPIC, ADMIN_USER, HOME } from "../constants/routes";
 import MentorHomePage from "../pages/mentor/home";
+import UpdateScheduler from "../components/organisms/update-schedule";
 import AdminLayout from "../components/layouts/admin-layout";
 import ManageUser from "../pages/admin/manage-user";
+
 
 function TestAPi() {
   const { testApi } = TestApi();
   const [test, setTest] = useState([[]]);
+
   useEffect(() => {
     fetch();
   }, []);
@@ -34,6 +37,7 @@ function TestAPi() {
             </h1>
           </div>
         ))} */}
+      <UpdateScheduler />
     </div>
   );
 }

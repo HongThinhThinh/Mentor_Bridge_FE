@@ -19,6 +19,8 @@ export interface ButtonProps {
   children: React.ReactNode;
   /** Optional click handler */
   onClick?: () => void;
+  /** The type of the button (button, submit, reset) */
+  type?: "button" | "submit" | "reset";
 }
 
 /** Primary UI component for user interaction */

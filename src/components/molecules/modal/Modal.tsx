@@ -1,15 +1,14 @@
-import { Modal } from "antd";
-import { HeaderDetail } from "./Modal.stories";
-import { useState } from "react";
+import { Form, Modal } from "antd";
 
 export interface ModalProps {
   header: string;
   headerDetail?: string;
   body: React.ReactNode;
   footer: React.ReactNode;
+  width?: number;
   isOpen?: boolean;
-
   onCancel?: () => void;
+  onFinish?: (values: any) => void;
 }
 
 /** Primary UI component for user interaction */
@@ -20,12 +19,11 @@ export const CustomModal = ({
   footer,
   isOpen,
   onCancel,
+  width,
+  onFinish,
 
-  // onClose,
   ...props
 }: ModalProps) => {
-  
-
   return (
     <>
       <Modal
@@ -43,12 +41,15 @@ export const CustomModal = ({
           </div>
         }
         open={isOpen}
-        footer={footer}
-        width={610}
+        footer={null}
         onCancel={onCancel}
+        width={width}
         {...props}
       >
-        {body}
+        <Form onFinish={onFinish} layout="horizontal">
+          {body}
+          {footer}
+        </Form>
       </Modal>
     </>
   );

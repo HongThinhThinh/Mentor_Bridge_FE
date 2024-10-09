@@ -8,7 +8,7 @@ export interface ModalProps {
   width?: number;
   isOpen?: boolean;
   onCancel?: () => void;
-  onFinish?: (values: any) =>void;
+  onFinish?: (values: any) => void;
 }
 
 /** Primary UI component for user interaction */
@@ -21,7 +21,7 @@ export const CustomModal = ({
   onCancel,
   width,
   onFinish,
-  // onClose,
+
   ...props
 }: ModalProps) => {
   return (
@@ -46,7 +46,7 @@ export const CustomModal = ({
         width={width}
         {...props}
       >
-        <Form onFinish={onFinish} layout="vertical">
+        <Form onFinish={onFinish} layout="horizontal">
           {body}
           {footer}
         </Form>

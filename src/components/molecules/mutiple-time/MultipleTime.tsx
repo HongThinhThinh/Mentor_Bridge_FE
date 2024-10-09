@@ -9,55 +9,81 @@ export interface MultipleTimeProps {
 export const MultipleTime = ({ label, ...props }: MultipleTimeProps) => {
   return (
     <>
-      <Form.Item className="multiple-time" key={label}>
-        <Form.Item label={label} key={label}>
-          <Form.List name={`time_${label}`}>
-            {(fields, { add, remove }) => (
-              <>
-                {fields.map(({ key, name, ...restField }) => (
-                  <Space key={key} align="baseline">
+      <Form.Item label={label} key={label} className="multiple-time">
+        <Form.List name={`time_${label}`}>
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map(({ key, name, ...restField }) => (
+                <Space key={key} align="baseline">
+                  <Form.Item {...restField} label="Từ" required={false}>
                     <Form.Item
-                      {...restField}
+                      name={[name, "fromHour"]}
+                      noStyle
                       rules={[
-                        { required: true, message: "Missing start time" },
-                      ]}
-                      label="Từ"
-                      name={[name, "start"]}
-                    >
-                      <TimePicker format="HH" placeholder="07" />
-                      <TimePicker format="mm" placeholder="30" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      label="Đến"
-                      name={[name, "end"]}
-                      rules={[
-                        { required: true, message: "Missing finish time" },
+                        { required: true, message: "Please select the hour" },
                       ]}
                     >
-                      <TimePicker format="HH" placeholder="09" />
-                      <TimePicker format="mm" placeholder="00" />
+                      <TimePicker format="HH" placeholder="Hour" />
                     </Form.Item>
+                    <span className="mx-2 my-0">:</span>
+                    <Form.Item
+                      name={[name, "fromMinute"]}
+                      noStyle
+                      rules={[
+                        { required: true, message: "Please select the minute" },
+                      ]}
+                    >
+                      <TimePicker
+                        format="mm"
+                        placeholder="Minute"
+                        minuteStep={30}
+                      />
+                    </Form.Item>
+                  </Form.Item>
+                  <Form.Item {...restField} label="Đến" required={false}>
+                    <Form.Item
+                      name={[name, "toHour"]}
+                      noStyle
+                      rules={[
+                        { required: true, message: "Please select the hour" },
+                      ]}
+                    >
+                      <TimePicker format="HH" placeholder="Hour" />
+                    </Form.Item>
+                    <span className="mx-2 my-0">:</span>
+                    <Form.Item
+                      name={[name, "toMinute"]}
+                      noStyle
+                      rules={[
+                        { required: true, message: "Please select the minute" },
+                      ]}
+                    >
+                      <TimePicker
+                        format="mm"
+                        placeholder="Minute"
+                        minuteStep={30}
+                      />
+                    </Form.Item>
+                  </Form.Item>
 
-                    <MdOutlineCancel
-                      onClick={() => remove(name)}
-                      size={18}
-                      style={{ cursor: "pointer", marginBottom: "23px" }}
-                    />
-                  </Space>
-                ))}
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  block
-                  style={{ width: "514px", height: "40px" }}
-                >
-                  Thêm khung giờ rảnh trong ngày +
-                </Button>
-              </>
-            )}
-          </Form.List>
-        </Form.Item>
+                  <MdOutlineCancel
+                    onClick={() => remove(name)}
+                    size={18}
+                    className="mb-5 cursor-pointer"
+                  />
+                </Space>
+              ))}
+              <Button
+                type="dashed"
+                onClick={() => add()}
+                block
+                style={{ width: "514px", height: "40px" }}
+              >
+                Thêm khung giờ rảnh trong ngày +
+              </Button>
+            </>
+          )}
+        </Form.List>
       </Form.Item>
     </>
   );

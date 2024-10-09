@@ -14,8 +14,9 @@ function UpdateScheduler() {
   const onFinish = (values: any) => {
     console.log("Received values of form:", values);
   };
+
   const body = (
-    <div>
+    <>
       <MultipleTime label="Thứ 2" />
       <MultipleTime label="Thứ 3" />
       <MultipleTime label="Thứ 4" />
@@ -23,7 +24,7 @@ function UpdateScheduler() {
       <MultipleTime label="Thứ 6" />
       <MultipleTime label="Thứ 7" />
       <MultipleTime label="Chủ Nhật" />
-    </div>
+    </>
   );
 
   const footer = (
@@ -53,11 +54,12 @@ function UpdateScheduler() {
         children={
           <div className="flex justify-center items-center">
             <p className="mr-2">Cập nhật lịch trống</p>
-            <AiOutlineEdit size={24} />
+            <AiOutlineEdit size={20} />
           </div>
         }
         styleClass="bg-gradient-to-r from-[#151316] to-[#5A4F5F] text-white"
         onClick={handleCancel}
+        size="sm"
       />
       <CustomModal
         header="Cập nhật lịch trống trong tuần"

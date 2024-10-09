@@ -7,9 +7,6 @@ import DashboardLayout from "../components/layouts/dashboard-layout";
 import { HOME } from "../constants/routes";
 import MentorHomePage from "../pages/mentor/home";
 import UpdateScheduler from "../components/organisms/update-schedule";
-import { MultipleTime } from "../components/molecules/mutiple-time/MultipleTime";
-import { Button } from "../components/atoms/button/Button";
-import { AiOutlineSend } from "react-icons/ai";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -38,7 +35,6 @@ function TestAPi() {
           </div>
         ))} */}
       <UpdateScheduler />
-    
     </div>
   );
 }

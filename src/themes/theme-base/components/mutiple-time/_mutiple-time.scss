@@ -28,12 +28,16 @@
     display: inline-flex;
   }
   .ant-form-item-label > label {
-    @apply text-base-bold !important;
+    // @apply text-base-bold !important;
+  }
+  .ant-form-item-label > label::after{
+    // @apply text-base-bold !important;
+    display: none;
   }
 
   .ant-space {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
   }
 }

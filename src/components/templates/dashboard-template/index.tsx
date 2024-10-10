@@ -4,13 +4,22 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../../../config/api";
 import UploadFileComponent from "../../atoms/upload-file";
+import moment from "moment";
 
-// Define interfaces for more type-safe components
 export interface Column {
   title: string;
   dataIndex: string;
   key: string;
   render?: (value: any, record: any, arr: any) => JSX.Element;
+}
+
+export interface RecordData {
+  id: string;
+  code: string;
+  name: string;
+  dateFrom: string; // Adjust types as necessary
+  dateTo: string; // Adjust types as necessary
+  status: string; // Adjust types as necessary
 }
 
 export interface DashboardTemplateProps {
@@ -28,7 +37,7 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
   formItems,
   apiURI,
 }) => {
-  const [dataSource, setDataSource] = useState<any[]>([]);
+  const [dataSource, setDataSource] = useState<RecordData[]>([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [formTag] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -59,7 +68,15 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
               style={{ backgroundColor: "orange" }}
               onClick={() => {
                 setIsUpdate(true);
-                formTag.setFieldsValue({ ...record, id });
+                if (record?.dateTo && record.dateFrom) {
+                  formTag.setFieldsValue({
+                    ...record,
+                    dateFrom: moment(record.dateFrom),
+                    dateTo: moment(record.dateTo),
+                  });
+                } else {
+                  formTag.setFieldsValue({ ...record, id });
+                }
                 handleOpenModal();
               }}
             >
@@ -73,13 +90,14 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
   }, [columns, title, formTag]);
 
   const fetchData = async () => {
+    setIsFetching(true);
     try {
       const response = await api.get(apiURI);
-      console.log(response.data.data);
       setDataSource(response.data.data.content || response.data.data);
-      setIsFetching(false);
     } catch (err: any) {
       toast.error(err.response?.data || "An error occurred");
+    } finally {
+      setIsFetching(false);
     }
   };
 
@@ -97,19 +115,34 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
 
   const handleSubmitForm = async (values: any) => {
     setLoading(true);
+
     try {
-      if (values.id) {
-        await api.put(`${apiURI}/${values.id}`, values);
-        toast.success("Update successfully");
-      } else {
-        await api.post(apiURI, values);
-        toast.success("Added successfully");
-      }
+      const formattedValues = {
+        ...values,
+        dateFrom: values.dateFrom
+          ? values.dateFrom.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]")
+          : null,
+        dateTo: values.dateTo
+          ? values.dateTo.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]")
+          : null,
+      };
+
+      const apiData =
+        values.dateFrom && values.dateTo ? formattedValues : values;
+
+      const apiCall = values.id
+        ? api.put(`${apiURI}/${values.id}`, apiData)
+        : api.post(apiURI, apiData);
+
+      await apiCall;
+      toast.success(values.id ? "Update successfully" : "Added successfully");
+
       formTag.resetFields();
       handleCloseModal();
       fetchData();
     } catch (error: any) {
-      toast.error(error.response?.data || "Failed to submit form");
+      const errorMessage = error.response?.data || "Failed to submit form";
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

@@ -22,7 +22,7 @@ function getItem(
 const items: MenuItem[] = [
   getItem("User", "user", <SlCalender />),
   getItem("Topic", "topic", <MdOutlineTopic />),
-  getItem("semester", "semester", <SlCalender />),
+  getItem("Semester", "semester", <SlCalender />),
 ]; // param 1 : name ; param 2 : key ; param 3 : icon
 const AdminLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);

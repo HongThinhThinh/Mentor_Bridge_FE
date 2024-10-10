@@ -3,14 +3,14 @@ import { Button, Form, Input, Modal, Popconfirm, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../../../config/api";
-import UploadFile from "../../atoms/upload-file";
+import UploadFileComponent from "../../atoms/upload-file";
 
 // Define interfaces for more type-safe components
 export interface Column {
   title: string;
   dataIndex: string;
   key: string;
-  render?: (value: any, record: any) => JSX.Element;
+  render?: (value: any, record: any, arr: any) => JSX.Element;
 }
 
 export interface DashboardTemplateProps {
@@ -127,9 +127,8 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
 
   return (
     <div>
-      {/* <SearchBar apiURI={apiURI} /> */}
       {isImport ? (
-        <UploadFile setDataSource={setDataSource} />
+        <UploadFileComponent fetchData={fetchData} />
       ) : (
         <Button onClick={() => handleOpenModal()} type="primary">
           Add new {title}

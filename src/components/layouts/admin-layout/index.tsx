@@ -49,7 +49,7 @@ const AdminLayout: React.FC = () => {
       </Sider>
       <Layout
         style={{
-          height: "100%",
+          overflowY: "auto",
         }}
       >
         <Header style={{ padding: 0, background: colorBgContainer }} />

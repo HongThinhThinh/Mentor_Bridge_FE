@@ -8,6 +8,12 @@ function ManageUser() {
   const title = "user";
   const columns: Column[] = [
     {
+      title: "STT",
+      dataIndex: "id",
+      key: "id",
+      render: (_, __, index) => <span>{index + 1}</span>,
+    },
+    {
       title: "FullName",
       dataIndex: "fullName",
       key: "fullName",
@@ -34,8 +40,8 @@ function ManageUser() {
     // },
     {
       title: "Role",
-      dataIndex: "roleEnum",
-      key: "roleEnum",
+      dataIndex: "role",
+      key: "role",
     },
   ];
   const formItems = (

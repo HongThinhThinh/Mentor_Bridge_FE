@@ -1,11 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, message, Modal, Upload } from "antd";
+import { Button, Modal, Upload, UploadFile, UploadProps } from "antd";
 import React, { useState } from "react";
 import useAdminService from "../../../services/useAdminService";
 
-function UploadFile({ setDataSource }) {
+interface UploadFileProps {
+  fetchData: () => void;
+}
+
+function UploadFileComponent({ fetchData }: UploadFileProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { uploadFile } = useAdminService();
+  const [fileList, setFileList] = useState<UploadFile[] | any>([]);
+
+  const { uploadFile, loading } = useAdminService();
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -14,9 +21,27 @@ function UploadFile({ setDataSource }) {
     setIsModalOpen(false);
   };
 
-  const handleUpload = async (info: any) => {
-    const response = await uploadFile(info.file.originFileObj);
+  const handleUpload = async () => {
+    await uploadFile(fileList[0]);
+    fetchData();
+    setFileList([]);
+    handleCancel();
   };
+
+  const props: UploadProps = {
+    onRemove: (file) => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: (file) => {
+      setFileList([...fileList, file]);
+      return false;
+    },
+    fileList,
+  };
+
   return (
     <div>
       <Button onClick={handleOpenModal} type="primary">
@@ -29,16 +54,21 @@ function UploadFile({ setDataSource }) {
         onCancel={handleCancel}
         footer={null}
       >
-        <Upload
-          name="file"
-          action="/upload" // URL API cho việc upload file
-          onChange={handleUpload}
-        >
-          <Button icon={<UploadOutlined />}>Click to Upload</Button>
+        <Upload {...props}>
+          <Button icon={<UploadOutlined />}>Select File</Button>
         </Upload>
+        <Button
+          type="primary"
+          onClick={handleUpload}
+          disabled={fileList.length === 0}
+          loading={loading}
+          style={{ marginTop: 16 }}
+        >
+          {loading ? "Uploading" : "Start Upload"}
+        </Button>
       </Modal>
     </div>
   );
 }
 
-export default UploadFile;
+export default UploadFileComponent;

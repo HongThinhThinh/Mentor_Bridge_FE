@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useDispatch } from "react-redux";
 import { useCallback } from "react";
 import useApiService from "../hooks/useApi";
 import { toast } from "react-toastify";
@@ -8,7 +7,6 @@ import api from "../config/api";
 const useAdminService = () => {
   const { callApi, loading, setIsLoading } = useApiService();
 
-  // Function to upload a file
   const uploadFile = useCallback(
     async (file: File) => {
       try {
@@ -23,10 +21,9 @@ const useAdminService = () => {
         });
 
         toast.success("File uploaded successfully!");
-        return response?.data; // Return the response if you need it
+        return response?.data;
       } catch (e: any) {
         toast.error(e?.response?.data || "File upload failed");
-        throw e;
       } finally {
         setIsLoading(false);
       }

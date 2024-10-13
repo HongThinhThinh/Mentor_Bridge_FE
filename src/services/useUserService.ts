@@ -7,17 +7,23 @@ import { toast } from "react-toastify";
 import { loginRedux } from "../redux/features/userSlice";
 import { signInWithPopup } from "firebase/auth";
 import { auth, ggProvider } from "../config/firebase";
-import { LOGIN, LOGIN_GOOGLE, REGISTER } from "../constants/endpoints";
+import {
+  LOGIN,
+  LOGIN_GOOGLE,
+  REGISTER,
+  USER_API,
+} from "../constants/endpoints";
+import { useNavigateByRole } from "../utils/navigate";
 
 const useAuthService = () => {
   const { callApi, loading, setIsLoading } = useApiService();
   const router = useNavigate();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const navigateByRole = useNavigateByRole();
   const register = useCallback(
     async (values: any) => {
       try {
-        const response = await callApi("post", REGISTER, {
+        const response = await callApi("post", USER_API.REGISTER, {
           ...values,
           avt: "https://api.dicebear.com/7.x/miniavs/svg?seed=1",
         });
@@ -34,14 +40,11 @@ const useAuthService = () => {
   const login = useCallback(
     async (values: any) => {
       try {
-        const response = await callApi("post", LOGIN, values);
+        const response = await callApi("post", USER_API.LOGIN, values);
         localStorage.setItem("token", response?.data?.token);
         dispatch(loginRedux(response?.data));
-        const { role } = response.data;
+        navigateByRole(response.data.role);
         toast.success("Login Successfully");
-        if (role == "ADMIN") {
-          navigate("/admin");
-        }
         return response?.data;
       } catch (e: any) {
         toast.error(e?.response?.data || "Login failed");
@@ -54,10 +57,12 @@ const useAuthService = () => {
     try {
       const result = await signInWithPopup(auth, ggProvider);
       const token = await result.user?.getIdToken();
+      console.log(token);
       if (token) {
-        const res = await callApi("post", LOGIN_GOOGLE, { token });
+        const res = await callApi("post", USER_API.LOGIN_GOOGLE, { token });
         localStorage.setItem("token", res?.data?.token);
         dispatch(loginRedux(res?.data));
+        navigateByRole(res?.data?.role);
       }
     } catch (e: any) {
       console.error("Error during Google sign-in or API request:", e);

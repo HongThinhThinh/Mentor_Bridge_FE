@@ -8,10 +8,13 @@ import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
 import useAuthService from "../../services/useUserService";
 
 function Login() {
-  const { login } = useAuthService();
+  const { login, loginGoogle } = useAuthService();
 
   const handleLogin = async (values: any) => {
     await login(values);
+  };
+  const handleLoginGoogle = async () => {
+    await loginGoogle();
   };
 
   return (
@@ -21,6 +24,7 @@ function Login() {
           <Col md={24}>
             <h1 className="text-2xl-bold pb-[72px]">Đăng nhập vào hệ thống</h1>
             <Button
+              onClick={() => handleLoginGoogle()}
               children={
                 <div className="flex items-center justify-center">
                   <FcGoogle size={18} />

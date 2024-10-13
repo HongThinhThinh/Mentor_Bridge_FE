@@ -38,6 +38,7 @@ const AdminLayout: React.FC = () => {
       >
         <div className="demo-logo-vertical" />
         <Menu
+          className="menu-sidebar"
           style={{
             height: "100%",
           }}

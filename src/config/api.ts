@@ -1,6 +1,8 @@
 import axios from "axios";
+const SERVER = import.meta.env.VITE_API_URL_SERVER;
+const LOCAL = import.meta.env.VITE_API_URL_LOCAL;
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL_SERVER,
+  baseURL: SERVER,
 });
 
 api.interceptors.request.use(

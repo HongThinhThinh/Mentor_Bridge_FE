@@ -2,6 +2,7 @@ import { BellOutlined } from "@ant-design/icons";
 import { FC } from "react";
 import { Notification } from "../../atoms/notification/Notification";
 import Account from "../../molecules/account/Account";
+import { useCurrentUser } from "../../../utils/getcurrentUser";
 
 interface HeaderProps {
   title?: string;
@@ -9,6 +10,7 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ title }) => {
+  const user = useCurrentUser();
   return (
     <div className="flex justify-between pt-7">
       <div className="">
@@ -20,7 +22,11 @@ const Header: FC<HeaderProps> = ({ title }) => {
             <BellOutlined style={{ fontSize: 26 }} />
           </div>
         </Notification>
-        <Account subTitle="Xin Chào Giảng Viên!" title="Trương Gia Bình" />
+        <Account
+          src={user?.avatar}
+          subTitle="Xin Chào Giảng Viên!"
+          title={user?.fullName || user?.email}
+        />
       </div>
     </div>
   );

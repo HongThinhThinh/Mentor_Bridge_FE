@@ -15,6 +15,7 @@ import {
   DASHBOARD_ROUTES,
   USER_ROUTES,
 } from "../constants/routes";
+import MentorSchedule from "../pages/mentor/schedule";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -50,6 +51,10 @@ export const router = createBrowserRouter([
       {
         path: DASHBOARD_ROUTES.MENTOR_PAGE,
         element: <MentorHomePage />,
+      },
+      {
+        path: DASHBOARD_ROUTES.SCHEDULE,
+        element: <MentorSchedule />,
       },
     ],
   },

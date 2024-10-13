@@ -1,16 +1,26 @@
 import React, { useState } from "react";
 import { Layout, Menu, theme } from "antd";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { getLabel, mentorMenuItems } from "../../../constants/menuItems";
 import Header from "../../organisisms/header";
 import { Button } from "../../atoms/button/Button";
 import { LogoutOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/features/userSlice";
+import { toast } from "react-toastify";
 
 const { Content, Sider } = Layout;
 
 const DashboardLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [currentItem, setCurrentItem] = useState(mentorMenuItems[0]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+    toast.success("Logged out");
+  };
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -32,7 +42,10 @@ const DashboardLayout: React.FC = () => {
             items={mentorMenuItems}
             onClick={(e) => setCurrentItem(e)}
           />
-          <Button styleClass="h-[51px] w-[51px] text-white flex justify-center items-center bg-gradient-to-b from-[#504C51] to-[#323033]">
+          <Button
+            onClick={handleLogout}
+            styleClass="h-[51px] w-[51px] text-white flex justify-center items-center bg-gradient-to-b from-[#504C51] to-[#323033]"
+          >
             <LogoutOutlined className="text-[18px] stroke-white stroke-[10px]" />
           </Button>
         </div>

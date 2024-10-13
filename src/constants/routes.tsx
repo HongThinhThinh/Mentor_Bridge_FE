@@ -16,4 +16,5 @@ export enum ADMIN_ROUTES {
 export enum DASHBOARD_ROUTES {
   DASHBOARD = "dashboard",
   MENTOR_PAGE = "home",
+  SCHEDULE = "schedule",
 }

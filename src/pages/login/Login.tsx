@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Col, Divider, Form, Image, Input, Row } from "antd";
 import bg from "../../assets/truong-dai-hoc-fpt-ho-chi-minh.jpg";
 import "./Login.scss";

@@ -2,6 +2,7 @@ import { DatePicker, Form, Input, Tag } from "antd";
 import DashboardTemplate, {
   Column,
 } from "../../../components/templates/dashboard-template";
+import { SEMESTER } from "../../../constants/endpoints";
 
 const ManageSemester: React.FC = () => {
   const title = "Semester";
@@ -101,7 +102,7 @@ const ManageSemester: React.FC = () => {
 
   return (
     <DashboardTemplate
-      apiURI="semester"
+      apiURI={SEMESTER}
       formItems={formItems}
       title={title}
       columns={columns}

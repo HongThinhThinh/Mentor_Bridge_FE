@@ -3,6 +3,7 @@ import TextArea from "antd/es/input/TextArea";
 import DashboardTemplate, {
   Column,
 } from "../../../components/templates/dashboard-template";
+import { TOPIC } from "../../../constants/endpoints";
 
 function ManageTopic() {
   const title = "Topic";
@@ -32,7 +33,7 @@ function ManageTopic() {
   return (
     <div>
       <DashboardTemplate
-        apiURI="topic"
+        apiURI={TOPIC}
         formItems={formItems}
         title={title}
         columns={columns}

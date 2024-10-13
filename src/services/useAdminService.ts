@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import useApiService from "../hooks/useApi";
 import { toast } from "react-toastify";
 import api from "../config/api";
+import { ADMIN_UPLOADCSV } from "../constants/endpoints";
 
 const useAdminService = () => {
   const { callApi, loading, setIsLoading } = useApiService();
@@ -14,7 +15,7 @@ const useAdminService = () => {
         const formData = new FormData();
         formData.append("file", file);
 
-        const response = await api.post("admin/upload-csv", formData, {
+        const response = await api.post(ADMIN_UPLOADCSV, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

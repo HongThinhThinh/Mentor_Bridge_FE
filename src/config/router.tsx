@@ -16,7 +16,7 @@ import UpdateScheduler from "../components/organisms/update-schedule";
 import AdminLayout from "../components/layouts/admin-layout";
 import ManageUser from "../pages/admin/manage-user";
 import ManageSemester from "../pages/admin/manage-semester";
-
+import MentorSchedule from "../pages/mentor/schedule";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -61,6 +61,10 @@ export const router = createBrowserRouter([
       {
         path: "topic",
         element: <ManageTopic />,
+      },
+      {
+        path: "schedule",
+        element: <MentorSchedule />,
       },
       {
         path: HOME,

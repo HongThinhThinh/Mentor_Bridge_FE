@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { loginRedux } from "../redux/features/userSlice";
 import { signInWithPopup } from "firebase/auth";
 import { auth, ggProvider } from "../config/firebase";
+import { LOGIN, LOGIN_GOOGLE, REGISTER } from "../constants/endpoints";
 
 const useAuthService = () => {
   const { callApi, loading, setIsLoading } = useApiService();
@@ -16,7 +17,7 @@ const useAuthService = () => {
   const register = useCallback(
     async (values: any) => {
       try {
-        const response = await callApi("post", "register", {
+        const response = await callApi("post", REGISTER, {
           ...values,
           avt: "https://api.dicebear.com/7.x/miniavs/svg?seed=1",
         });
@@ -33,7 +34,7 @@ const useAuthService = () => {
   const login = useCallback(
     async (values: any) => {
       try {
-        const response = await callApi("post", "login", values);
+        const response = await callApi("post", LOGIN, values);
         localStorage.setItem("token", response?.data?.token);
         dispatch(loginRedux(response?.data));
         const { role } = response.data;
@@ -54,7 +55,7 @@ const useAuthService = () => {
       const result = await signInWithPopup(auth, ggProvider);
       const token = await result.user?.getIdToken();
       if (token) {
-        const res = await callApi("post", "/login-google", { token });
+        const res = await callApi("post", LOGIN_GOOGLE, { token });
         localStorage.setItem("token", res?.data?.token);
         dispatch(loginRedux(res?.data));
       }

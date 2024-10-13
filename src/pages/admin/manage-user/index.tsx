@@ -3,6 +3,7 @@ import DashboardTemplate, {
 } from "../../../components/templates/dashboard-template";
 import { Form, Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
+import { ADMIN } from "../../../constants/endpoints";
 
 function ManageUser() {
   const title = "user";
@@ -58,7 +59,7 @@ function ManageUser() {
     <div>
       <DashboardTemplate
         isImport
-        apiURI="admin"
+        apiURI={ADMIN}
         formItems={formItems}
         title={title}
         columns={columns}

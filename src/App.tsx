@@ -9,18 +9,22 @@ import "./index.scss";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-loading-skeleton/dist/skeleton.css";
+import { ConfigProvider } from "antd";
+import { themeAntd } from "./config/antd";
 
 function App() {
   return (
     <>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <StateProvider>
-            <RouterProvider router={router} />
-            <ToastContainer />
-          </StateProvider>
-        </PersistGate>
-      </Provider>
+      <ConfigProvider theme={themeAntd}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <StateProvider>
+              <RouterProvider router={router} />
+              <ToastContainer />
+            </StateProvider>
+          </PersistGate>
+        </Provider>
+      </ConfigProvider>
     </>
   );
 }

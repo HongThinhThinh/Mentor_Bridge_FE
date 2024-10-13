@@ -1,0 +1,23 @@
+.ant-picker-calendar {
+  .ant-picker-panel {
+    .ant-picker-date-panel {
+      .ant-picker-body {
+        .ant-picker-content {
+          thead {
+            tr {
+              th {
+                font-weight: 700;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  &-full {
+    .ant-picker-calendar-date-content {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}

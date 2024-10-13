@@ -1,11 +1,20 @@
 // ADMIN
-export const ADMIN = "admin";
-export const ADMIN_UPLOADCSV = "admin/upload-csv";
-//USER
-export const REGISTER = "register";
-export const LOGIN = "login";
-export const LOGIN_GOOGLE = "login-google";
+export enum ADMIN_API {
+  ADMIN = "admin",
+  UPLOADCSV = "admin/upload-csv",
+}
 
+//USER
+export enum USER_API {
+  LOGIN_GOOGLE = "login-google",
+  REGISTER = "register",
+  LOGIN = "login",
+}
 //SEMESTER
-export const SEMESTER = "semester";
-export const TOPIC = "topic";
+export enum SEMESTER_API {
+  SEMESTER = "semester",
+}
+//TOPIC
+export enum TOPIC_API {
+  TOPIC = "topic",
+}

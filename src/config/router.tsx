@@ -4,19 +4,17 @@ import TestApi from "../services/testApi";
 import Login from "../pages/login/Login";
 import ManageTopic from "../pages/admin/manage-topic";
 import DashboardLayout from "../components/layouts/dashboard-layout";
-import {
-  ADMIN,
-  ADMIN_SEMESTER,
-  ADMIN_TOPIC,
-  ADMIN_USER,
-  HOME,
-} from "../constants/routes";
+
 import MentorHomePage from "../pages/mentor/home";
 import UpdateScheduler from "../components/organisms/update-schedule";
 import AdminLayout from "../components/layouts/admin-layout";
 import ManageUser from "../pages/admin/manage-user";
 import ManageSemester from "../pages/admin/manage-semester";
-
+import {
+  ADMIN_ROUTES,
+  DASHBOARD_ROUTES,
+  USER_ROUTES,
+} from "../constants/routes";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -35,15 +33,6 @@ function TestAPi() {
   return (
     <div>
       <h1>Testing API Call</h1>
-      {/* {test &&
-        test?.map((item: any) => (
-          <div key={item?.id}>
-            <h1>
-              {" "}
-              {item?.id} {item.name}
-            </h1>
-          </div>
-        ))} */}
       <UpdateScheduler />
     </div>
   );
@@ -55,45 +44,37 @@ export const router = createBrowserRouter([
     element: <TestAPi />,
   },
   {
-    path: "/dashboard",
+    path: DASHBOARD_ROUTES.DASHBOARD,
     element: <DashboardLayout />,
     children: [
       {
-        path: "topic",
-        element: <ManageTopic />,
-      },
-      {
-        path: HOME,
+        path: DASHBOARD_ROUTES.MENTOR_PAGE,
         element: <MentorHomePage />,
       },
     ],
   },
-  {
-    path: HOME,
-    element: <DashboardLayout />,
-  },
 
   {
-    path: ADMIN,
+    path: ADMIN_ROUTES.ADMIN,
     element: <AdminLayout />,
     children: [
       {
-        path: ADMIN_TOPIC,
+        path: ADMIN_ROUTES.TOPIC,
         element: <ManageTopic />,
       },
       {
-        path: ADMIN_USER,
+        path: ADMIN_ROUTES.USER,
         element: <ManageUser />,
       },
       {
-        path: ADMIN_SEMESTER,
+        path: ADMIN_ROUTES.SEMESTER,
         element: <ManageSemester />,
       },
     ],
   },
 
   {
-    path: "/login",
+    path: USER_ROUTES.LOGIN,
     element: <Login />,
   },
 ]);

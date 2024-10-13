@@ -1,8 +1,19 @@
-export const HOME = "home";
+// User Routes
+export enum USER_ROUTES {
+  HOME = "home",
+  LOGIN = "login",
+}
 
-// admin
+// Admin Routes
+export enum ADMIN_ROUTES {
+  ADMIN = "admin",
+  TOPIC = "topic",
+  SEMESTER = "semester",
+  USER = "user",
+}
 
-export const ADMIN = "admin";
-export const ADMIN_TOPIC = "topic";
-export const ADMIN_SEMESTER = "semester";
-export const ADMIN_USER = "user";
+// Mentor Dashboard Routes
+export enum DASHBOARD_ROUTES {
+  DASHBOARD = "dashboard",
+  MENTOR_PAGE = "home",
+}

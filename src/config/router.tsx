@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import TestApi from "../services/testApi";
 import Login from "../pages/login/Login";
@@ -40,6 +40,10 @@ function TestAPi() {
 }
 
 export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Navigate to={USER_ROUTES.LOGIN} />,
+  },
   {
     path: "/test",
     element: <TestAPi />,

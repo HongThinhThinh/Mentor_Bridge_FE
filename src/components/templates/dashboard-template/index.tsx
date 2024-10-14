@@ -164,7 +164,7 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
         <UploadFileComponent fetchData={fetchData} />
       ) : (
         <Button onClick={() => handleOpenModal()} type="primary">
-          Add new {title}
+          Add New {title}
         </Button>
       )}
 

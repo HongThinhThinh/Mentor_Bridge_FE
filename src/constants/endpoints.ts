@@ -18,3 +18,6 @@ export enum SEMESTER_API {
 export enum TOPIC_API {
   TOPIC = "topic",
 }
+export enum SCHEDULE_API {
+  SCHEDULE = "schedule",
+}

@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import type { MenuProps } from "antd";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 const { Header, Content, Footer, Sider } = Layout;
 import { MdOutlineTopic } from "react-icons/md";
 import { SlCalender } from "react-icons/sl";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { Button } from "../../atoms/button/Button";
+import { LogoutOutlined } from "@ant-design/icons";
+import { logout } from "../../../redux/features/userSlice";
 type MenuItem = Required<MenuProps>["items"][number];
 function getItem(
   label: React.ReactNode,
@@ -29,6 +34,13 @@ const AdminLayout: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+    toast.success("Logged out");
+  };
   return (
     <Layout style={{ height: "100vh" }}>
       <Sider
@@ -47,6 +59,14 @@ const AdminLayout: React.FC = () => {
           mode="inline"
           items={items}
         />
+        <div className="w-full menu-sidebar flex justify-center">
+          <Button
+            onClick={handleLogout}
+            styleClass="h-[51px] w-[51px]  mb-12 text-white flex justify-center items-center bg-gradient-to-b from-[#504C51] to-[#323033]"
+          >
+            <LogoutOutlined className="text-[18px] stroke-white stroke-[10px]" />
+          </Button>
+        </div>
       </Sider>
       <Layout
         style={{

@@ -7,12 +7,7 @@ import { toast } from "react-toastify";
 import { loginRedux } from "../redux/features/userSlice";
 import { signInWithPopup } from "firebase/auth";
 import { auth, ggProvider } from "../config/firebase";
-import {
-  LOGIN,
-  LOGIN_GOOGLE,
-  REGISTER,
-  USER_API,
-} from "../constants/endpoints";
+import { USER_API } from "../constants/endpoints";
 import { useNavigateByRole } from "../utils/navigate";
 
 const useAuthService = () => {

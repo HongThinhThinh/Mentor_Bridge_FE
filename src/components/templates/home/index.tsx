@@ -3,6 +3,7 @@ import CustomizedCard from "../../molecules/card/Card";
 import { Button } from "../../atoms/button/Button";
 import { PieChart } from "../../molecules/chart/pie-chart/PieChart";
 import { EyeOutlined } from "@ant-design/icons";
+import ContentsSection from "../../atoms/contents-section/ContentsSection";
 
 const HomeTemplate = () => {
   const [loading, setLoading] = useState(true);
@@ -164,97 +165,32 @@ const HomeTemplate = () => {
                 Tất cả
               </Button>
             </div>
-            <ul className="space-y-3 overflow-y-scroll h-4/5">
-              <li className="flex items-center justify-between bg-white p-2 rounded-full hover:bg-gray-100">
-                <div className="pl-4 flex-1">
-                  <span className="text-sm-book truncate">
-                    ConnectED – Nền tảng kết nối sinh viên và giảng viên
-                  </span>
-                  <span className="text-sm-medium pl-10">30-08-2025</span>
-                </div>
-                <Button
-                  size="xs"
-                  fontSize="xs"
-                  styleClass="bg-[#449CEE] text-white"
-                >
-                  Đang xử lí
-                </Button>
-              </li>
-              <li className="flex items-center justify-between bg-white p-2 rounded-full hover:bg-gray-100">
-                <div className="pl-4 flex-1">
-                  <span className="text-sm-book truncate">
-                    ConnectED – Nền tảng kết nối sinh viên và giảng viên
-                  </span>
-                  <span className="text-sm-medium pl-10">30-08-2025</span>
-                </div>
-                <Button
-                  size="xs"
-                  fontSize="xs"
-                  styleClass="bg-shade-900 text-white"
-                >
-                  Bị từ chối
-                </Button>
-              </li>
-              <li className="flex items-center justify-between bg-white p-2 rounded-full hover:bg-gray-100">
-                <div className="pl-4 flex-1">
-                  <span className="text-sm-book truncate">
-                    ConnectED – Nền tảng kết nối sinh viên và giảng viên
-                  </span>
-                  <span className="text-sm-medium pl-10">30-08-2025</span>
-                </div>
-                <Button
-                  size="xs"
-                  fontSize="xs"
-                  styleClass="bg-[#13D1B8] text-white"
-                >
-                  Được chấp nhận
-                </Button>
-              </li>
-              <li className="flex items-center justify-between bg-white p-2 rounded-full hover:bg-gray-100">
-                <div className="pl-4 flex-1">
-                  <span className="text-sm-book truncate">
-                    ConnectED – Nền tảng kết nối sinh viên và giảng viên
-                  </span>
-                  <span className="text-sm-medium pl-10">30-08-2025</span>
-                </div>
-                <Button
-                  size="xs"
-                  fontSize="xs"
-                  styleClass="bg-[#449CEE] text-white"
-                >
-                  Đang xử lí
-                </Button>
-              </li>
-              <li className="flex items-center justify-between bg-white p-2 rounded-full hover:bg-gray-100">
-                <div className="pl-4 flex-1">
-                  <span className="text-sm-book truncate">
-                    ConnectED – Nền tảng kết nối sinh viên và giảng viên
-                  </span>
-                  <span className="text-sm-medium pl-10">30-08-2025</span>
-                </div>
-                <Button
-                  size="xs"
-                  fontSize="xs"
-                  styleClass="bg-shade-900 text-white"
-                >
-                  Bị từ chối
-                </Button>
-              </li>
-              <li className="flex items-center justify-between bg-white p-2 rounded-full hover:bg-gray-100">
-                <div className="pl-4 flex-1">
-                  <span className="text-sm-book truncate">
-                    ConnectED – Nền tảng kết nối sinh viên và giảng viên
-                  </span>
-                  <span className="text-sm-medium pl-10">30-08-2025</span>
-                </div>
-                <Button
-                  size="xs"
-                  fontSize="xs"
-                  styleClass="bg-[#13D1B8] text-white"
-                >
-                  Được chấp nhận
-                </Button>
-              </li>
+            <ul className="space-y-4 overflow-y-scroll h-4/5">
+              <ContentsSection time="30-10-2024" value="Đánh giá nhóm" />
+              <ContentsSection
+                status="pending"
+                content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat placeat facere quas quasi beatae corrupti minima vero cum at dolorem, veniam consequuntur non? Voluptate laborum aspernatur, delectus quis dolor sequi."
+                time="30-10-2024"
+                value="Đang xử lý"
+              />
+              <ContentsSection
+                status="deny"
+                content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat placeat facere quas quasi beatae corrupti minima vero cum at dolorem, veniam consequuntur non? Voluptate laborum aspernatur, delectus quis dolor sequi."
+                time="30-10-2024"
+                value="Bị từ chối"
+              />
+              <ContentsSection
+                status="success"
+                content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat placeat facere quas quasi beatae corrupti minima vero cum at dolorem, veniam consequuntur non? Voluptate laborum aspernatur, delectus quis dolor sequi."
+                time="30-10-2024"
+                value="Được chấp nhận"
+              />
+              <ContentsSection
+                isReady
+                status="pending"
+                time="30-10-2024"
+                value="Đang đợi chấp nhận"
+              />
             </ul>
           </CustomizedCard>
         </div>

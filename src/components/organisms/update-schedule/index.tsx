@@ -13,16 +13,18 @@ function UpdateScheduler() {
   const handleCancel = () => {
     setOpen(!open);
   };
-  const { checkSchedule } = useScheduleService();
+  const { checkSchedule, sendSchedule } = useScheduleService();
 
   const onFinish = async (values: any) => {
-    console.log(values);
-    const response = await checkSchedule(values, timeDuration);
+    const response = await sendSchedule(values, timeDuration);
+  };
 
+  const hanldeOnValuesChange = async (changedValues: any, allValues: any) => {
+    console.log(changedValues, allValues);
+    const response = await checkSchedule(allValues, timeDuration);
     console.log(response);
     setError(response);
   };
-
   const handleChange = (value: any) => {
     setTimeDuration(value);
   };
@@ -67,6 +69,7 @@ function UpdateScheduler() {
         onClick={handleCancel}
       />
       <Button
+        isDisabled={!error?.error ? false : true}
         children={
           <div className="flex justify-center items-center">
             <p className="mr-2">Xác nhận</p> <AiOutlineSend size={18} />
@@ -93,6 +96,7 @@ function UpdateScheduler() {
         size="sm"
       />
       <CustomModal
+        onValueChange={hanldeOnValuesChange}
         header="Cập nhật lịch trống trong tuần"
         body={body}
         footer={footer}

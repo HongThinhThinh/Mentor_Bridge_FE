@@ -14,13 +14,13 @@ export interface ButtonProps {
   /** The size of the font used in the button text. */
   fontSize?: FontSize;
   /** Button type (button, submit, reset) */
-  type?: "button" | "submit" | "reset"; // Updated type definition
+  type?: "button" | "submit" | "reset";
   /** Button contents */
   children: React.ReactNode;
   /** Optional click handler */
   onClick?: () => void;
   /** The type of the button (button, submit, reset) */
-  type?: "button" | "submit" | "reset";
+  isDisabled?: boolean;
 }
 
 /** Primary UI component for user interaction */
@@ -32,19 +32,26 @@ export const Button = ({
   styleClass,
   background,
   children,
-  type = "button", // Default type is set to "button"
+  type = "button",
+  isDisabled = false,
   ...props
 }: ButtonProps) => {
   return (
     <button
-      type={type}
       className={[
-        `text-${fontSize}-${fontWeight}`,
+        `text-${fontSize} font-${fontWeight}`,
         size,
         variant,
         variant === "default" ? background : "",
         styleClass,
+        isDisabled
+          ? "bg-gray-400 text-gray-600 cursor-not-allowed pointer-events-none"
+          : "",
+        isDisabled ? "cursor-not-allowed" : "cursor-pointer",
+        isDisabled && "opacity-65",
       ].join(" ")}
+      type={type}
+      disabled={isDisabled}
       {...props}
     >
       {children}

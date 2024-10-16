@@ -86,7 +86,6 @@ export const MultipleTime = ({
                     <>
                       <p key={index} style={{ color: "red" }}>
                         {msg}
-                        <Button className="ml-3 mb-3">Create</Button>
                       </p>
                     </>
                   ))}

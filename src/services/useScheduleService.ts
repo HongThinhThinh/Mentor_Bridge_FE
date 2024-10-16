@@ -11,6 +11,7 @@ const useScheduleService = () => {
   const checkSchedule = useCallback(
     async (values: any, timeDuration: number) => {
       try {
+        setIsLoading(true);
         const dataFormat = convertScheduleData(values, timeDuration);
         const response = await callApi(
           "post",
@@ -32,12 +33,36 @@ const useScheduleService = () => {
         return response?.data;
       } catch (e: any) {
         console.log(e);
+        toast.error(e?.response?.data || "Failed to check schedule");
+      } finally {
+        setIsLoading(false);
       }
     },
     [callApi]
   );
 
-  return { checkSchedule, loading, setIsLoading };
+  const sendSchedule = useCallback(
+    async (values: any, timeDuration: number) => {
+      try {
+        setIsLoading(true);
+        const dataFormat = convertScheduleData(values, timeDuration);
+        const response = await callApi(
+          "post",
+          SCHEDULE_API.SCHEDULE,
+          dataFormat
+        );
+        toast.success("Send Schedule Successfully !!!");
+        return response?.data;
+      } catch (e: any) {
+        toast.error(e?.response?.data || "Failed to send schedule");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi]
+  );
+
+  return { checkSchedule, loading, sendSchedule };
 };
 
 export default useScheduleService;

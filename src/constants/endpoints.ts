@@ -20,4 +20,5 @@ export enum TOPIC_API {
 }
 export enum SCHEDULE_API {
   SCHEDULE = "schedule",
+  SCHEDULE_VALIDATE = "schedule/validate",
 }

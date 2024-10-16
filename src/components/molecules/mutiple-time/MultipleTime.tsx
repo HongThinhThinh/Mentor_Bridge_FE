@@ -3,10 +3,15 @@ import { MdOutlineCancel } from "react-icons/md";
 
 export interface MultipleTimeProps {
   label: string;
+  warning?: string[]; // Add warning prop to accept the array of warning messages
 }
 
 /** Primary UI component for user interaction */
-export const MultipleTime = ({ label, ...props }: MultipleTimeProps) => {
+export const MultipleTime = ({
+  label,
+  warning = [],
+  ...props
+}: MultipleTimeProps) => {
   return (
     <>
       <Form.Item label={label} key={label} className="multiple-time">
@@ -73,6 +78,21 @@ export const MultipleTime = ({ label, ...props }: MultipleTimeProps) => {
                   />
                 </Space>
               ))}
+
+              {/* Display warning message for this day */}
+              {warning.length > 0 && (
+                <div className="warning-message">
+                  {warning.map((msg, index) => (
+                    <>
+                      <p key={index} style={{ color: "red" }}>
+                        {msg}
+                        <Button className="ml-3 mb-3">Create</Button>
+                      </p>
+                    </>
+                  ))}
+                </div>
+              )}
+
               <Button
                 type="dashed"
                 onClick={() => add()}

@@ -52,7 +52,6 @@ const useAuthService = () => {
     try {
       const result = await signInWithPopup(auth, ggProvider);
       const token = await result.user?.getIdToken();
-      console.log(token);
       if (token) {
         const res = await callApi("post", USER_API.LOGIN_GOOGLE, { token });
         localStorage.setItem("token", res?.data?.token);

@@ -1,20 +1,26 @@
 import { Form, InputNumber } from "antd";
 import DashboardTemplate from "../../../components/templates/dashboard-template";
-import { CONFIG_API, SEMESTER_API } from "../../../constants/endpoints";
+import { CONFIG_API } from "../../../constants/endpoints";
 
 const ManageConfig: React.FC = () => {
   const title = "Config";
 
   const columns = [
     {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
       title: "Minimum Hours",
       dataIndex: "minimumHours",
       key: "minimumHours",
     },
     {
-      title: "Minimum Time Slot Duration (Minutes)",
+      title: "Minimum Time Slot Duration",
       dataIndex: "minTimeSlotDuration",
       key: "minTimeSlotDuration",
+      render: (value: string) => value || "00:00",
     },
   ];
 
@@ -28,7 +34,6 @@ const ManageConfig: React.FC = () => {
         <InputNumber min={1} placeholder="Enter minimum hours" />
       </Form.Item>
 
-      {/* Time Slot Duration Input with 15-min step */}
       <Form.Item
         label="Minimum Time Slot Duration (Minutes)"
         name="minTimeSlotDuration"
@@ -46,6 +51,7 @@ const ManageConfig: React.FC = () => {
           className="w-[170px]"
           placeholder="Enter duration in minutes"
           formatter={(value) => `${value} minutes`}
+          parser={(value) => value?.replace(" minutes", "")}
         />
       </Form.Item>
     </>

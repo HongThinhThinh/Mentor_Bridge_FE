@@ -34,7 +34,7 @@ export const StateProvider: React.FC<StateProviderProps> = ({ children }) => {
 
 
   //chat 
-  const [idRoomChat, setIdRoomChat] = useState<string>("1");
+  const [idRoomChat, setIdRoomChat] = useState<string>("");
   const [showSearchFriends, setShowSearchFriends] = useState<boolean>(false);
   const [showChatList, setShowChatList] = useState<boolean>(true);
 

@@ -1,26 +1,6 @@
-.btn-content {
-  &:active {
-    opacity: 80%;
-  }
-  &-status {
-    color: var(--shade-N300);
-    background-color: var(--color-isbtn);
-    &-pending {
-      background-color: var(--color-pending);
-      cursor: default;
-    }
-    &-deny {
-      background-color: var(--color-deny);
-      cursor: default;
-    }
-    &-success {
-      background-color: var(--color-success);
-      cursor: default;
-    }
-  }
-}
 .bg-ready {
   background: linear-gradient(to right, #71e0ff, #2b8fd8);
+  border: none;
   .text-time {
     color: var(--shade-N300);
   }
@@ -33,7 +13,7 @@
       }
     }
     &--meeting {
-      background-color: var(--shade-N300);
+      background: var(--shade-N300);
       color: var(--shade-N900);
       &:active {
         opacity: 80%;

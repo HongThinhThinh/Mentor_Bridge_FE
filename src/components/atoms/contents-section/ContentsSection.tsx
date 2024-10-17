@@ -4,7 +4,7 @@ interface ContentsSectionProps {
   value?: string;
   content?: string;
   time?: string;
-  status?: "pending" | "deny" | "success";
+  status?: "pending" | "deny" | "success" | "feedback";
   isReady?: boolean;
   onClick?: () => void;
 }
@@ -18,7 +18,7 @@ function ContentsSection({
 }: ContentsSectionProps) {
   return (
     <li
-      className={`flex items-center justify-between bg-white p-2 rounded-full hover:bg-gray-100 ${
+      className={`flex items-center justify-between border border-[#D5D5D7] bg-white p-2 rounded-full hover:bg-gray-100 ${
         isReady && "bg-ready"
       }`}
     >
@@ -44,9 +44,7 @@ function ContentsSection({
           size="xs"
           fontSize="xs"
           onClick={status ? () => {} : onClick}
-          styleClass={`btn-content-status-${status} btn-content-status  ${
-            !status && "btn-content"
-          } `}
+          status={status}
         >
           {value}
         </Button>

@@ -1,11 +1,13 @@
 import type { CalendarProps } from "antd";
-import { Button, Calendar } from "antd";
+import { Calendar } from "antd";
 import type { Dayjs } from "dayjs";
 import { AiOutlineVideoCamera } from "react-icons/ai";
 import "./index.scss";
 import Alert from "../../../components/atoms/alert";
 import { useState } from "react";
 import UpdateScheduler from "../../../components/organisms/update-schedule";
+import MeetingDetail from "../../../components/organisms/meeting-detail";
+import { Button } from "../../../components/atoms/button/Button";
 function MentorSchedule() {
   const headerRender = () => {
     return <span className="text-xs-bold">Hi</span>;
@@ -69,6 +71,7 @@ function MentorSchedule() {
         message="Giảng viên vui lòng cập nhật lịch trống trước ngày 30-08-2024"
         timeClose={3}
       />
+      <MeetingDetail isOpen={false} date="14-10-2024" />
     </>
   );
 }

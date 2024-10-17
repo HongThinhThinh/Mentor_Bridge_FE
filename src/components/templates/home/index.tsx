@@ -166,7 +166,11 @@ const HomeTemplate = () => {
               </Button>
             </div>
             <ul className="space-y-4 overflow-y-scroll h-4/5">
-              <ContentsSection time="30-10-2024" value="Đánh giá nhóm" />
+              <ContentsSection
+                time="30-10-2024"
+                value="Đánh giá nhóm"
+                status="feedback"
+              />
               <ContentsSection
                 status="pending"
                 content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat placeat facere quas quasi beatae corrupti minima vero cum at dolorem, veniam consequuntur non? Voluptate laborum aspernatur, delectus quis dolor sequi."

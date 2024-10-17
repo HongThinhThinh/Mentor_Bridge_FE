@@ -1,5 +1,5 @@
 import { FontSize, FontWeight } from "../../../constants/typography";
-
+import "./index.scss";
 export interface ButtonProps {
   /** Is this the principal call to action on the page? */
   variant?: "frosted-glass" | "outlined" | "default";
@@ -19,6 +19,8 @@ export interface ButtonProps {
   children: React.ReactNode;
   /** Optional click handler */
   onClick?: () => void;
+  /*** background button */
+  status?: "default" | "pending" | "deny" | "date" | "success" | "feedback";
   /** The type of the button (button, submit, reset) */
   isDisabled?: boolean;
 }
@@ -33,6 +35,7 @@ export const Button = ({
   background,
   children,
   type = "button",
+  status = "default",
   isDisabled = false,
   ...props
 }: ButtonProps) => {
@@ -49,6 +52,9 @@ export const Button = ({
           : "",
         isDisabled ? "cursor-not-allowed" : "cursor-pointer",
         isDisabled && "opacity-65",
+        `btn-content-status-${status} btn-content-status  ${
+          !status && "btn-content"
+        } `,
       ].join(" ")}
       type={type}
       disabled={isDisabled}

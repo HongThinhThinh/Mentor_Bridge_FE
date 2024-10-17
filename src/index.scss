@@ -83,3 +83,8 @@
 .ant-layout-sider-trigger {
   display: none;
 }
+.ant-select {
+  &-selector {
+    border-radius: 30px !important;
+  }
+}

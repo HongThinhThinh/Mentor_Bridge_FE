@@ -60,6 +60,7 @@ function UpdateScheduler() {
     </>
   );
 
+  console.log(error == null);
   const footer = (
     <div className="flex justify-between ">
       <Button
@@ -69,7 +70,7 @@ function UpdateScheduler() {
         onClick={handleCancel}
       />
       <Button
-        isDisabled={!error?.error ? false : true}
+        isDisabled={error == null || error?.error ? true : false}
         children={
           <div className="flex justify-center items-center">
             <p className="mr-2">Xác nhận</p> <AiOutlineSend size={18} />

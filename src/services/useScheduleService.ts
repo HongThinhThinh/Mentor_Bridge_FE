@@ -33,7 +33,7 @@ const useScheduleService = () => {
         return response?.data;
       } catch (e: any) {
         console.log(e);
-        toast.error(e?.response?.data || "Failed to check schedule");
+        toast.error(e?.response?.data);
       } finally {
         setIsLoading(false);
       }

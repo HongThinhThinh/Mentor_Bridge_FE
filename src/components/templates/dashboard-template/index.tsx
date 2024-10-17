@@ -93,7 +93,11 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
     setIsFetching(true);
     try {
       const response = await api.get(apiURI);
-      setDataSource(response.data.data.content || response.data.data);
+      let formatData = response.data.data.content || response.data.data;
+      if (!Array.isArray(formatData)) {
+        formatData = [formatData];
+      }
+      setDataSource(formatData);
     } catch (err: any) {
       toast.error(err.response?.data || "An error occurred");
     } finally {
@@ -115,7 +119,10 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
 
   const handleSubmitForm = async (values: any) => {
     setLoading(true);
-
+    console.log(values);
+    if (values.minTimeSlotDuration) {
+      values.minTimeSlotDuration = `PT${values.minTimeSlotDuration}M`;
+    }
     try {
       const formattedValues = {
         ...values,

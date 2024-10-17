@@ -6,7 +6,6 @@ export const useNavigateByRole = () => {
   const navigate = useNavigate(); // sử dụng hook useNavigate bên trong custom hook
 
   const navigateByRole = (role: Role) => {
-    console.log(role);
     switch (role) {
       case Role.ADMIN:
         navigate(`/${ADMIN_ROUTES.ADMIN}`);

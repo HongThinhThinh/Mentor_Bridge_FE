@@ -7,7 +7,6 @@ import { convertScheduleData } from "../utils/convertScheduleData";
 
 const useScheduleService = () => {
   const { callApi, loading, setIsLoading } = useApiService();
-
   const checkSchedule = useCallback(
     async (values: any, timeDuration: number) => {
       try {
@@ -62,7 +61,23 @@ const useScheduleService = () => {
     [callApi]
   );
 
-  return { checkSchedule, loading, sendSchedule };
+  const getSchedule = useCallback(
+    async (id: string) => {
+      try {
+        setIsLoading(true);
+        const response = await callApi("get", SCHEDULE_API.SCHEDULE + `/${id}`);
+        toast.success("Get Data Schedule Successfully !!!");
+        return response?.data;
+      } catch (e: any) {
+        toast.error(e?.response?.data || "Failed to get data");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi]
+  );
+
+  return { checkSchedule, loading, sendSchedule, getSchedule };
 };
 
 export default useScheduleService;

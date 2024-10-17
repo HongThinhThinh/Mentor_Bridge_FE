@@ -14,6 +14,9 @@ export enum USER_API {
 export enum SEMESTER_API {
   SEMESTER = "semester",
 }
+export enum CONFIG_API {
+  CONFIG = "config",
+}
 //TOPIC
 export enum TOPIC_API {
   TOPIC = "topic",

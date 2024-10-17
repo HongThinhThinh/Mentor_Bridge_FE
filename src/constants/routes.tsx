@@ -10,6 +10,7 @@ export enum ADMIN_ROUTES {
   TOPIC = "topic",
   SEMESTER = "semester",
   USER = "user",
+  CONFIG = "config",
 }
 
 // Mentor Dashboard Routes

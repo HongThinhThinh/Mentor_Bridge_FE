@@ -16,6 +16,7 @@ import {
   USER_ROUTES,
 } from "../constants/routes";
 import MentorSchedule from "../pages/mentor/schedule";
+import ManageConfig from "../pages/admin/manage-config";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -74,6 +75,10 @@ export const router = createBrowserRouter([
       {
         path: ADMIN_ROUTES.USER,
         element: <ManageUser />,
+      },
+      {
+        path: ADMIN_ROUTES.CONFIG,
+        element: <ManageConfig />,
       },
       {
         path: ADMIN_ROUTES.SEMESTER,

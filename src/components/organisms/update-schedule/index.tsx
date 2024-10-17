@@ -2,18 +2,18 @@ import { AiOutlineEdit, AiOutlineSend } from "react-icons/ai";
 import { Button } from "../../atoms/button/Button";
 import { CustomModal } from "../../molecules/modal/Modal";
 import { MultipleTime } from "../../molecules/mutiple-time/MultipleTime";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Flex, InputNumber } from "antd";
 import useScheduleService from "../../../services/useScheduleService";
+import { useCurrentUser } from "../../../utils/getcurrentUser";
 
 function UpdateScheduler() {
   const [open, setOpen] = useState(false);
   const [timeDuration, setTimeDuration] = useState<number>(30);
-  const [error, setError] = useState<any>(null); // Make sure the error is typed as 'any' to capture messages
-  const handleCancel = () => {
-    setOpen(!open);
-  };
-  const { checkSchedule, sendSchedule } = useScheduleService();
+  const [error, setError] = useState<any>(null);
+  const [data, setData] = useState();
+  const user = useCurrentUser();
+  const { checkSchedule, sendSchedule, getSchedule } = useScheduleService();
 
   const onFinish = async (values: any) => {
     const response = await sendSchedule(values, timeDuration);
@@ -25,9 +25,21 @@ function UpdateScheduler() {
     console.log(response);
     setError(response);
   };
+  const handleCancel = () => {
+    setOpen(!open);
+  };
   const handleChange = (value: any) => {
     setTimeDuration(value);
   };
+
+  const fetchData = async () => {
+    const response = await getSchedule(user?.id);
+    console.log(response);
+    setData(response);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const body = (
     <>

@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { Button } from "../../atoms/button/Button";
 import { LogoutOutlined } from "@ant-design/icons";
 import { logout } from "../../../redux/features/userSlice";
+import { FcDataConfiguration } from "react-icons/fc";
 type MenuItem = Required<MenuProps>["items"][number];
 function getItem(
   label: React.ReactNode,
@@ -25,10 +26,11 @@ function getItem(
   } as MenuItem;
 }
 const items: MenuItem[] = [
+  getItem("Config", "config", <FcDataConfiguration />),
   getItem("User", "user", <SlCalender />),
   getItem("Topic", "topic", <MdOutlineTopic />),
   getItem("Semester", "semester", <SlCalender />),
-]; // param 1 : name ; param 2 : key ; param 3 : icon
+];
 const AdminLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {

@@ -1,7 +1,7 @@
 import { Form, Modal } from "antd";
 
 export interface ModalProps {
-  header: string;
+  header: string | React.ReactElement;
   headerDetail?: string;
   body: React.ReactNode;
   footer: React.ReactNode;

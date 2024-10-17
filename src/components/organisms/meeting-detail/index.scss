@@ -1,0 +1,35 @@
+form.ant-form {
+    width: 100%;
+    .modal-container {
+      margin-bottom: 50px;
+      &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 40px;
+      }
+      &__time-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+    .footer-container {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: 30px;
+      .footer-btn {
+        &--cancel {
+          background: white;
+          color: var(--shade-N900);
+          border: 1px solid var(--shade-N900);
+          min-width: 101px;
+        }
+        &--submit {
+          flex-grow: 1;
+        }
+      }
+    }
+  }
+  

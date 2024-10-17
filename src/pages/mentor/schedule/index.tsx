@@ -1,8 +1,11 @@
 import type { CalendarProps } from "antd";
-import { Calendar } from "antd";
+import { Button, Calendar } from "antd";
 import type { Dayjs } from "dayjs";
 import { AiOutlineVideoCamera } from "react-icons/ai";
 import "./index.scss";
+import Alert from "../../../components/atoms/alert";
+import { useState } from "react";
+import UpdateScheduler from "../../../components/organisms/update-schedule";
 function MentorSchedule() {
   const headerRender = () => {
     return <span className="text-xs-bold">Hi</span>;
@@ -53,8 +56,21 @@ function MentorSchedule() {
     if (info.type === "month") return monthCellRender(current);
     return info.originNode;
   };
-
-  return <Calendar cellRender={cellRender} />;
+  const [isOpen, setIsopen] = useState<boolean>(false);
+  return (
+    <>
+      {/* <Button onClick={() => setIsopen(true)}>show Alert</Button> */}
+      <UpdateScheduler />
+      <Calendar cellRender={cellRender} />
+      <Alert
+        onCancel={() => setIsopen(false)}
+        open={isOpen}
+        type="error"
+        message="Giảng viên vui lòng cập nhật lịch trống trước ngày 30-08-2024"
+        timeClose={3}
+      />
+    </>
+  );
 }
 
 export default MentorSchedule;

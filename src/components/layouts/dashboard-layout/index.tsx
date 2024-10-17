@@ -61,6 +61,7 @@ const DashboardLayout: React.FC = () => {
               height: "88vh",
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
+              position: "relative",
             }}
           >
             <Outlet />

@@ -1,0 +1,33 @@
+.alert-layout {
+  position: absolute;
+  inset: 0 0 0 0;
+  backdrop-filter: blur(10px);
+  z-index: 10;
+  display: none;
+
+  &--open {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .alert-container {
+    min-width: 400px;
+    max-width: 600px;
+    border-radius: 7px;
+    padding: 15px;
+    height: fit-content;
+    display: flex;
+    align-items: start;
+    gap: 10px;
+
+    &--success {
+      background-color: var(--color-success);
+    }
+    &--error {
+      background-color: var(--color-error);
+    }
+    .icon {
+      font-size: 25px;
+    }
+  }
+}

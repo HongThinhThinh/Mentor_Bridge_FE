@@ -25,11 +25,12 @@ function Login() {
           <Col md={24}>
             <h1 className="text-2xl-bold pb-[72px]">Đăng nhập vào hệ thống</h1>
             <Button
+              status="feedback"
               onClick={() => handleLoginGoogle()}
               children={
                 <div className="flex items-center justify-center">
                   <FcGoogle size={18} />
-                  <p className="pl-1">Đăng nhập với Google</p>
+                  <p className="pl-1 text-black">Đăng nhập với Google</p>
                 </div>
               }
               styleClass="w-[369px] h-[47px] bg-transparent border border-[#D5D5D7]"
@@ -97,11 +98,13 @@ function Login() {
           </div>
           <div className="flex float-end pr-10 text-shade-300">
             <Button
+              status="deny"
               children={<LuArrowLeft className="w-[20px] h-[30px]" />}
               styleClass="flex items-center justify-center bg-transparent border border-[#D5D5D7]"
               size="xs"
             />
             <Button
+              status="deny"
               children={<LuArrowRight className="w-[20px] h-[30px]" />}
               styleClass="flex items-center justify-center bg-transparent border border-[#D5D5D7] ml-2"
               size="xs"

@@ -9,6 +9,7 @@ interface MeetingDetailProps {
   date?: string;
   width?: number;
   isOpen?: boolean;
+  setIsOpenDetail?: () => void;
   onCancel?: () => void;
   onFinish?: (values: any) => void;
   onValueChange?: (values: any) => void;
@@ -19,6 +20,7 @@ function MeetingDetail({
   onCancel,
   onFinish,
   onValueChange,
+  setIsOpenDetail,
   width,
 }: MeetingDetailProps) {
   const header = (
@@ -67,9 +69,9 @@ function MeetingDetail({
             defaultValue="12-10-2024 15:30"
             style={{ width: 161 }}
             options={[
-              { value: "12-10-2024 15:30", label: "12-10-2024 15:30" },
-              { value: "12-10-2024 15:30", label: "12-10-2024 15:30" },
-              { value: "12-10-2024 15:30", label: "12-10-2024 15:30" },
+              { value: "12-10-2024 15:31", label: "12-10-2024 15:30" },
+              { value: "12-10-2024 15:32", label: "12-10-2024 15:30" },
+              { value: "12-10-2024 15:33", label: "12-10-2024 15:30" },
             ]}
           />
         </div>
@@ -78,7 +80,12 @@ function MeetingDetail({
   );
   const footer = (
     <div className="footer-container">
-      <Button styleClass="footer-btn--cancel">Hủy</Button>
+      <Button
+        onClick={() => setIsOpenDetail(false)}
+        styleClass="footer-btn--cancel"
+      >
+        Hủy
+      </Button>
       <Button
         styleClass="footer-btn--submit"
         children={

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 interface RoomMessageProps {
   room?: string;
   active?: boolean;
-  setActive?: () => void;
+  setActive?: (room?: string) => void;
   avt?: string;
   name?: string;
   lastMessage?: string;
@@ -17,7 +17,7 @@ interface RoomMessageProps {
 const RoomMessage: FC<RoomMessageProps> = ({
   room = "",
   active = "",
-  setActive,
+  setActive = () => {},
   avt,
   name,
   lastMessage,

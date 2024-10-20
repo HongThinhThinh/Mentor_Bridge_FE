@@ -11,6 +11,7 @@ const useStudentService = () => {
   const { callApi, loading, setIsLoading } = useApiService();
   const dispatch = useDispatch();
   const user = useCurrentUser();
+
   const getUserTeam = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -25,6 +26,7 @@ const useStudentService = () => {
       setIsLoading(false);
     }
   }, [callApi, user?.teamCode, setIsLoading]);
+
   const createTeam = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -43,7 +45,46 @@ const useStudentService = () => {
     }
   }, [callApi, user, dispatch, getUserTeam]);
 
-  return { loading, createTeam, getUserTeam };
+  const searchTeamMembers = useCallback(
+    async (searchTerm: string) => {
+      try {
+        setIsLoading(true);
+        const response = await callApi(
+          "get",
+          `http://103.200.20.149:8080/api/admin?search=${searchTerm}&role=STUDENT&page=0&size=10`
+        );
+        return response?.data;
+      } catch (e: any) {
+        toast.error(e?.response?.data || "Có lỗi khi tìm kiếm thành viên");
+        console.error("Search Team Members Error: ", e);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi, setIsLoading]
+  );
+
+  const inviteToGroup = useCallback(
+    async (email: string) => {
+      try {
+        setIsLoading(true);
+        const response = await callApi(
+          "post",
+          `http://103.200.20.149:8080/api/team/invite?email=${email}&teamCode=${user?.teamCode}`
+        );
+        toast.success("Mời thành công");
+        return response?.data;
+      } catch (e: any) {
+        toast.error(e?.response?.data || "Có lỗi khi mời thành viên");
+        console.error("Invite to Group Error: ", e);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi, setIsLoading]
+  );
+
+  return { loading, createTeam, getUserTeam, searchTeamMembers, inviteToGroup };
 };
 
 export default useStudentService;

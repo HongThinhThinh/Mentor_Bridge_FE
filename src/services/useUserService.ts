@@ -59,6 +59,7 @@ const useAuthService = () => {
         navigateByRole(res?.data?.role);
       }
     } catch (e: any) {
+      toast.error(e.response.data);
       console.error("Error during Google sign-in or API request:", e);
     }
   }, [callApi, dispatch, router]);

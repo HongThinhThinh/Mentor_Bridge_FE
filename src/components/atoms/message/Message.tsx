@@ -1,11 +1,12 @@
 import "./Message.scss";
 
 interface MessageProps {
+  key: string;
   me: string;
   text: string;
   avt: string;
 }
-const Message = ({ me = "", text = "", avt = "" }: MessageProps) => {
+const Message = ({ key = "", me = "", text = "", avt = "" }: MessageProps) => {
   <div className={`message ${me}`}>
     <div className="message__detail">
       <div className="message__detail__avatar">

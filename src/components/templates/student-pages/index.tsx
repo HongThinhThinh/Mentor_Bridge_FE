@@ -7,11 +7,13 @@ import ContentsSection from "../../atoms/contents-section/ContentsSection";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
 import GroupSections from "../../molecules/group-sections";
 import useStudentService from "../../../services/useStudentService";
+import ModalInvite from "../../molecules/modal-invite";
 
 const StudentPages = () => {
   const [loading, setLoading] = useState(true);
   const [remainDate, setRemainDate] = useState(3);
   const [goodRate, setGoodRate] = useState(80);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const user = useCurrentUser();
 
   const [dataTeam, setDataTeam] = useState();
@@ -65,7 +67,9 @@ const StudentPages = () => {
           >
             <div className="h-full w-full">
               <div className="text-white flex justify-between items-center">
-                <span className="text-xs-medium">Số điểm còn lại</span>
+                <span className="text-xs-medium">
+                  Số điểm còn lại trong kì :
+                </span>
                 <Button styleClass="bg-[#FFFFFF30] rounded-[12px] h-[43px] w-[43px] flex justify-center items-center">
                   <EyeOutlined />
                 </Button>
@@ -98,9 +102,18 @@ const StudentPages = () => {
               >
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-sm-medium">Danh sách thành viên nhóm</h3>
-                  <Button size="xs" fontSize="xs">
+                  <Button
+                    size="xs"
+                    fontSize="xs"
+                    onClick={() => setIsModalVisible(true)}
+                  >
                     Thêm thành viên +
                   </Button>
+
+                  <ModalInvite
+                    visible={isModalVisible}
+                    onClose={() => setIsModalVisible(false)}
+                  />
                 </div>
                 <ul className="space-y-3 overflow-y-scroll h-4/5">
                   {dataTeam?.userTeams.map((data) => (

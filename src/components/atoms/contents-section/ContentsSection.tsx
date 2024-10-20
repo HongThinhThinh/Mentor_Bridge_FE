@@ -10,7 +10,7 @@ interface ContentsSectionProps {
   isReady?: boolean;
   onClick?: () => void;
   isGroup?: boolean;
-  avt: string | null | undefined; // Allow avt to be null or undefined
+  avt?: string | null | undefined; // Allow avt to be null or undefined
 }
 
 const DEFAULT_AVATAR =

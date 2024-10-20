@@ -14,8 +14,14 @@ export enum ADMIN_ROUTES {
 }
 
 // Mentor Dashboard Routes
-export enum DASHBOARD_ROUTES {
-  DASHBOARD = "dashboard",
+export enum MENTOR_ROUTES {
+  MENTOR = "mentor",
   MENTOR_PAGE = "home",
+  SCHEDULE = "schedule",
+}
+
+export enum STUDENT_ROUTES {
+  STUDENT = "student",
+  STUDENT_PAGE = "home",
   SCHEDULE = "schedule",
 }

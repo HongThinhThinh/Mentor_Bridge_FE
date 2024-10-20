@@ -6,18 +6,19 @@ import ManageTopic from "../pages/admin/manage-topic";
 import DashboardLayout from "../components/layouts/dashboard-layout";
 
 import MentorHomePage from "../pages/mentor/home";
-import UpdateScheduler from "../components/organisms/update-schedule";
 import AdminLayout from "../components/layouts/admin-layout";
 import ManageUser from "../pages/admin/manage-user";
 import ManageSemester from "../pages/admin/manage-semester";
 import {
   ADMIN_ROUTES,
-  DASHBOARD_ROUTES,
+  MENTOR_ROUTES,
+  STUDENT_ROUTES,
   USER_ROUTES,
 } from "../constants/routes";
 import MentorSchedule from "../pages/mentor/schedule";
 import ManageConfig from "../pages/admin/manage-config";
 import GroupSections from "../components/molecules/group-sections";
+import StudentPages from "../components/templates/student-pages";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -52,15 +53,29 @@ export const router = createBrowserRouter([
     element: <TestAPi />,
   },
   {
-    path: DASHBOARD_ROUTES.DASHBOARD,
+    path: MENTOR_ROUTES.MENTOR,
     element: <DashboardLayout />,
     children: [
       {
-        path: DASHBOARD_ROUTES.MENTOR_PAGE,
+        path: MENTOR_ROUTES.MENTOR_PAGE,
         element: <MentorHomePage />,
       },
       {
-        path: DASHBOARD_ROUTES.SCHEDULE,
+        path: MENTOR_ROUTES.SCHEDULE,
+        element: <MentorSchedule />,
+      },
+    ],
+  },
+  {
+    path: STUDENT_ROUTES.STUDENT,
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: STUDENT_ROUTES.STUDENT_PAGE,
+        element: <StudentPages />,
+      },
+      {
+        path: STUDENT_ROUTES.SCHEDULE,
         element: <MentorSchedule />,
       },
     ],

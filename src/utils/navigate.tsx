@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Role } from "../constants/role";
-import { ADMIN_ROUTES, DASHBOARD_ROUTES } from "../constants/routes";
+import { ADMIN_ROUTES, MENTOR_ROUTES } from "../constants/routes";
 
 export const useNavigateByRole = () => {
   const navigate = useNavigate(); // sử dụng hook useNavigate bên trong custom hook
@@ -14,9 +14,7 @@ export const useNavigateByRole = () => {
         navigate(`/${ADMIN_ROUTES.ADMIN}`);
         break;
       case Role.MENTOR:
-        navigate(
-          `/${DASHBOARD_ROUTES.DASHBOARD}/${DASHBOARD_ROUTES.MENTOR_PAGE}`
-        );
+        navigate(`/${MENTOR_ROUTES.MENTOR}/${MENTOR_ROUTES.MENTOR_PAGE}`);
         break;
       default:
         navigate("/login");

@@ -25,3 +25,7 @@ export enum SCHEDULE_API {
   SCHEDULE = "schedule",
   SCHEDULE_VALIDATE = "schedule/validate",
 }
+
+export enum TEAM_API {
+  TEAM = "team",
+}

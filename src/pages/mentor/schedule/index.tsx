@@ -7,13 +7,8 @@ import Alert from "../../../components/atoms/alert";
 import { useState } from "react";
 import UpdateScheduler from "../../../components/organisms/update-schedule";
 import MeetingDetail from "../../../components/organisms/meeting-detail";
-import { Button } from "../../../components/atoms/button/Button";
 function MentorSchedule() {
-  const headerRender = () => {
-    return <span className="text-xs-bold">Hi</span>;
-  };
   const getListData = (value: Dayjs) => {
-    // let listData: { type: string; content: string }[] = [];
     let listData: { content: string }[] = [];
     switch (value.date()) {
       case 8:
@@ -22,6 +17,11 @@ function MentorSchedule() {
       default:
     }
     return listData || [];
+  };
+
+  const handleOpenMeetingDetails = async () => {
+    setIsOpenDetail(true);
+    return;
   };
 
   const getMonthData = (value: Dayjs) => {
@@ -44,7 +44,10 @@ function MentorSchedule() {
     return (
       <ul className="events">
         {listData.map((item) => (
-          <div className="flex justify-center items-center gap-2 px-[5px] py-[3px] rounded-[20px] border-[2px] border-[#000000] max-w-[130px]">
+          <div
+            onClick={handleOpenMeetingDetails}
+            className="flex justify-center items-center gap-2 px-[5px] py-[3px] rounded-[20px] border-[2px] border-[#000000] max-w-[130px]"
+          >
             <AiOutlineVideoCamera color="#fe670d" size={20} />
             <p className="text-xs-bold">{item.content}</p>
           </div>
@@ -59,6 +62,7 @@ function MentorSchedule() {
     return info.originNode;
   };
   const [isOpen, setIsopen] = useState<boolean>(false);
+  const [isOpenMeetingDetail, setIsOpenDetail] = useState<boolean>();
   return (
     <>
       {/* <Button onClick={() => setIsopen(true)}>show Alert</Button> */}
@@ -71,7 +75,12 @@ function MentorSchedule() {
         message="Giảng viên vui lòng cập nhật lịch trống trước ngày 30-08-2024"
         timeClose={3}
       />
-      <MeetingDetail isOpen={false} date="14-10-2024" />
+      <MeetingDetail
+        onCancel={() => setIsOpenDetail(false)}
+        setIsOpenDetail={setIsOpenDetail}
+        isOpen={isOpenMeetingDetail}
+        date="14-10-2024"
+      />
     </>
   );
 }

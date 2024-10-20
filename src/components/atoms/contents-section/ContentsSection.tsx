@@ -1,5 +1,7 @@
+import { Avatar } from "antd";
 import { Button } from "../button/Button";
 import "./index.scss";
+
 interface ContentsSectionProps {
   value?: string;
   content?: string;
@@ -7,13 +9,21 @@ interface ContentsSectionProps {
   status?: "pending" | "deny" | "success" | "feedback";
   isReady?: boolean;
   onClick?: () => void;
+  isGroup?: boolean;
+  avt: string | null | undefined; // Allow avt to be null or undefined
 }
+
+const DEFAULT_AVATAR =
+  "https://cdn-icons-png.flaticon.com/512/6596/6596121.png";
+
 function ContentsSection({
   value,
   content,
   time,
   status,
   isReady = false,
+  isGroup = false,
+  avt,
   onClick,
 }: ContentsSectionProps) {
   return (
@@ -25,6 +35,8 @@ function ContentsSection({
       <div
         className={`pl-4 flex-1 flex overflow-hidden ${content && "gap-10"}`}
       >
+        {isGroup && <Avatar src={avt || DEFAULT_AVATAR} />}{" "}
+        {/* Fallback to default avatar */}
         <div className={`${content ? "w-[75%]" : "w-0"}  truncate`}>
           <span className="text-sm-book text">{content}</span>
         </div>

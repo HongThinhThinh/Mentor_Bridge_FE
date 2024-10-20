@@ -18,7 +18,8 @@ import {
 import MentorSchedule from "../pages/mentor/schedule";
 import ManageConfig from "../pages/admin/manage-config";
 import GroupSections from "../components/molecules/group-sections";
-import StudentPages from "../components/templates/student-pages";
+import StudentHomePage from "../pages/student/home";
+import TeamInvitePage from "../pages/student/team-invite";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -52,6 +53,12 @@ export const router = createBrowserRouter([
     path: "/test",
     element: <TestAPi />,
   },
+
+  {
+    path: USER_ROUTES.TEAM_INVITE,
+    element: <TeamInvitePage />,
+  },
+
   {
     path: MENTOR_ROUTES.MENTOR,
     element: <DashboardLayout />,
@@ -72,7 +79,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: STUDENT_ROUTES.STUDENT_PAGE,
-        element: <StudentPages />,
+        element: <StudentHomePage />,
       },
       {
         path: STUDENT_ROUTES.SCHEDULE,

@@ -28,4 +28,5 @@ export enum SCHEDULE_API {
 
 export enum TEAM_API {
   TEAM = "team",
+  INVITE = "invite",
 }

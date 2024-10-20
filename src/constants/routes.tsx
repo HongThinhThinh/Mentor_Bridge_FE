@@ -2,6 +2,7 @@
 export enum USER_ROUTES {
   HOME = "home",
   LOGIN = "login",
+  TEAM_INVITE = "team-invite",
 }
 
 // Admin Routes

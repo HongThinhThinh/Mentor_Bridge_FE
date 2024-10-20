@@ -10,14 +10,16 @@ interface StateContextType {
   setZoom: React.Dispatch<React.SetStateAction<boolean>>;
 
   //chat
-  idRoomChat:string;
+  idRoomChat: string;
   setIdRoomChat: React.Dispatch<React.SetStateAction<string>>;
-  showSearchFriends:boolean;
+  showSearchFriends: boolean;
   setShowSearchFriends: React.Dispatch<React.SetStateAction<boolean>>;
-  showChatList:boolean;
+  showChatList: boolean;
   setShowChatList: React.Dispatch<React.SetStateAction<boolean>>;
-
-
+  active: boolean;
+  setActive: React.Dispatch<React.SetStateAction<boolean>>;
+  realtime: string;
+  setIdRosetRealtimeomChat: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const StateContext = createContext<StateContextType | undefined>(undefined);
@@ -31,12 +33,12 @@ export const StateProvider: React.FC<StateProviderProps> = ({ children }) => {
   const [color, setColor] = useState<string>("black");
   const [zoom, setZoom] = useState<boolean>(false);
 
-
-
-  //chat 
+  //chat
   const [idRoomChat, setIdRoomChat] = useState<string>("");
   const [showSearchFriends, setShowSearchFriends] = useState<boolean>(false);
   const [showChatList, setShowChatList] = useState<boolean>(true);
+  const [active, setActive] = useState<boolean>(false);
+  const [realtime, setRealtime] = useState<string>("");
 
   const state: StateContextType = {
     theme,
@@ -51,6 +53,10 @@ export const StateProvider: React.FC<StateProviderProps> = ({ children }) => {
     setShowSearchFriends,
     showChatList,
     setShowChatList,
+    active,
+    setActive,
+    realtime,
+    setRealtime,
   };
 
   return (

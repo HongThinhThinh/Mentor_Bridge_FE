@@ -6,17 +6,17 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useParams } from "react-router-dom";
 import api from "../../config/axios";
 import { useSelector } from "react-redux";
-// import { selectUser } from "../../redux/features/counterSlice";
-import useRealtime from "../../assets/hook/useRealTime";
+import useRealtime from "../../../hooks/useRealtime";
 import Message from "../../atoms/message/Message";
 import { useStateValue } from "../../../context/stateProvider";
 const { TextArea } = Input;
+
 function RoomChatDetail() {
   const { theme, setShowChatList, setActive, setRealtime } = useStateValue();
   const messagesContainerRef = useRef();
   const [data, setData] = useState([]);
   const [message, setMessage] = useState("");
-//   const user = useSelector(selectUser);
+  //   const user = useSelector(selectUser);
   const params = useParams();
   const idRef = useRef(params.id);
   const [typing, setTyping] = useState("");
@@ -85,7 +85,7 @@ function RoomChatDetail() {
         <div
           onClick={() => {
             setShowChatList(true);
-            setActive(0);
+            setActive(false);
           }}
           className="chat-detail__header__back"
         >

@@ -11,7 +11,7 @@ export const useNavigateByRole = () => {
         navigate(`/${ADMIN_ROUTES.ADMIN}`);
         break;
       case Role.STUDENT:
-        navigate(ADMIN_ROUTES.USER);
+        navigate(`/${ADMIN_ROUTES.ADMIN}`);
         break;
       case Role.MENTOR:
         navigate(

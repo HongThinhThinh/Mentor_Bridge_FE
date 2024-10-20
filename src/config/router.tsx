@@ -17,6 +17,7 @@ import {
 } from "../constants/routes";
 import MentorSchedule from "../pages/mentor/schedule";
 import ManageConfig from "../pages/admin/manage-config";
+import GroupSections from "../components/molecules/group-sections";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -35,7 +36,8 @@ function TestAPi() {
   return (
     <div>
       <h1>Testing API Call</h1>
-      <UpdateScheduler />
+      {/* <UpdateScheduler /> */}
+      <GroupSections />
     </div>
   );
 }

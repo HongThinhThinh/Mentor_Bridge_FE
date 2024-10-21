@@ -22,9 +22,9 @@ const CustomizedCard: FC<CustomizedCardProps> = ({
   ...props
 }) => {
   return loading ? (
-    <Skeleton height="100%" width="100%" />
+    <Skeleton height="100%" width="100%" className="rounded-2xl"/>
   ) : (
-    <Card
+    <Card  
       className={[`w-full h-full bg-cover`, styleClass].join(" ")}
       style={{ backgroundImage: background }}
       {...props}

@@ -1,10 +1,11 @@
 import { ResponsivePie } from "@nivo/pie";
 
 export interface PieChartProps {
+  variant?: "primary" | "secondary";
   data: { id: string; label: string; value: number }[];
 }
 
-export const PieChart = ({ data }: PieChartProps) => (
+export const PieChart = ({ variant = "primary", data }: PieChartProps) => (
   <ResponsivePie
     data={data}
     margin={{ top: 0, right: 25, bottom: 40, left: 25 }}
@@ -30,7 +31,7 @@ export const PieChart = ({ data }: PieChartProps) => (
       from: "color",
       modifiers: [["darker", 2]],
     }}
-    colors={["#FFCEB0", "#FF6001"]}
+    colors={variant === "primary" ? ["#FFCEB0", "#FF6001"]: variant === "secondary" ? ["#DEDEE0", "#FFFFFF"]: []}
     defs={[
       {
         id: "dots",

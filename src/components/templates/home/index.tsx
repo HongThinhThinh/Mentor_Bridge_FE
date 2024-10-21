@@ -50,7 +50,7 @@ const HomeTemplate = () => {
                 <span className="text-xs-medium">
                   Tỉ lệ phản hồi tích cực từ sinh viên (%)
                 </span>
-                <Button styleClass="bg-[#FFFFFF30] rounded-[12px] h-[43px] w-[43px] flex justify-center items-center">
+                <Button styleClass="bg-[#FFFFFF30] rounded-[12px] h-[43px] w-[43px] flex justify-center items-center" status="none">
                   <EyeOutlined />
                 </Button>
               </div>

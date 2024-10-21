@@ -3,6 +3,9 @@ button {
 }
 
 button {
+  &.xxs {
+    @apply px-4 py-2;
+  }
   &.xs {
     @apply px-4 py-[10px];
   }
@@ -22,8 +25,8 @@ button {
     @apply px-[30px] py-6;
   }
   &.frosted-glass {
-    backdrop-filter: blur(6px);
-    background-color: rgba(232, 231, 234, 0.1);
+    backdrop-filter: blur(2px);
+    background-color: rgba(232, 231, 234, 0.192);
     box-shadow: inset 0px 4px 10px rgba(255, 255, 255, 0.1);
   }
   &.outlined {

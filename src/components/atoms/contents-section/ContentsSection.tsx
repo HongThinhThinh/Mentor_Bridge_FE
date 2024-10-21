@@ -11,6 +11,7 @@ interface ContentsSectionProps {
   onClick?: () => void;
   isGroup?: boolean;
   avt?: string | null | undefined; // Allow avt to be null or undefined
+  styleClass?: string;
 }
 
 const DEFAULT_AVATAR =
@@ -18,26 +19,27 @@ const DEFAULT_AVATAR =
 
 function ContentsSection({
   value,
-  content,
+  content = "Chưa có dữ liệu",
   time,
   status,
   isReady = false,
   isGroup = false,
   avt,
+  styleClass,
   onClick,
 }: ContentsSectionProps) {
   return (
     <li
       className={`flex items-center justify-between border border-[#D5D5D7] bg-white p-2 rounded-full hover:bg-gray-100 ${
         isReady && "bg-ready"
-      }`}
+      } ${styleClass}`}
     >
       <div
-        className={`pl-4 flex-1 flex overflow-hidden ${content && "gap-10"}`}
+        className={`flex-1 flex justify-center items-center overflow-hidden ${content && "gap-10"}`}
       >
         {isGroup && <Avatar src={avt || DEFAULT_AVATAR} />}{" "}
         {/* Fallback to default avatar */}
-        <div className={`${content ? "w-[75%]" : "w-0"}  truncate`}>
+        <div className={`${content ? "w-[60%]" : "w-0"}  truncate`}>
           <span className="text-sm-book text">{content}</span>
         </div>
         <span className="text-sm-medium flex-1 text-time">{time}</span>
@@ -53,8 +55,9 @@ function ContentsSection({
         </div>
       ) : (
         <Button
-          size="xs"
+          size="xxs"
           fontSize="xs"
+          fontWeight="medium"
           onClick={status ? () => {} : onClick}
           status={status}
         >

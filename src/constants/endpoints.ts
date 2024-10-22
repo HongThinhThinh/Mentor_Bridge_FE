@@ -20,6 +20,8 @@ export enum CONFIG_API {
 //TOPIC
 export enum TOPIC_API {
   TOPIC = "topic",
+  TOPIC_REJECT = "topic/rejected",
+  TOPIC_ACCEPTED = "topic/accepted",
 }
 export enum SCHEDULE_API {
   SCHEDULE = "schedule",

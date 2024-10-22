@@ -38,7 +38,7 @@ const StudentPages = () => {
         <div className="h-1/3">
           <CustomizedCard
             loading={loading}
-            background="url('/src/assets/blue-abstract.svg')"
+            background="url('/src/assets/green-blue-abstract.svg')"
             styleClass="border-none"
           >
             <div className="h-full flex flex-col justify-between">
@@ -50,7 +50,7 @@ const StudentPages = () => {
               </div>
               <div className="flex justify-end">
                 <Button
-                  size="xs"
+                  size="sm"
                   styleClass="bg-shade-900 text-white"
                   fontSize="xs"
                 >
@@ -63,18 +63,16 @@ const StudentPages = () => {
         <div className="h-2/3">
           <CustomizedCard
             loading={loading}
-            styleClass="bg-gradient-to-b from-[#151316] to-[#4D4252] border-none"
+            styleClass="bg-gradient-to-b from-[#FF6001] to-[#FF9759] border-none"
           >
             <div className="h-full w-full">
               <div className="text-white flex justify-between items-center">
                 <span className="text-xs-medium">
                   Số điểm còn lại trong kì :
                 </span>
-                <Button styleClass="bg-[#FFFFFF30] rounded-[12px] h-[43px] w-[43px] flex justify-center items-center">
-                  <EyeOutlined />
-                </Button>
               </div>
               <PieChart
+              variant="secondary"
                 data={[
                   {
                     id: "bad",
@@ -103,7 +101,7 @@ const StudentPages = () => {
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-sm-medium">Danh sách thành viên nhóm</h3>
                   <Button
-                    size="xs"
+                    size="sm"
                     fontSize="xs"
                     onClick={() => setIsModalVisible(true)}
                   >
@@ -133,16 +131,17 @@ const StudentPages = () => {
             <div className="h-[calc(50%-12px)]">
               <CustomizedCard
                 loading={loading}
-                background="url('/src/assets/blue-green-abstract.svg')"
+                background="url('/src/assets/blue-abstract-v2.svg')"
                 styleClass="border-none"
               >
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-sm-medium">Lịch sử yêu cầu cuộc họp</h3>
                   <Button
-                    size="xs"
+                    size="sm"
                     styleClass="text-white"
                     variant="frosted-glass"
                     fontSize="xs"
+                    status="none"
                   >
                     Tất cả
                   </Button>
@@ -152,6 +151,7 @@ const StudentPages = () => {
                     time="30-10-2024"
                     value="Đánh giá nhóm"
                     status="feedback"
+                    styleClass="pl-4"
                   />
 
                   <ContentsSection
@@ -159,12 +159,14 @@ const StudentPages = () => {
                     content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat placeat facere quas quasi beatae corrupti minima vero cum at dolorem, veniam consequuntur non? Voluptate laborum aspernatur, delectus quis dolor sequi."
                     time="30-10-2024"
                     value="Bị từ chối"
+                    styleClass="pl-4"
                   />
                   <ContentsSection
                     status="success"
                     content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat placeat facere quas quasi beatae corrupti minima vero cum at dolorem, veniam consequuntur non? Voluptate laborum aspernatur, delectus quis dolor sequi."
                     time="30-10-2024"
                     value="Được chấp nhận"
+                    styleClass="pl-4"
                   />
                 </ul>
               </CustomizedCard>

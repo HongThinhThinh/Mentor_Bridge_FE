@@ -8,7 +8,7 @@ export interface ButtonProps {
   /** What is color of the button? */
   background?: string;
   /** How large should the button be? */
-  size?: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
+  size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
   /** The weight of the font used in the button text. */
   fontWeight?: FontWeight;
   /** The size of the font used in the button text. */
@@ -20,7 +20,7 @@ export interface ButtonProps {
   /** Optional click handler */
   onClick?: () => void;
   /*** background button */
-  status?: "default" | "pending" | "deny" | "date" | "success" | "feedback";
+  status?: "default" | "pending" | "deny" | "date" | "success" | "feedback" | "none";
   /** The type of the button (button, submit, reset) */
   isDisabled?: boolean;
 }
@@ -42,11 +42,10 @@ export const Button = ({
   return (
     <button
       className={[
-        `text-${fontSize} font-${fontWeight}`,
+        `text-${fontSize}-${fontWeight}`,
         size,
         variant,
         variant === "default" ? background : "",
-        styleClass,
         isDisabled
           ? "bg-gray-400 text-gray-600 cursor-not-allowed pointer-events-none"
           : "",
@@ -55,6 +54,7 @@ export const Button = ({
         `btn-content-status-${status} btn-content-status  ${
           !status && "btn-content"
         } `,
+        styleClass,
       ].join(" ")}
       type={type}
       disabled={isDisabled}

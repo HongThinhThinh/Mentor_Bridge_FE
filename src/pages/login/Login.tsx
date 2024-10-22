@@ -33,7 +33,7 @@ function Login() {
                   <p className="pl-1 text-black">Đăng nhập với Google</p>
                 </div>
               }
-              styleClass="w-[369px] h-[47px] bg-transparent border border-[#D5D5D7]"
+              styleClass="w-[369px] bg-transparent border border-[#D5D5D7]"
               fontSize="xs"
             />
 
@@ -70,7 +70,7 @@ function Login() {
               <Button
                 type="submit"
                 children="Đăng nhập"
-                styleClass="w-[369px] h-[46px] text-shade-300 bg-transparent border border-[#D5D5D7] 
+                styleClass="w-[369px] text-shade-300 bg-transparent border border-[#D5D5D7] 
          bg-gradient-to-r from-[#FF6001] from-43.73%  to-[#F9A26E] to-99.08%"
                 fontSize="xs"
               />
@@ -85,7 +85,7 @@ function Login() {
           height={"100%"}
           className="brightness-125"
         />
-        <div className="absolute bottom-[33px] left-[41px] w-[725px] h-[220px] bg-[#0000004D] rounded-2xl backdrop-blur-sm">
+        <div className="absolute bottom-[33px] left-[41px] right-[41px] w-[calc(100%-82px)] h-[220px] bg-[#0000004D] rounded-2xl backdrop-blur-sm">
           <div className="py-[23px] px-[33px] text-shade-300">
             <h3 className="text-2xl-medium mb-[16px]">Giới thiệu</h3>
             <p className="text-xs-book">

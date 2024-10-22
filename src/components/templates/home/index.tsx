@@ -4,11 +4,13 @@ import { Button } from "../../atoms/button/Button";
 import { PieChart } from "../../molecules/chart/pie-chart/PieChart";
 import { EyeOutlined } from "@ant-design/icons";
 import ContentsSection from "../../atoms/contents-section/ContentsSection";
+import AddTopicForm from "../../molecules/formTopic";
 
 const HomeTemplate = () => {
   const [loading, setLoading] = useState(true);
   const [remainDate, setRemainDate] = useState(3);
   const [goodRate, setGoodRate] = useState(80);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   setTimeout(() => {
     setLoading(false);
   }, 1500);
@@ -50,7 +52,10 @@ const HomeTemplate = () => {
                 <span className="text-xs-medium">
                   Tỉ lệ phản hồi tích cực từ sinh viên (%)
                 </span>
-                <Button styleClass="bg-[#FFFFFF30] rounded-[12px] h-[43px] w-[43px] flex justify-center items-center" status="none">
+                <Button
+                  styleClass="bg-[#FFFFFF30] rounded-[12px] h-[43px] w-[43px] flex justify-center items-center"
+                  status="none"
+                >
                   <EyeOutlined />
                 </Button>
               </div>
@@ -84,9 +89,14 @@ const HomeTemplate = () => {
                 size="xs"
                 styleClass="bg-gradient-to-r from-[#151316] to-[#4D4252] text-white"
                 fontSize="xs"
+                onClick={() => setIsModalVisible(true)}
               >
                 Thêm đề tài mới +
               </Button>
+              <AddTopicForm
+                onClose={() => setIsModalVisible(false)}
+                isOpen={isModalVisible}
+              />
             </div>
             <ul className="space-y-3 overflow-y-scroll h-4/5">
               <li className="flex items-center justify-between bg-gray-50 p-2 rounded-lg hover:bg-gray-100">

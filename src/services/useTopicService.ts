@@ -10,26 +10,26 @@ const useTopicService = () => {
 
   const createTopic = useCallback(
     async (
-      topicData: { name: string; description: string; teamId: string },
+      topicData: { name: string; description: string; teamId: string | null },
       file: File
     ) => {
       try {
         setIsLoading(true);
         const formData = new FormData();
-        formData.append("topic", JSON.stringify(topicData));
+        const jsonBlob = new Blob([JSON.stringify(topicData)], {
+          type: "application/json",
+        });
+        formData.append("topic", jsonBlob);
+
         formData.append("file", file);
 
-        // Send POST request
-        const response = await api.post(TOPIC_API.TOPIC, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const response = await api.post(TOPIC_API.TOPIC, formData);
 
         toast.success("Topic created successfully!");
         return response?.data;
       } catch (e: any) {
-        toast.error(e?.response?.data || "Failed to create topic");
+        console.error("Create Topic Error: ", e);
+        toast.error(e?.response?.data?.message || "Failed to create topic");
       } finally {
         setIsLoading(false);
       }

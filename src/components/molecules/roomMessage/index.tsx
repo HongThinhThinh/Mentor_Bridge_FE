@@ -2,10 +2,11 @@ import { FC } from "react";
 import { useStateValue } from "../../../context/stateProvider";
 import "./RoomMessage.scss";
 import { useNavigate } from "react-router-dom";
-// import { selectUser } from "../../../redux/features/userSlice";
+import { useSelector } from "react-redux";
 
 interface RoomMessageProps {
-  room?: string;
+  key?: number;
+  room?: number;
   active?: boolean;
   setActive?: (room?: string) => void;
   avt?: string;
@@ -15,7 +16,8 @@ interface RoomMessageProps {
 }
 // eslint-disable-next-line react/prop-types
 const RoomMessage: FC<RoomMessageProps> = ({
-  room = "",
+  key,
+  room = 0,
   active = "",
   setActive = () => {},
   avt,
@@ -26,7 +28,7 @@ const RoomMessage: FC<RoomMessageProps> = ({
   const { setIdRoomChat, setShowSearchFriends, setShowChatList } =
     useStateValue();
   const navigate = useNavigate();
-  //   const user = useSelector(selectUser);
+  // const user = useSelector(selectUser);
   const user = {
     name: "test",
     role: "CREATOR",

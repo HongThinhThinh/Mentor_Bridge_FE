@@ -35,7 +35,6 @@ const useStudentService = () => {
       dispatch(loginRedux(newUser));
       toast.success("Tạo team thành công");
       await getUserTeam();
-
       return response?.data;
     } catch (e: any) {
       toast.error(e?.response?.data || "Có lỗi khi tạo team");
@@ -51,11 +50,11 @@ const useStudentService = () => {
         setIsLoading(true);
         const response = await callApi(
           "get",
-          `http://103.200.20.149:8080/api/admin?search=${searchTerm}&role=STUDENT&page=0&size=10`
+          `${TEAM_API.TEAM}?teamCode=${searchTerm}`
         );
         return response?.data;
       } catch (e: any) {
-        toast.error(e?.response?.data || "Có lỗi khi tìm kiếm thành viên");
+        // toast.error(e?.response?.data || "Có lỗi khi tìm kiếm thành viên");
         console.error("Search Team Members Error: ", e);
       } finally {
         setIsLoading(false);

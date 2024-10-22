@@ -53,18 +53,22 @@ const TeamInvitePage = () => {
           />
         )}
         <Result
+          className="h-screen flex flex-col justify-center items-center"
           icon={
             <CheckCircleOutlined
               style={{ fontSize: "72px", color: "#52c41a" }}
             />
           }
           title={
-            <h1 style={{ color: "#52c41a", fontSize: "32px" }}>
+            <h1 style={{ color: "#52c41a" }} className="text-2xl-bold">
               Bạn đã chấp nhận lời mời!
             </h1>
           }
-          subTitle={`Chào mừng bạn đến với nhóm ${groupName}, hãy bắt đầu hành trình mới của mình.`}
-          extra={<Button>Vào nhóm ngay</Button>}
+          subTitle={<p className="text-sm-book">Chào mừng bạn đến với nhóm {groupName}, hãy bắt đầu hành trình mới của mình.</p>}
+          extra={<Button
+            size="sm"
+            fontSize="xs"
+          >Vào nhóm ngay</Button>}
         />
       </>
     );
@@ -73,51 +77,47 @@ const TeamInvitePage = () => {
   if (response === "declined") {
     return (
       <Result
+        className="h-screen flex flex-col justify-center items-center"
         icon={
           <CloseCircleOutlined style={{ fontSize: "72px", color: "#ff4d4f" }} />
         }
         title={
-          <h1 style={{ color: "#ff4d4f", fontSize: "32px" }}>
+          <h1 style={{ color: "#ff4d4f" }} className="text-2xl-bold">
             Bạn đã từ chối lời mời
           </h1>
         }
-        subTitle="Lời mời của bạn đã bị từ chối. Nếu thay đổi quyết định, hãy liên hệ với quản trị viên."
-        extra={<Button>Quay về trang chủ</Button>}
+        subTitle={<p className="text-sm-book">Lời mời của bạn đã bị từ chối. Nếu thay đổi quyết định, hãy liên hệ với quản trị viên.</p>}
+        extra={<Button
+          size="sm"
+          fontSize="xs"
+        >Quay về trang chủ</Button>}
       />
     );
   }
 
   return (
-    <Card
-      style={{
-        maxWidth: "600px",
-        margin: "0 auto",
-        padding: "20px",
-        textAlign: "center",
-        backgroundColor: "#f0f2f5",
-        backgroundSize: "cover",
-        borderRadius: "12px",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-      }}
+    <div
+      className="border-none h-screen w-full justify-center items-center"
     >
       <Result
+        className="h-full flex flex-col justify-center items-center"
         icon={
           <div className="flex items-center  justify-center">
             <img src={Logo} alt="Logo" />
           </div>
         }
-        title={<Title level={2}>Bạn được mời vào nhóm {groupName}</Title>}
+        title={<Title className="text-2xl-bold" level={2}>Bạn được mời vào nhóm {groupName}</Title>}
         subTitle={
           <>
-            <Text>
+            <Text className="text-base-medium">
               Bạn có muốn tham gia nhóm này cùng đồng đội của mình không?
             </Text>
             <div style={{ marginTop: "16px" }}>
               <Space align="center">
                 <Avatar size={64} src={leaderAvatar} />
-                <div>
-                  <Text strong>Leader:</Text>
-                  <Text>{` ${leaderName}`}</Text>
+                <div >
+                  <Text className="text-xs-medium">Leader:</Text>
+                  <Text className="text-xs-book">{` ${leaderName}`}</Text>
                 </div>
               </Space>
             </div>
@@ -129,12 +129,16 @@ const TeamInvitePage = () => {
           >
             <Button
               status="success"
+              size="sm"
+              fontSize="xs"
               onClick={handleAccept}
             >
-            <CheckCircleOutlined /> Đồng ý
+              <CheckCircleOutlined /> Đồng ý
             </Button>
             <Button
               status="date"
+              size="sm"
+              fontSize="xs"
               onClick={handleDecline}
             >
               <CheckCircleOutlined /> Từ chối
@@ -142,7 +146,7 @@ const TeamInvitePage = () => {
           </div>
         }
       />
-    </Card>
+    </div>
   );
 };
 

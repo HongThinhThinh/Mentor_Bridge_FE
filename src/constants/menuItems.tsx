@@ -1,6 +1,7 @@
 import { MenuProps } from "antd";
 import { Link } from "react-router-dom";
 import {
+  BookOutlined,
   CalendarOutlined,
   HomeOutlined,
   PieChartOutlined,
@@ -47,7 +48,7 @@ const mentorItems = [
   { label: "Trang Chủ", key: "home", icon: <HomeOutlined /> },
   { label: "Lịch Trình", key: "schedule", icon: <CalendarOutlined /> },
   { label: "Xử Lí Yêu Cầu", key: "request", icon: <SnippetsOutlined /> },
-  { label: "Cài Đặt", key: "setting", icon: <SettingOutlined /> },
+  { label: "Đặt Lịch", key: "booking", icon: <BookOutlined />},
 ];
 
 export const mentorMenuItems: MenuItem[] = mentorItems.map((item) =>

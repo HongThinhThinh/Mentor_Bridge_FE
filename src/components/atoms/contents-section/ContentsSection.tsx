@@ -1,6 +1,6 @@
 import { Avatar } from "antd";
 import { Button } from "../button/Button";
-import "./index.scss";
+import "./ContentsSection.scss";
 
 interface ContentsSectionProps {
   value?: string;

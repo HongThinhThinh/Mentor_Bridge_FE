@@ -8,7 +8,7 @@ const useApi = () => {
   const navigate = useNavigate();
   const callApi = useCallback(
     async (
-      method: "get" | "post" | "put" | "delete",
+      method: "get" | "post" | "put" | "delete" | "patch",
       url: string,
       data?: any,
       message?: string,

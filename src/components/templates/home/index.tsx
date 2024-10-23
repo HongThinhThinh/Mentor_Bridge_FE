@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 import CustomizedCard from "../../molecules/card/Card";
 import { Button } from "../../atoms/button/Button";
 import { PieChart } from "../../molecules/chart/pie-chart/PieChart";
@@ -8,37 +8,51 @@ import AddTopicForm from "../../molecules/formTopic";
 import useTopicService from "../../../services/useTopicService";
 import TopicList from "../../molecules/topic-section";
 import { Topic } from "../../../model/topic";
+import { formatDateToDDMMYY } from "../../../utils/dateFormat";
+import { convertStatus } from "../../../utils/convertStatus";
+import { Select } from "antd";
+import { debounce } from "lodash";
 
 const HomeTemplate = () => {
-  const [loading, setLoading] = useState(true);
   const [remainDate, setRemainDate] = useState(3);
+  const [loading, setLoading] = useState(false);
   const [goodRate, setGoodRate] = useState(80);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [topic, setTopic] = useState<Topic[] | undefined>();
   const { getTopics } = useTopicService();
+  const [selectedStatus, setSelectedStatus] = useState("");
 
-  const fetchTopics = async () => {
+  // Use debounce to delay the filter action and avoid multiple renders
+  const handleFilterChange = useMemo(
+    () =>
+      debounce((value) => {
+        setSelectedStatus(value);
+      }, 300), // 300ms debounce delay
+    []
+  );
+
+  // Memoized fetchTopics function to avoid redefining it on every render
+  const fetchTopics = useCallback(async () => {
     try {
       const topics = await getTopics({
         page: 1,
         size: 10,
         sortBy: "name",
         sortDirection: "asc",
+        status: selectedStatus,
       });
       console.log(topics);
       setTopic(topics);
     } catch (error) {
       console.error("Error fetching topics:", error);
     }
-  };
+  }, [getTopics, selectedStatus]);
 
+  // Trigger fetching topics when status changes
   useEffect(() => {
     fetchTopics();
-  }, []);
+  }, [selectedStatus, fetchTopics]);
 
-  setTimeout(() => {
-    setLoading(false);
-  }, 1500);
   return (
     <div className="pt-6 pb-10 h-full w-full flex gap-6">
       <div className="w-1/4 h-full gap-6 flex flex-col">
@@ -135,45 +149,30 @@ const HomeTemplate = () => {
           >
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-sm-medium">Lịch sử yêu cầu thêm đề tài</h3>
-              <Button
-                size="xs"
-                styleClass="text-white"
-                variant="frosted-glass"
-                fontSize="xs"
-              >
-                Tất cả
-              </Button>
+              <Select
+                defaultValue=""
+                style={{ width: 120 }}
+                onChange={handleFilterChange}
+                options={[
+                  { value: "", label: "Tất cả" },
+                  { value: "PENDING", label: "Pending" },
+                  { value: "ACCEPTED", label: "Accepted" },
+                  { value: "REJECTED", label: "Rejected" },
+                  { value: "ACTIVE", label: "Active" },
+                  { value: "INACTIVE", label: "Inactive" },
+                ]}
+              />
             </div>
             <ul className="space-y-4 overflow-y-scroll h-4/5">
-              <ContentsSection
-                time="30-10-2024"
-                value="Đánh giá nhóm"
-                status="feedback"
-              />
-              <ContentsSection
-                status="pending"
-                content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat placeat facere quas quasi beatae corrupti minima vero cum at dolorem, veniam consequuntur non? Voluptate laborum aspernatur, delectus quis dolor sequi."
-                time="30-10-2024"
-                value="Đang xử lý"
-              />
-              <ContentsSection
-                status="deny"
-                content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat placeat facere quas quasi beatae corrupti minima vero cum at dolorem, veniam consequuntur non? Voluptate laborum aspernatur, delectus quis dolor sequi."
-                time="30-10-2024"
-                value="Bị từ chối"
-              />
-              <ContentsSection
-                status="success"
-                content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat placeat facere quas quasi beatae corrupti minima vero cum at dolorem, veniam consequuntur non? Voluptate laborum aspernatur, delectus quis dolor sequi."
-                time="30-10-2024"
-                value="Được chấp nhận"
-              />
-              <ContentsSection
-                isReady
-                status="pending"
-                time="30-10-2024"
-                value="Đang đợi chấp nhận"
-              />
+              {topic?.map((topic) => (
+                <ContentsSection
+                  key={topic.id} // Ensure unique keys for each list item
+                  time={formatDateToDDMMYY(topic.createdAt)}
+                  content={topic.name}
+                  status={topic?.status.toLocaleLowerCase()}
+                  value={convertStatus(topic?.status)}
+                />
+              ))}
             </ul>
           </CustomizedCard>
         </div>

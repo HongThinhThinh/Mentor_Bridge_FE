@@ -1,16 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomizedCard from "../../molecules/card/Card";
 import { Button } from "../../atoms/button/Button";
 import { PieChart } from "../../molecules/chart/pie-chart/PieChart";
 import { EyeOutlined } from "@ant-design/icons";
 import ContentsSection from "../../atoms/contents-section/ContentsSection";
 import AddTopicForm from "../../molecules/formTopic";
+import useTopicService from "../../../services/useTopicService";
+import TopicList from "../../molecules/topic-section";
+import { Topic } from "../../../model/topic";
 
 const HomeTemplate = () => {
   const [loading, setLoading] = useState(true);
   const [remainDate, setRemainDate] = useState(3);
   const [goodRate, setGoodRate] = useState(80);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [topic, setTopic] = useState<Topic[] | undefined>();
+  const { getTopics } = useTopicService();
+
+  const fetchTopics = async () => {
+    try {
+      const topics = await getTopics({
+        page: 1,
+        size: 10,
+        sortBy: "name",
+        sortDirection: "asc",
+      });
+      console.log(topics);
+      setTopic(topics);
+    } catch (error) {
+      console.error("Error fetching topics:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTopics();
+  }, []);
+
   setTimeout(() => {
     setLoading(false);
   }, 1500);
@@ -94,68 +119,12 @@ const HomeTemplate = () => {
                 Thêm đề tài mới +
               </Button>
               <AddTopicForm
+                fetchData={fetchTopics}
                 onClose={() => setIsModalVisible(false)}
                 isOpen={isModalVisible}
               />
             </div>
-            <ul className="space-y-3 overflow-y-scroll h-4/5">
-              <li className="flex items-center justify-between bg-gray-50 p-2 rounded-lg hover:bg-gray-100">
-                <span className="flex justify-center items-center w-8 h-8 bg-white rounded-full border border-gray-300">
-                  1
-                </span>
-                <div className="pl-4 flex-1">
-                  <span className="block text-sm-medium">
-                    ConnectED – Nền tảng kết nối sinh viên và giảng viên
-                  </span>
-                  <span className="text-xs-medium text-gray-500">PhuongNT</span>
-                </div>
-                <span className="text-sm-medium text-gray-500 cursor-pointer">
-                  ...
-                </span>
-              </li>
-              <li className="flex items-center justify-between bg-gray-50 p-2 rounded-lg hover:bg-gray-100">
-                <span className="flex justify-center items-center w-8 h-8 bg-white rounded-full border border-gray-300">
-                  2
-                </span>
-                <div className="pl-4 flex-1">
-                  <span className="block text-sm-medium">
-                    SkillHub – Web học kỹ năng chuyên môn và thực hành
-                  </span>
-                  <span className="text-xs-medium text-gray-500">PhuongNT</span>
-                </div>
-                <span className="text-sm-medium text-gray-500 cursor-pointer">
-                  ...
-                </span>
-              </li>
-              <li className="flex items-center justify-between bg-gray-50 p-2 rounded-lg hover:bg-gray-100">
-                <span className="flex justify-center items-center w-8 h-8 bg-white rounded-full border border-gray-300">
-                  3
-                </span>
-                <div className="pl-4 flex-1">
-                  <span className="block text-sm-medium">
-                    EcoMarket – Chợ trực tuyến giao dịch các sản phẩm hữu cơ
-                  </span>
-                  <span className="text-xs-medium text-gray-500">PhuongNT</span>
-                </div>
-                <span className="text-sm-medium text-gray-500 cursor-pointer">
-                  ...
-                </span>
-              </li>
-              <li className="flex items-center justify-between bg-gray-50 p-2 rounded-lg hover:bg-gray-100">
-                <span className="flex justify-center items-center w-8 h-8 bg-white rounded-full border border-gray-300">
-                  4
-                </span>
-                <div className="pl-4 flex-1">
-                  <span className="block text-sm-medium">
-                    EventLink – Trang web tạo và quản lý sự kiện
-                  </span>
-                  <span className="text-xs-medium text-gray-500">PhuongNT</span>
-                </div>
-                <span className="text-sm-medium text-gray-500 cursor-pointer">
-                  ...
-                </span>
-              </li>
-            </ul>
+            <TopicList topics={topic} />
           </CustomizedCard>
         </div>
         <div className="h-[calc(50%-12px)]">

@@ -9,9 +9,10 @@ import debounce from "lodash.debounce";
 interface AddTopicFormProps {
   isOpen: boolean;
   onClose: () => void;
+  fetchData: () => void;
 }
 
-function AddTopicForm({ isOpen, onClose }: AddTopicFormProps) {
+function AddTopicForm({ isOpen, onClose, fetchData }: AddTopicFormProps) {
   const { createTopic, loading } = useTopicService();
   const { searchTeamMembers } = useStudentService();
   const [form] = Form.useForm();
@@ -33,6 +34,7 @@ function AddTopicForm({ isOpen, onClose }: AddTopicFormProps) {
       }
 
       await createTopic(topicData, file);
+      fetchData();
       form.resetFields();
       setFile(null);
       setSelectedTeam(null);

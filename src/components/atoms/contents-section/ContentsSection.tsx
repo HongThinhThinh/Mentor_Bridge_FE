@@ -6,7 +6,7 @@ interface ContentsSectionProps {
   value?: string;
   content?: string;
   time?: string;
-  status?: "pending" | "deny" | "success" | "feedback";
+  status?: "PENDING" | "deny" | "success" | "feedback";
   isReady?: boolean;
   onClick?: () => void;
   isGroup?: boolean;
@@ -35,7 +35,9 @@ function ContentsSection({
       } ${styleClass}`}
     >
       <div
-        className={`flex-1 flex justify-center items-center overflow-hidden ${content && "gap-10"}`}
+        className={`flex-1 flex justify-center items-center overflow-hidden ${
+          content && "gap-10"
+        }`}
       >
         {isGroup && <Avatar src={avt || DEFAULT_AVATAR} />}{" "}
         {/* Fallback to default avatar */}

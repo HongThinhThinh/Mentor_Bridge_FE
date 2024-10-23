@@ -3,14 +3,14 @@ import { Team } from "./team";
 import { User } from "./user";
 
 export interface Topic {
-  id: string; // UUID as a string
+  id: string;
   name: string;
   description: string;
-  createdAt: string; // ISO date string for LocalDateTime
-  team?: Team; // Optional because of @JsonIgnore in Java
-  status: TopicEnum; // Enum type for status
+  createdAt: string;
+  team?: Team;
+  status: TopicEnum;
   creator: User;
-  semester?: Semester; // Optional because of @JsonIgnore in Java
+  semester?: Semester;
   files: File[];
 }
 
@@ -18,5 +18,4 @@ export enum TopicEnum {
   ACTIVE = "ACTIVE",
   INACTIVE = "INACTIVE",
   PENDING = "PENDING",
-  // add other enum values as needed
 }

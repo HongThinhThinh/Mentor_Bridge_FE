@@ -25,7 +25,7 @@ const TopicItem: React.FC<TopicItemProps> = memo(
           <span className="title">{title}</span>
         </div>
         <span className="actions">
-          {assets.map((asset: any, assetIndex: number) => (
+          {assets?.map((asset: any, assetIndex: number) => (
             <Button
               onClick={() => handleDownload(asset)}
               key={assetIndex}
@@ -47,7 +47,7 @@ interface TopicListProps {
 const TopicList: React.FC<TopicListProps> = ({ topics }) => {
   return (
     <ul className="topic-list">
-      {topics.map((topic, index) => (
+      {topics?.map((topic, index) => (
         <TopicItem
           key={index}
           index={index + 1}

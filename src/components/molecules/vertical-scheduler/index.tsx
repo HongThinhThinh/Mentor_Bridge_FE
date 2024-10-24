@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { DayPilot, DayPilotCalendar } from "daypilot-pro-react";
 
-const VerticalScheduler = () => {
+const VerticalScheduler = ({ scheduleData }) => {
   const schedulerRef = useRef();
 
   const [config, setConfig] = useState({
@@ -33,37 +33,32 @@ const VerticalScheduler = () => {
   });
 
   useEffect(() => {
+    const daysMap = {
+      "monday": "2",
+      "tuesday": "3",
+      "wednesday": "4",
+      "thursday": "5",
+      "friday": "6",
+      "saturday": "7",
+      "sunday": "8",
+    };
 
-    const events = [
-      {
-        id: 1,
-        text: "Event 1",
-        start: "2024-01-01T00:00:00",
-        end: "2024-01-01T10:00:00",
-        resource: "2",
-      },
-      {
-        id: 2,
-        text: "Event 2",
-        start: "2024-01-01T13:00:00",
-        end: "2024-01-01T21:30:00",
-        resource: "4",
-      },
-      {
-        id: 3,
-        text: "Event 3",
-        start: "2024-01-01T00:00:00",
-        end: "2024-01-01T10:00:00",
-        resource: "5",
-      },
-      {
-        id: 4,
-        text: "Event 3",
-        start: "2024-01-01T00:00:00",
-        end: "2024-01-01T10:00:00",
-        resource: "6",
+    const events = [];
+
+    // Iterate over the schedule data to create events
+    Object.keys(scheduleData).forEach(day => {
+      if (daysMap[day]) {
+        const dayResourceId = daysMap[day];
+        scheduleData[day].forEach(time => {
+          events.push({
+            start: `2024-01-01T${time.startTime}`,  // Adjust the date to match startDate if needed
+            end: `2024-01-01T${time.endTime}`,
+            resource: dayResourceId,
+            text: `Event ${dayResourceId}`
+          });
+        });
       }
-    ];
+    });
 
     const columns = [
       {name: "Thứ hai", id: "2"},
@@ -81,7 +76,7 @@ const VerticalScheduler = () => {
       columns
     }));
 
-  }, []);
+  }, [scheduleData]);
 
   const getScheduler = () => schedulerRef.current?.control;
 
@@ -94,4 +89,5 @@ const VerticalScheduler = () => {
     </div>
   );
 }
+
 export default VerticalScheduler;

@@ -34,7 +34,7 @@ const EmptySchedulePage = () => {
           />
         )}
 
-        <VerticalScheduler />
+        <VerticalScheduler scheduleData={response} />
       </div>
     </div>
   );

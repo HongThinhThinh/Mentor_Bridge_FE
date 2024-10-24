@@ -31,7 +31,6 @@ const HomeTemplate = () => {
     []
   );
 
-  // Memoized fetchTopics function to avoid redefining it on every render
   const fetchTopics = useCallback(async () => {
     try {
       const topics = await getTopics({
@@ -48,7 +47,6 @@ const HomeTemplate = () => {
     }
   }, [getTopics, selectedStatus]);
 
-  // Trigger fetching topics when status changes
   useEffect(() => {
     fetchTopics();
   }, [selectedStatus, fetchTopics]);
@@ -169,7 +167,11 @@ const HomeTemplate = () => {
                   key={topic.id} // Ensure unique keys for each list item
                   time={formatDateToDDMMYY(topic.createdAt)}
                   content={topic.name}
-                  status={topic?.status.toLocaleLowerCase()}
+                  status={
+                    topic?.status.toLocaleLowerCase() == "inactive"
+                      ? "success"
+                      : topic?.status.toLocaleLowerCase()
+                  }
                   value={convertStatus(topic?.status)}
                 />
               ))}

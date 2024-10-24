@@ -66,10 +66,10 @@ const useScheduleService = () => {
       try {
         setIsLoading(true);
         const response = await callApi("get", SCHEDULE_API.SCHEDULE + `/${id}`);
-        toast.success("Get Data Schedule Successfully !!!");
+        // toast.success("Get Data Schedule Successfully !!!");
         return response?.data;
       } catch (e: any) {
-        toast.error(e?.response?.data || "Failed to get data");
+        // toast.error(e?.response?.data || "Failed to get data");
       } finally {
         setIsLoading(false);
       }

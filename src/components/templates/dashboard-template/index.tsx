@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Form, Input, Modal, Popconfirm, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -28,10 +27,14 @@ export interface DashboardTemplateProps {
   columns: Column[];
   formItems: React.ReactNode;
   apiURI: string;
+  isCustom?: boolean;
+  isReload?: boolean;
 }
 
 export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
   isImport = false,
+  isCustom = false,
+  isReload,
   columns,
   title,
   formItems,
@@ -48,46 +51,50 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
   useEffect(() => {
     const newColumns: Column[] = [
       ...columns,
-      {
-        title: "Action",
-        dataIndex: "id",
-        key: "id",
-        render: (id: string, record: any) => (
-          <div style={{ gap: "10px", display: "flex" }}>
-            <Popconfirm
-              title={`Delete ${title}`}
-              onConfirm={() => handleDelete(id)}
-            >
-              <Button type="primary" danger>
-                Delete
-              </Button>
-            </Popconfirm>
-            <span style={{ margin: "10px 5px" }}>|</span>
-            <Button
-              type="primary"
-              style={{ backgroundColor: "orange" }}
-              onClick={() => {
-                setIsUpdate(true);
-                if (record?.dateTo && record.dateFrom) {
-                  formTag.setFieldsValue({
-                    ...record,
-                    dateFrom: moment(record.dateFrom),
-                    dateTo: moment(record.dateTo),
-                  });
-                } else {
-                  formTag.setFieldsValue({ ...record, id });
-                }
-                handleOpenModal();
-              }}
-            >
-              Update
-            </Button>
-          </div>
-        ),
-      },
+      ...(isCustom
+        ? []
+        : [
+            {
+              title: "Action",
+              dataIndex: "id",
+              key: "id",
+              render: (id: string, record: any) => (
+                <div style={{ gap: "10px", display: "flex" }}>
+                  <Popconfirm
+                    title={`Delete ${title}`}
+                    onConfirm={() => handleDelete(id)}
+                  >
+                    <Button type="primary" danger>
+                      Delete
+                    </Button>
+                  </Popconfirm>
+                  <span style={{ margin: "10px 5px" }}>|</span>
+                  <Button
+                    type="primary"
+                    style={{ backgroundColor: "orange" }}
+                    onClick={() => {
+                      setIsUpdate(true);
+                      if (record?.dateTo && record.dateFrom) {
+                        formTag.setFieldsValue({
+                          ...record,
+                          dateFrom: moment(record.dateFrom),
+                          dateTo: moment(record.dateTo),
+                        });
+                      } else {
+                        formTag.setFieldsValue({ ...record, id });
+                      }
+                      handleOpenModal();
+                    }}
+                  >
+                    Update
+                  </Button>
+                </div>
+              ),
+            },
+          ]),
     ];
     setTableColumns(newColumns);
-  }, [columns, title, formTag]);
+  }, [columns, title, formTag, isCustom]);
 
   const fetchData = async () => {
     setIsFetching(true);
@@ -107,7 +114,7 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [isReload]);
 
   const handleOpenModal = () => {
     setIsOpenModal(true);
@@ -162,6 +169,26 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
       fetchData();
     } catch (err: any) {
       toast.error(err.response?.data || "Failed to delete item");
+    }
+  };
+
+  const handleAccept = async (record: any) => {
+    try {
+      await api.post(`${apiURI}/${record.id}/accept`); // Giả sử endpoint để Accept là như thế này
+      toast.success("Accepted successfully");
+      fetchData();
+    } catch (err: any) {
+      toast.error(err.response?.data || "Failed to accept");
+    }
+  };
+
+  const handleReject = async (record: any) => {
+    try {
+      await api.post(`${apiURI}/${record.id}/reject`); // Giả sử endpoint để Reject là như thế này
+      toast.success("Rejected successfully");
+      fetchData();
+    } catch (err: any) {
+      toast.error(err.response?.data || "Failed to reject");
     }
   };
 

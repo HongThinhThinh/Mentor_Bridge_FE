@@ -37,7 +37,7 @@ const useStudentService = () => {
       await getUserTeam();
       return response?.data;
     } catch (e: any) {
-      toast.error(e?.response?.data || "Có lỗi khi tạo team");
+      toast.error(e?.response?.message || "Có lỗi khi tạo team");
       console.error("Create Team Error: ", e);
     } finally {
       setIsLoading(false);
@@ -74,7 +74,7 @@ const useStudentService = () => {
         toast.success("Mời thành công");
         return response?.data;
       } catch (e: any) {
-        toast.error(e?.response?.data || "Có lỗi khi mời thành viên");
+        toast.error(e?.response?.message || "Có lỗi khi mời thành viên");
         console.error("Invite to Group Error: ", e);
       } finally {
         setIsLoading(false);

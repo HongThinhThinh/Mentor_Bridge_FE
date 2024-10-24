@@ -168,9 +168,9 @@ const HomeTemplate = () => {
                   time={formatDateToDDMMYY(topic.createdAt)}
                   content={topic.name}
                   status={
-                    topic?.status.toLocaleLowerCase() == "inactive"
+                    topic?.status?.toLowerCase() == "inactive"
                       ? "success"
-                      : topic?.status.toLocaleLowerCase()
+                      : topic?.status?.toLowerCase()
                   }
                   value={convertStatus(topic?.status)}
                 />

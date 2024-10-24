@@ -96,7 +96,7 @@ function MentorSchedule() {
       )} */}
       <Alert
         onCancel={() => setIsopen(false)}
-        open={true}
+        open={false}
         type="error"
         message="Giảng viên vui lòng cập nhật lịch trống trước ngày 30-08-2024"
         timeClose={3}

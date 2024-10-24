@@ -28,11 +28,13 @@ export interface DashboardTemplateProps {
   formItems: React.ReactNode;
   apiURI: string;
   isCustom?: boolean;
+  isReload?: boolean;
 }
 
 export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
   isImport = false,
   isCustom = false,
+  isReload,
   columns,
   title,
   formItems,
@@ -112,7 +114,7 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [isReload]);
 
   const handleOpenModal = () => {
     setIsOpenModal(true);

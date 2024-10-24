@@ -37,31 +37,6 @@ const useTopicService = () => {
     [callApi]
   );
 
-  const getTopics = useCallback(
-    async (queryParams: {
-      name?: string;
-      status?: string;
-      page?: number;
-      size?: number;
-      sortBy?: string;
-      sortDirection?: string;
-      semesterCode?: string;
-    }) => {
-      try {
-        setIsLoading(true);
-
-        const params = new URLSearchParams(queryParams as any).toString();
-        const response = await callApi("get", `${TOPIC_API.TOPIC}?${params}`);
-
-        return response?.data;
-      } catch (e: any) {
-        toast.error(e?.response?.data || "Failed to fetch topics");
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [callApi, setIsLoading]
-  );
   const acceptTopic = useCallback(
     async (id: string) => {
       try {
@@ -102,7 +77,29 @@ const useTopicService = () => {
     },
     [callApi, setIsLoading]
   );
-
+  const getTopics = useCallback(
+    async (queryParams: {
+      name?: string;
+      status?: string;
+      page?: number;
+      size?: number;
+      sortBy?: string;
+      sortDirection?: string;
+      semesterCode?: string;
+    }) => {
+      try {
+        setIsLoading(true);
+        const params = new URLSearchParams(queryParams as any).toString();
+        const response = await callApi("get", `${TOPIC_API.TOPIC}?${params}`);
+        return response?.data;
+      } catch (e: any) {
+        toast.error(e?.response?.data || "Failed to fetch topics");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi, setIsLoading, acceptTopic, rejectTopic]
+  );
   return { createTopic, getTopics, loading, acceptTopic, rejectTopic };
 };
 

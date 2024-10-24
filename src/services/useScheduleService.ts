@@ -77,7 +77,30 @@ const useScheduleService = () => {
     [callApi]
   );
 
-  return { checkSchedule, loading, sendSchedule, getSchedule };
+  const getWeeklyTimeFrame = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const response = await callApi(
+        "get",
+        `${SCHEDULE_API.SCHEDULE}/weeklyTimeFrame`
+      );
+      console.log(response?.data);
+      // toast.success("Get Data Schedule Successfully !!!");
+      return response?.data;
+    } catch (e: any) {
+      // toast.error(e?.response?.data || "Failed to get data");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  return {
+    checkSchedule,
+    loading,
+    sendSchedule,
+    getSchedule,
+    getWeeklyTimeFrame,
+  };
 };
 
 export default useScheduleService;

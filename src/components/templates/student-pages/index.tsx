@@ -114,7 +114,7 @@ const StudentPages = () => {
                   />
                 </div>
                 <ul className="flex flex-col gap-2 overflow-y-scroll flex-grow">
-                  {dataTeam?.userTeams.map((data) => (
+                  {dataTeam?.userTeams?.map((data) => (
                     <ContentsSection
                       avt={data?.user?.avatar}
                       isGroup

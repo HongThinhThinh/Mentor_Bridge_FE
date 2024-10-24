@@ -94,7 +94,6 @@ function MentorSchedule() {
 
         </>
       )} */}
-   
       <MeetingDetail
         onCancel={() => setIsOpenDetail(false)}
         setIsOpenDetail={setIsOpenDetail}

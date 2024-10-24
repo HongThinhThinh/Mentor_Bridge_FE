@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Result, Typography, Avatar, Space, Card } from "antd";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { Button } from "../../../components/atoms/button/Button";
 import Confetti from "react-confetti";
 import Logo from "../../../assets/logo.svg";
+import useStudentService from "../../../services/useStudentService";
+import useGetParams from "../../../hooks/useGetParams";
 
 const { Text, Title } = Typography;
 
@@ -14,6 +16,12 @@ const TeamInvitePage = () => {
     width: number;
     height: number;
   } | null>(null);
+
+  const { acceptInvitation } = useStudentService();
+  const getParams = useGetParams();
+  const token = getParams("token") || "";
+  const teamCode = getParams("teamCode") || "";
+
 
   const groupName = "Mentor Bridge";
   const leaderName = "Hong Thinh";
@@ -32,9 +40,15 @@ const TeamInvitePage = () => {
       return () => window.removeEventListener("resize", handleResize);
     }
   }, []);
-  const handleAccept = () => {
-    setResponse("accepted");
-    setShowConfetti(true);
+  const handleAccept = async () => {
+    try {
+      const result = await acceptInvitation(token, teamCode);
+      setResponse("accepted");
+      setShowConfetti(true);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDecline = () => {
@@ -64,11 +78,17 @@ const TeamInvitePage = () => {
               Bạn đã chấp nhận lời mời!
             </h1>
           }
-          subTitle={<p className="text-sm-book">Chào mừng bạn đến với nhóm {groupName}, hãy bắt đầu hành trình mới của mình.</p>}
-          extra={<Button
-            size="sm"
-            fontSize="xs"
-          >Vào nhóm ngay</Button>}
+          subTitle={
+            <p className="text-sm-book">
+              Chào mừng bạn đến với nhóm {groupName}, hãy bắt đầu hành trình mới
+              của mình.
+            </p>
+          }
+          extra={
+            <Button size="sm" fontSize="xs">
+              Vào nhóm ngay
+            </Button>
+          }
         />
       </>
     );
@@ -86,19 +106,23 @@ const TeamInvitePage = () => {
             Bạn đã từ chối lời mời
           </h1>
         }
-        subTitle={<p className="text-sm-book">Lời mời của bạn đã bị từ chối. Nếu thay đổi quyết định, hãy liên hệ với quản trị viên.</p>}
-        extra={<Button
-          size="sm"
-          fontSize="xs"
-        >Quay về trang chủ</Button>}
+        subTitle={
+          <p className="text-sm-book">
+            Lời mời của bạn đã bị từ chối. Nếu thay đổi quyết định, hãy liên hệ
+            với quản trị viên.
+          </p>
+        }
+        extra={
+          <Button size="sm" fontSize="xs">
+            Quay về trang chủ
+          </Button>
+        }
       />
     );
   }
 
   return (
-    <div
-      className="border-none h-screen w-full justify-center items-center"
-    >
+    <div className="border-none h-screen w-full justify-center items-center">
       <Result
         className="h-full flex flex-col justify-center items-center"
         icon={
@@ -106,7 +130,11 @@ const TeamInvitePage = () => {
             <img src={Logo} alt="Logo" />
           </div>
         }
-        title={<Title className="text-2xl-bold" level={2}>Bạn được mời vào nhóm {groupName}</Title>}
+        title={
+          <Title className="text-2xl-bold" level={2}>
+            Bạn được mời vào nhóm {groupName}
+          </Title>
+        }
         subTitle={
           <>
             <Text className="text-base-medium">
@@ -115,7 +143,7 @@ const TeamInvitePage = () => {
             <div style={{ marginTop: "16px" }}>
               <Space align="center">
                 <Avatar size={64} src={leaderAvatar} />
-                <div >
+                <div>
                   <Text className="text-xs-medium">Leader:</Text>
                   <Text className="text-xs-book">{` ${leaderName}`}</Text>
                 </div>

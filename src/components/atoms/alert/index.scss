@@ -1,6 +1,6 @@
 .alert-layout {
   position: absolute;
-  inset: 0 0 0 0;
+  inset: 60px 0 -200px 0;
   backdrop-filter: blur(10px);
   z-index: 10;
   display: none;
@@ -19,7 +19,8 @@
     display: flex;
     align-items: start;
     gap: 10px;
-
+    position: absolute;
+    top: 200px;
     &--success {
       background-color: var(--color-success);
     }

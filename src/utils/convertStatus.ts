@@ -4,7 +4,7 @@ export const convertStatus = (status: string): string => {
       return "Đang xử lí";
     case "deny":
       return "Bị từ chối";
-    case "active":
+    case "inactive":
       return "Được chấp nhận";
     default:
       return "Trạng thái không xác định";

@@ -6,7 +6,7 @@ interface ContentsSectionProps {
   value?: string;
   content?: string;
   time?: string;
-  status?: "none" | "PENDING" | "deny" | "success" | "feedback";
+  status?: "none" | "pending" | "deny" | "success" | "feedback";
   isReady?: boolean;
   onClick?: () => void;
   isGroup?: boolean;

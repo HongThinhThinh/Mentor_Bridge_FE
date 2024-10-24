@@ -4,9 +4,11 @@ import type { Dayjs } from "dayjs";
 import { AiOutlineVideoCamera } from "react-icons/ai";
 import "./index.scss";
 import Alert from "../../../components/atoms/alert";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UpdateScheduler from "../../../components/organisms/update-schedule";
 import MeetingDetail from "../../../components/organisms/meeting-detail";
+import useScheduleService from "../../../services/useScheduleService";
+import { useCurrentUser } from "../../../utils/getcurrentUser";
 function MentorSchedule() {
   const getListData = (value: Dayjs) => {
     let listData: { content: string }[] = [];
@@ -43,7 +45,7 @@ function MentorSchedule() {
     const listData = getListData(value);
     return (
       <ul className="events">
-        {listData.map((item) => (
+        {listData?.map((item) => (
           <div
             onClick={handleOpenMeetingDetails}
             className="flex justify-center items-center gap-2 px-[5px] py-[3px] rounded-[20px] border-[2px] border-[#000000] max-w-[130px]"
@@ -63,24 +65,50 @@ function MentorSchedule() {
   };
   const [isOpen, setIsopen] = useState<boolean>(false);
   const [isOpenMeetingDetail, setIsOpenDetail] = useState<boolean>();
+  const [data, setdata] = useState("");
+  const { getSchedule } = useScheduleService();
+  const user = useCurrentUser();
+  const isEmpty = (obj) => {
+    return Object.entries(obj).length === 0;
+  };
+  const fetchData = async () => {
+    try {
+      const response = await getSchedule(user?.id);
+      console.log(response);
+      setdata(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+  // console.log(isEmpty(data));
   return (
     <>
       {/* <Button onClick={() => setIsopen(true)}>show Alert</Button> */}
-      <UpdateScheduler />
-      <Calendar cellRender={cellRender} />
+      {/* {isEmpty(data) && (
+        <>
+          <UpdateScheduler />
+
+        </>
+      )} */}
       <Alert
         onCancel={() => setIsopen(false)}
-        open={isOpen}
+        open={true}
         type="error"
         message="Giảng viên vui lòng cập nhật lịch trống trước ngày 30-08-2024"
         timeClose={3}
       />
+      <UpdateScheduler />
       <MeetingDetail
         onCancel={() => setIsOpenDetail(false)}
         setIsOpenDetail={setIsOpenDetail}
         isOpen={isOpenMeetingDetail}
         date="14-10-2024"
       />
+      <Calendar cellRender={cellRender} />
     </>
   );
 }

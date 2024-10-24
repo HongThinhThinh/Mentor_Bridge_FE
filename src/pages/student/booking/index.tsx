@@ -1,7 +1,4 @@
-import { useEffect, useState } from "react";
 import BookingMentor from "../../../components/templates/booking-mentor";
-import useAdminService from "../../../services/useAdminService";
-import useBookingService from "../../../services/useBookingService";
 import { SystemRole } from "../../../constants/role";
 
 
@@ -20,14 +17,7 @@ export type Mentor = {
 }
 
 function BookingMentorPage() {
-
-
-
-
-
-    return <>
-        <BookingMentor />
-    </>;
+    return <BookingMentor/>;
 }
 
 export default BookingMentorPage;

@@ -3,3 +3,6 @@ export enum Role {
   MENTOR = "MENTOR",
   STUDENT = "STUDENT",
 }
+
+export type SystemRole = 'ADMIN' | 'STUDENT' | 'MENTOR';
+

@@ -1,12 +1,12 @@
 import { Avatar } from "antd";
 import { Button } from "../button/Button";
-import "./index.scss";
+import "./ContentsSection.scss";
 
 interface ContentsSectionProps {
   value?: string;
   content?: string;
   time?: string;
-  status?: "PENDING" | "deny" | "success" | "feedback";
+  status?: "none" | "PENDING" | "deny" | "success" | "feedback";
   isReady?: boolean;
   onClick?: () => void;
   isGroup?: boolean;

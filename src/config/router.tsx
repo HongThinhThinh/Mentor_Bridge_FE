@@ -20,6 +20,7 @@ import ManageConfig from "../pages/admin/manage-config";
 import GroupSections from "../components/molecules/group-sections";
 import StudentHomePage from "../pages/student/home";
 import TeamInvitePage from "../pages/student/team-invite";
+import BookingMentorPage from "../pages/student/booking";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -84,6 +85,10 @@ export const router = createBrowserRouter([
       {
         path: STUDENT_ROUTES.SCHEDULE,
         element: <MentorSchedule />,
+      },
+      {
+        path: STUDENT_ROUTES.BOOKING,
+        element: <BookingMentorPage />,
       },
     ],
   },

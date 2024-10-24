@@ -25,4 +25,5 @@ export enum STUDENT_ROUTES {
   STUDENT = "student",
   STUDENT_PAGE = "home",
   SCHEDULE = "schedule",
+  BOOKING = "booking"
 }

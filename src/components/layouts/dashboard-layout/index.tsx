@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Layout, Menu, theme } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
 import { getLabel, mentorMenuItems } from "../../../constants/menuItems";
-import Header from "../../organisisms/header";
+import Header from "../../organisms/header";
 import { Button } from "../../atoms/button/Button";
 import { LogoutOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";

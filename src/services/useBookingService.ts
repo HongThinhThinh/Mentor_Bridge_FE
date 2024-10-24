@@ -26,15 +26,14 @@ const useBookingService = () => {
     [callApi]
   );
 
-  const getSchedule = useCallback(
-    async (id: string) => {
+  const getBooking = useCallback(
+    async (type: "INDIVIDUAL" | "TEAM" | undefined, status: "REQUESTED" | "ACCEPTED" | "REJECTED" | "CANCELLED") => {
       try {
         setIsLoading(true);
-        const response = await callApi("get", `${SCHEDULE_API.SCHEDULE}/${id}`);
-        toast.success("Data Schedule Retrieved Successfully!");
+        const response = await callApi("get", type ? `${BOOKING_API.BOOKING}?type=${type}&status=${status}` : `${BOOKING_API.BOOKING}?status=${status}`);
         return response?.data;
       } catch (e: any) {
-        toast.error(e?.response?.data || "Failed to Retrieve Data");
+        toast.error(e?.response?.data || "Failed to get data");
       } finally {
         setIsLoading(false);
       }
@@ -42,7 +41,27 @@ const useBookingService = () => {
     [callApi]
   );
 
-  return { sendBooking, loading, getSchedule };
+  const updateBooking = useCallback(
+    async (id: string, status: "REQUESTED" | "ACCEPTED" | "REJECTED" | "CANCELLED") => {
+      try {
+        setIsLoading(true);
+        const response = await callApi("patch", BOOKING_API.BOOKING, {
+          id: id,
+          status: status
+        });
+        toast.success("Cập nhật thành công!");
+        return response?.data;
+      } catch (e: any) {
+        toast.error(e?.response?.data || "Failed to get data");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi]
+  );
+
+
+  return { sendBooking, loading, getBooking, updateBooking };
 };
 
 export default useBookingService;

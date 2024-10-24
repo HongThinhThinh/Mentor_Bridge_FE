@@ -18,7 +18,7 @@ export interface ButtonProps {
   /** Button contents */
   children: React.ReactNode;
   /** Optional click handler */
-  onClick?: () => void;
+  onClick?: Function;
   /*** background button */
   status?: "default" | "pending" | "deny" | "date" | "success" | "feedback" | "none";
   /** The type of the button (button, submit, reset) */

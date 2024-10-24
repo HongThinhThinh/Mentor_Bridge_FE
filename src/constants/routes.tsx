@@ -19,6 +19,7 @@ export enum MENTOR_ROUTES {
   MENTOR = "mentor",
   MENTOR_PAGE = "home",
   SCHEDULE = "schedule",
+  BOOKING_REQUEST = "booking-request"
 }
 
 export enum STUDENT_ROUTES {

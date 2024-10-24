@@ -11,6 +11,8 @@ interface ContentsSectionProps {
   onClick?: () => void;
   isGroup?: boolean;
   avt?: string | null | undefined; // Allow avt to be null or undefined
+  prefix?: React.ReactNode;
+  suffix?: React.ReactNode;
   styleClass?: string;
 }
 
@@ -26,14 +28,17 @@ function ContentsSection({
   isGroup = false,
   avt,
   styleClass,
+  prefix,
+  suffix,
   onClick,
 }: ContentsSectionProps) {
   return (
     <li
-      className={`flex items-center justify-between border border-[#D5D5D7] bg-white p-2 rounded-full hover:bg-gray-100 ${
+      className={`flex gap-2 items-center justify-between border border-[#D5D5D7] bg-white p-2 rounded-full hover:bg-gray-100 ${
         isReady && "bg-ready"
       } ${styleClass}`}
     >
+      {prefix}
       <div
         className={`flex-1 flex justify-center items-center overflow-hidden ${
           content && "gap-10"
@@ -66,6 +71,7 @@ function ContentsSection({
           {value}
         </Button>
       )}
+      {suffix}
     </li>
   );
 }

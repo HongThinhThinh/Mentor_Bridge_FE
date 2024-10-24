@@ -41,7 +41,6 @@ const useAdminService = () => {
         const response = await callApi("get", `${ADMIN_API.ADMIN}`, {
           params: { search, role, page, size },
         });
-        toast.success("Admin data retrieved successfully!");
         return response?.data;
       } catch (e: any) {
         toast.error(e?.response?.data || "Failed to retrieve admin data");

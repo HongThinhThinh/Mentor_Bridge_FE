@@ -27,10 +27,36 @@ const useBookingService = () => {
   );
 
   const getBooking = useCallback(
-    async (type: "INDIVIDUAL" | "TEAM" | undefined, status: "REQUESTED" | "ACCEPTED" | "REJECTED" | "CANCELLED") => {
+    async (
+      type: "INDIVIDUAL" | "TEAM" | undefined,
+      status: "REQUESTED" | "ACCEPTED" | "REJECTED" | "CANCELLED"
+    ) => {
       try {
         setIsLoading(true);
-        const response = await callApi("get", type ? `${BOOKING_API.BOOKING}?type=${type}&status=${status}` : `${BOOKING_API.BOOKING}?status=${status}`);
+        const response = await callApi(
+          "get",
+          type
+            ? `${BOOKING_API.BOOKING}?type=${type}&status=${status}`
+            : `${BOOKING_API.BOOKING}?status=${status}`
+        );
+        return response?.data;
+      } catch (e: any) {
+        toast.error(e?.response?.data || "Failed to get data");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi]
+  );
+
+  const getMentorBooking = useCallback(
+    async (month: number) => {
+      try {
+        setIsLoading(true);
+        const response = await callApi(
+          "get",
+          `${BOOKING_API.MENTOR_MEETING}?month=${month}`
+        );
         return response?.data;
       } catch (e: any) {
         toast.error(e?.response?.data || "Failed to get data");
@@ -42,12 +68,15 @@ const useBookingService = () => {
   );
 
   const updateBooking = useCallback(
-    async (id: string, status: "REQUESTED" | "ACCEPTED" | "REJECTED" | "CANCELLED") => {
+    async (
+      id: string,
+      status: "REQUESTED" | "ACCEPTED" | "REJECTED" | "CANCELLED"
+    ) => {
       try {
         setIsLoading(true);
         const response = await callApi("patch", BOOKING_API.BOOKING, {
           id: id,
-          status: status
+          status: status,
         });
         toast.success("Cập nhật thành công!");
         return response?.data;
@@ -60,8 +89,7 @@ const useBookingService = () => {
     [callApi]
   );
 
-
-  return { sendBooking, loading, getBooking, updateBooking };
+  return { sendBooking, loading, getBooking, updateBooking, getMentorBooking };
 };
 
 export default useBookingService;

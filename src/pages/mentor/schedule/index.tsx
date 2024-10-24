@@ -3,79 +3,24 @@ import { Calendar } from "antd";
 import type { Dayjs } from "dayjs";
 import { AiOutlineVideoCamera } from "react-icons/ai";
 import "./index.scss";
-import Alert from "../../../components/atoms/alert";
 import { useEffect, useState } from "react";
-import UpdateScheduler from "../../../components/organisms/update-schedule";
 import MeetingDetail from "../../../components/organisms/meeting-detail";
-import useScheduleService from "../../../services/useScheduleService";
-import { useCurrentUser } from "../../../utils/getcurrentUser";
+import useBookingService from "../../../services/useBookingService";
+
 function MentorSchedule() {
-  const getListData = (value: Dayjs) => {
-    let listData: { content: string }[] = [];
-    switch (value.date()) {
-      case 8:
-        listData = [{ content: "Có 3 cuộc họp" }];
-        break;
-      default:
-    }
-    return listData || [];
-  };
+  const [isOpenMeetingDetail, setIsOpenDetail] = useState<boolean>(false);
+  const [data, setData] = useState<any>({}); // Store booking data as an object
+  const [selectedMeetingData, setSelectedMeetingData] = useState<any[]>([]); // Store the meeting data for the selected day
+  const [selectedDate, setSelectedDate] = useState<string>("");
 
-  const handleOpenMeetingDetails = async () => {
-    setIsOpenDetail(true);
-    return;
-  };
+  const { getMentorBooking } = useBookingService();
 
-  const getMonthData = (value: Dayjs) => {
-    if (value.month() === 8) {
-      return 1394;
-    }
-  };
-  const monthCellRender = (value: Dayjs) => {
-    const num = getMonthData(value);
-    return num ? (
-      <div className="notes-month">
-        <section>{num}</section>
-        <span>Backlog number</span>
-      </div>
-    ) : null;
-  };
-
-  const dateCellRender = (value: Dayjs) => {
-    const listData = getListData(value);
-    return (
-      <ul className="events">
-        {listData?.map((item) => (
-          <div
-            onClick={handleOpenMeetingDetails}
-            className="flex justify-center items-center gap-2 px-[5px] py-[3px] rounded-[20px] border-[2px] border-[#000000] max-w-[130px]"
-          >
-            <AiOutlineVideoCamera color="#fe670d" size={20} />
-            <p className="text-xs-bold">{item.content}</p>
-          </div>
-        ))}
-      </ul>
-    );
-  };
-
-  const cellRender: CalendarProps<Dayjs>["cellRender"] = (current, info) => {
-    if (info.type === "date") return dateCellRender(current);
-    if (info.type === "month") return monthCellRender(current);
-    return info.originNode;
-  };
-  const [isOpen, setIsopen] = useState<boolean>(false);
-  const [isOpenMeetingDetail, setIsOpenDetail] = useState<boolean>();
-  const [data, setdata] = useState("");
-  const { getSchedule } = useScheduleService();
-  const user = useCurrentUser();
-  const isEmpty = (obj) => {
-    return Object.entries(obj).length === 0;
-  };
+  // Fetch booking data
   const fetchData = async () => {
     try {
-      const response = await getSchedule(user?.id);
+      const response = await getMentorBooking(10);
       console.log(response);
-      setdata(response);
+      setData(response); // Set the fetched data as an object
     } catch (error) {
       console.log(error);
     }
@@ -84,23 +29,54 @@ function MentorSchedule() {
   useEffect(() => {
     fetchData();
   }, []);
-  // console.log(isEmpty(data));
+
+  const getListData = (value: Dayjs) => {
+    let listData: { content: string }[] = [];
+    const dateKey = value.format("YYYY-MM-DD");
+    if (data[dateKey]) {
+      data[dateKey].forEach((booking: any) => {
+        listData.push({ content: `${booking.student.fullName} có cuộc họp` });
+      });
+    }
+
+    return listData;
+  };
+
+  const handleOpenMeetingDetails = (value: Dayjs) => {
+    const dateKey = value.format("YYYY-MM-DD");
+    setSelectedMeetingData(data[dateKey] || []); // Set the meeting data for the selected day
+    setSelectedDate(dateKey); // Store the selected date
+    setIsOpenDetail(true); // Open the meeting details modal
+  };
+
+  const dateCellRender = (value: Dayjs) => {
+    const listData = getListData(value);
+    return listData.length > 0 ? (
+      <div
+        onClick={() => handleOpenMeetingDetails(value)}
+        className="flex justify-center items-center gap-2 rounded-[20px] border-[2px] border-[#000000] max-w-[130px] h-[40px] p-2"
+      >
+        <AiOutlineVideoCamera color="#fe670d" size={20} />
+        <p className="text-xs-bold">Có {listData?.length} cuộc họp</p>
+      </div>
+    ) : null;
+  };
+
+  const cellRender: CalendarProps<Dayjs>["cellRender"] = (current, info) => {
+    if (info.type === "date") return dateCellRender(current);
+    return info.originNode;
+  };
+
   return (
     <>
-      {/* <Button onClick={() => setIsopen(true)}>show Alert</Button> */}
-      {/* {isEmpty(data) && (
-        <>
-          <UpdateScheduler />
-
-        </>
-      )} */}
+      <Calendar cellRender={cellRender} />
       <MeetingDetail
         onCancel={() => setIsOpenDetail(false)}
         setIsOpenDetail={setIsOpenDetail}
         isOpen={isOpenMeetingDetail}
-        date="14-10-2024"
+        date={selectedDate}
+        meetings={selectedMeetingData} // Pass the selected meeting data
       />
-      <Calendar cellRender={cellRender} />
     </>
   );
 }

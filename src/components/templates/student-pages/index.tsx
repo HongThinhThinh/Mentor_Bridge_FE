@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import "./index.scss";
 import CustomizedCard from "../../molecules/card/Card";
 import { Button } from "../../atoms/button/Button";
 import { PieChart } from "../../molecules/chart/pie-chart/PieChart";
-import { EyeOutlined } from "@ant-design/icons";
 import ContentsSection from "../../atoms/contents-section/ContentsSection";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
 import GroupSections from "../../molecules/group-sections";
@@ -33,7 +33,7 @@ const StudentPages = () => {
   console.log(dataTeam);
 
   return (
-    <div className="pt-6 pb-10 h-full w-full flex gap-6">
+    <div className="pt-6 pb-10 h-full w-full flex gap-6" id="student-dashboard">
       <div className="w-1/4 h-full gap-6 flex flex-col">
         <div className="h-1/3">
           <CustomizedCard
@@ -96,9 +96,9 @@ const StudentPages = () => {
             <div className="h-[calc(50%-12px)]">
               <CustomizedCard
                 loading={loading}
-                styleClass="border border-shade-800 border-1"
+                styleClass="border border-shade-800 border-1 h-full"
               >
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex justify-between items-center h-24">
                   <h3 className="text-sm-medium">Danh sách thành viên nhóm</h3>
                   <Button
                     size="sm"
@@ -113,7 +113,7 @@ const StudentPages = () => {
                     onClose={() => setIsModalVisible(false)}
                   />
                 </div>
-                <ul className="space-y-3 overflow-y-scroll h-4/5">
+                <ul className="flex flex-col gap-2 overflow-y-scroll flex-grow">
                   {dataTeam?.userTeams.map((data) => (
                     <ContentsSection
                       avt={data?.user?.avatar}

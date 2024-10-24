@@ -42,7 +42,7 @@ export const Button = ({
   return (
     <button
       className={[
-        `text-${fontSize}-${fontWeight}`,
+        `text-${fontSize}-${fontWeight} h-fit`,
         size,
         variant,
         variant === "default" ? background : "",

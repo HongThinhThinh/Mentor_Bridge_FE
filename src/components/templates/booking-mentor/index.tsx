@@ -59,7 +59,7 @@ function BookingMentor({
 
   const handleChange = (value: string) => {
     setSelectedMentorId(value);
-    setSelectedMentor(items?.find((item) => item.value === value)?.label);
+    setSelectedMentor(items?.find((item) => item?.value === value)?.label);
     setIsFetching(true);
     getSchedule(value)
       .then((listSchedule) => {
@@ -119,14 +119,14 @@ function BookingMentor({
         />
       </div>
       <Collapse items={scheduleItems} bordered={false}>
-        {Object.entries(scheduleItems).map(([date, timeFrames]) => (
+        {Object?.entries(scheduleItems)?.map(([date, timeFrames]) => (
           <Panel header={date} key={date}>
             <div className="flex flex-col gap-3">
-              {(timeFrames ? timeFrames : []).map((timeFrame: TimeFrame) => (
-                timeFrame.timeFrameStatus === "AVAILABLE" && <ContentsSection
+              {(timeFrames ? timeFrames : [])?.map((timeFrame: TimeFrame) => (
+                timeFrame?.timeFrameStatus === "AVAILABLE" && <ContentsSection
                 status="none"
                 content=""
-                time={`${timeFrame.timeFrameFrom} - ${timeFrame.timeFrameTo}`} key={timeFrame.id}
+                time={`${timeFrame?.timeFrameFrom} - ${timeFrame?.timeFrameTo}`} key={timeFrame?.id}
                 prefix={<Button
                   size="xxs"
                   fontSize="xs"

@@ -120,7 +120,7 @@ const StudentPages = () => {
                       isGroup
                       key={data.id}
                       status="pending"
-                      content={`${data?.user.studentCode}-${data?.user?.fullName}`} // Corrected template literal usage
+                      content={`${data?.user?.studentCode}-${data?.user?.fullName}`} // Corrected template literal usage
                       time={data.role}
                       value="Đang xử lý"
                     />

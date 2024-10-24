@@ -22,6 +22,7 @@ import StudentHomePage from "../pages/student/home";
 import TeamInvitePage from "../pages/student/team-invite";
 import BookingMentorPage from "../pages/student/booking";
 import BookingRequestPage from "../pages/mentor/booking-request";
+import EmptySchedulePage from "../pages/mentor/empty-schedule";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -76,6 +77,10 @@ export const router = createBrowserRouter([
       {
         path: MENTOR_ROUTES.BOOKING_REQUEST,
         element: <BookingRequestPage />,
+      },
+      {
+        path: MENTOR_ROUTES.EMPTY_SCHEDULE,
+        element: <EmptySchedulePage />,
       },
     ],
   },

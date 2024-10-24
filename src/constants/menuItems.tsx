@@ -47,7 +47,7 @@ export const studentMenuItems: MenuItem[] = [
 const mentorItems = [
   { label: "Trang Chủ", key: "home", icon: <HomeOutlined /> },
   { label: "Lịch Trình", key: "schedule", icon: <CalendarOutlined /> },
-  { label: "Lịch trống trong kỳ", key: "schedule", icon: <BookOutlined /> },
+  { label: "Lịch trống trong kỳ", key: "empty-schedule", icon: <BookOutlined /> },
   { label: "Xử Lí Yêu Cầu", key: "booking-request", icon: <SnippetsOutlined /> },
   { label: "Đặt Lịch", key: "booking", icon: <BookOutlined />},
 ];

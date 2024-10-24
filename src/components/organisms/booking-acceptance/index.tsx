@@ -12,7 +12,7 @@ export interface BookingRecordData {
     suffix?: React.ReactNode; // Adjust types as necessary
 }
 
-interface BookingMentorProps {
+interface BookingAcceptanceProps {
     columns?: Column[];
 }
 
@@ -39,9 +39,9 @@ const bookingColumns: Column[] = [
     },
 ];
 
-function BookingMentor({
+function BookingAcceptance({
     columns
-}: BookingMentorProps) {
+}: BookingAcceptanceProps) {
     const [dataSource, setDataSource] = useState<BookingRecordData[]>(bookingMentorDummyData);
     const [isFetching, setIsFetching] = useState(false);
     const [tableColumns, setTableColumns] = useState<Column[]>(bookingColumns);
@@ -78,4 +78,4 @@ function BookingMentor({
     );
 }
 
-export default BookingMentor;
+export default BookingAcceptance;

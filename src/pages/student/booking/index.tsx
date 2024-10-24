@@ -1,7 +1,33 @@
-import BookingMentor from "../../../components/organisms/booking-mentor";
+import { useEffect, useState } from "react";
+import BookingMentor from "../../../components/templates/booking-mentor";
+import useAdminService from "../../../services/useAdminService";
+import useBookingService from "../../../services/useBookingService";
+import { SystemRole } from "../../../constants/role";
+
+
+export type Mentor = {
+    avatar: string;
+    dayOfBirth: string;
+    email: string;
+    fullName: string;
+    gender: string;
+    id: string;
+    phone: string;
+    role: SystemRole;
+    studentCode: string;
+    teamCode: string | null;
+    username: string;
+}
 
 function BookingMentorPage() {
-  return <BookingMentor />;
+
+
+
+
+
+    return <>
+        <BookingMentor />
+    </>;
 }
 
 export default BookingMentorPage;

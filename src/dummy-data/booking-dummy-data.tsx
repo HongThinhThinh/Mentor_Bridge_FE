@@ -1,4 +1,5 @@
-import { BookingRecordData } from "../components/organisms/booking-mentor";
+import { BookingRecordData } from "../components/organisms/booking-acceptance";
+
 
 export const bookingMentorDummyData: BookingRecordData[] = [
     {

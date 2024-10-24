@@ -2,7 +2,7 @@
 import { useCallback } from "react";
 import useApiService from "../hooks/useApi";
 import { toast } from "react-toastify";
-import { TEAM_API } from "../constants/endpoints";
+import { ADMIN_API, TEAM_API } from "../constants/endpoints";
 import { useDispatch } from "react-redux";
 import { useCurrentUser } from "../utils/getcurrentUser";
 import { loginRedux } from "../redux/features/userSlice";
@@ -50,7 +50,7 @@ const useStudentService = () => {
         setIsLoading(true);
         const response = await callApi(
           "get",
-          `${TEAM_API.TEAM}?teamCode=${searchTerm}`
+          `${ADMIN_API.ADMIN}?search=${searchTerm}&role=STUDENT`
         );
         return response?.data;
       } catch (e: any) {
@@ -83,7 +83,34 @@ const useStudentService = () => {
     [callApi, setIsLoading]
   );
 
-  return { loading, createTeam, getUserTeam, searchTeamMembers, inviteToGroup };
+  const acceptInvitation = useCallback(
+    async (token: string, teamCode: string) => {
+      try {
+        setIsLoading(true);
+        const response = await callApi(
+          "put",
+          `accept-invitation?token=${token}&teamCode=${teamCode}`
+        );
+
+        return response?.message;
+      } catch (e: any) {
+        toast.error(e?.response?.data || "Có lỗi khi chấp nhận");
+        console.error("Invite to Group Error: ", e);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi, setIsLoading]
+  );
+
+  return {
+    loading,
+    createTeam,
+    getUserTeam,
+    searchTeamMembers,
+    inviteToGroup,
+    acceptInvitation,
+  };
 };
 
 export default useStudentService;

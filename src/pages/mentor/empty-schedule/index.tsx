@@ -24,7 +24,7 @@ const EmptySchedulePage = () => {
         <UpdateScheduler />
       </div>
       <div className="mt-5 empty-schedule">
-        {!response && (
+        {!response?.updateSchedule && (
           <Alert
             onCancel={() => setIsopen(false)}
             open={true}
@@ -34,7 +34,7 @@ const EmptySchedulePage = () => {
           />
         )}
 
-        <VerticalScheduler scheduleData={response} />
+        {response && <VerticalScheduler scheduleData={response} />}
       </div>
     </div>
   );

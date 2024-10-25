@@ -1,4 +1,4 @@
-import { Collapse, Select, Space } from "antd";
+import { Collapse, Empty, Select, Space } from "antd";
 import { Mentor } from "../../../pages/student/booking";
 import { useEffect, useState } from "react";
 import useAdminService from "../../../services/useAdminService";
@@ -6,6 +6,7 @@ import ContentsSection from "../../atoms/contents-section/ContentsSection";
 import { Button } from "../../atoms/button/Button";
 import useScheduleService from "../../../services/useScheduleService";
 import useBookingService from "../../../services/useBookingService";
+import { formatHours } from "../../../utils/dateFormat";
 
 interface BookingMentorProps {}
 
@@ -18,9 +19,7 @@ export interface TimeFrame {
 
 const { Panel } = Collapse;
 
-function BookingMentor({
-
-}: BookingMentorProps) {
+function BookingMentor({}: BookingMentorProps) {
   const [selectedMentor, setSelectedMentor] = useState("");
   const [selectedMentorId, setSelectedMentorId] = useState("");
   const [selectedType, setSelectedType] = useState("");
@@ -33,8 +32,6 @@ function BookingMentor({
   const { sendBooking } = useBookingService();
 
   const { getAdminData } = useAdminService();
-
-  
 
   const fetchData = async () => {
     setIsFetching(true);
@@ -76,24 +73,23 @@ function BookingMentor({
   };
 
   const handleTypeChange = (value: string) => {
-    setSelectedType(value)
-  } 
-
+    setSelectedType(value);
+  };
 
   const handleBooking = (id: string) => {
     sendBooking(id, selectedType);
     getSchedule(selectedMentorId)
-      .then(listSchedule => {
+      .then((listSchedule) => {
         setScheduleItems(listSchedule);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching mentor data:", error);
-      }).finally(() => {
+      })
+      .finally(() => {
         setIsFetching(false);
       });
-  }
-
-
+  };
+  console.log(scheduleItems);
 
   return (
     <div className="flex flex-col gap-5">
@@ -111,45 +107,65 @@ function BookingMentor({
           style={{ width: 120 }}
           onChange={handleTypeChange}
           placeholder="Chọn loại yêu cầu"
-          options={[{
-            label: "Cá Nhân",
-            value: "INDIVIDUAL"
-          }, {
-            label: "Nhóm",
-            value: "TEAM"
-          }]}
+          options={[
+            {
+              label: "Cá Nhân",
+              value: "INDIVIDUAL",
+            },
+            {
+              label: "Nhóm",
+              value: "TEAM",
+            },
+          ]}
         />
       </div>
       <Collapse items={scheduleItems} bordered={false}>
-        {Object?.entries(scheduleItems)?.map(([date, timeFrames]) => (
+        {Object.entries(scheduleItems).map(([date, timeFrames]) => (
           <Panel header={date} key={date}>
             <div className="flex flex-col gap-3">
-              {(timeFrames ? timeFrames : [])?.map((timeFrame: TimeFrame) => (
-                timeFrame?.timeFrameStatus === "AVAILABLE" && <ContentsSection
-                status="none"
-                content=""
-                time={`${timeFrame?.timeFrameFrom} - ${timeFrame?.timeFrameTo}`} key={timeFrame?.id}
-                prefix={<Button
-                  size="xxs"
-                  fontSize="xs"
-                  fontWeight="medium"
-                  status="none"
-                  variant="outlined"
-                >
-                  {selectedMentor}
-                </Button>}
-
-                suffix={<Button
-                  size="xxs"
-                  fontSize="xs"
-                  fontWeight="medium"
-                  onClick={() => handleBooking(timeFrame.id)}
-                >
-                  Đặt lịch
-                </Button>}
-              />
-                
-              ))}
+              {timeFrames?.filter(
+                (timeFrame: TimeFrame) =>
+                  timeFrame?.timeFrameStatus === "AVAILABLE"
+              ).length > 0 ? (
+                timeFrames
+                  .filter(
+                    (timeFrame: TimeFrame) =>
+                      timeFrame?.timeFrameStatus === "AVAILABLE"
+                  )
+                  .map((timeFrame: TimeFrame) => (
+                    <ContentsSection
+                      status="none"
+                      content=""
+                      time={`${formatHours(
+                        timeFrame?.timeFrameFrom
+                      )} - ${formatHours(timeFrame?.timeFrameTo)}`}
+                      key={timeFrame?.id}
+                      prefix={
+                        <Button
+                          size="xxs"
+                          fontSize="xs"
+                          fontWeight="medium"
+                          status="none"
+                          variant="outlined"
+                        >
+                          {selectedMentor}
+                        </Button>
+                      }
+                      suffix={
+                        <Button
+                          size="xxs"
+                          fontSize="xs"
+                          fontWeight="medium"
+                          onClick={() => handleBooking(timeFrame.id)}
+                        >
+                          Đặt lịch
+                        </Button>
+                      }
+                    />
+                  ))
+              ) : (
+                <Empty description="Không có khung giờ nào khả dụng" />
+              )}
             </div>
           </Panel>
         ))}

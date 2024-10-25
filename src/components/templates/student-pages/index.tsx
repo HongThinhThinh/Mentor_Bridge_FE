@@ -8,14 +8,26 @@ import { useCurrentUser } from "../../../utils/getcurrentUser";
 import GroupSections from "../../molecules/group-sections";
 import useStudentService from "../../../services/useStudentService";
 import ModalInvite from "../../molecules/modal-invite";
+import useBookingService from "../../../services/useBookingService";
+import { Select } from "antd";
+import { formatHours } from "../../../utils/dateFormat";
+import { convertStatus, convertStatusEnum } from "../../../utils/convertStatus";
 
 const StudentPages = () => {
   const [loading, setLoading] = useState(true);
   const [remainDate, setRemainDate] = useState(3);
   const [goodRate, setGoodRate] = useState(80);
+  const [dataSource, setDataSource] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const user = useCurrentUser();
+  const [selectedOption, setSelectedOption] = useState("INDIVIDUAL"); // New state for selected option
 
+  const options = [
+    { label: "INDIVIDUAL", value: "INDIVIDUAL" },
+    { label: "TEAM", value: "TEAM" },
+  ];
+
+  const user = useCurrentUser();
+  const { getBooking } = useBookingService();
   const [dataTeam, setDataTeam] = useState();
   const { getUserTeam } = useStudentService();
   setTimeout(() => {
@@ -26,11 +38,29 @@ const StudentPages = () => {
     const response = await getUserTeam();
     setDataTeam(response);
   };
+
   useEffect(() => {
     fetchDataGroups();
   }, []);
 
-  console.log(dataTeam);
+  const fetchData = () => {
+    getBooking(selectedOption, "REQUESTED")
+      .then((response) => {
+        console.log(response);
+        setDataSource(response);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [selectedOption]);
+
+  const handleSelectChange = (value) => {
+    setSelectedOption(value); // Update selected option
+  };
 
   return (
     <div className="pt-6 pb-10 h-full w-full flex gap-6" id="student-dashboard">
@@ -72,7 +102,7 @@ const StudentPages = () => {
                 </span>
               </div>
               <PieChart
-              variant="secondary"
+                variant="secondary"
                 data={[
                   {
                     id: "bad",
@@ -120,7 +150,7 @@ const StudentPages = () => {
                       isGroup
                       key={data.id}
                       status="pending"
-                      content={`${data?.user?.studentCode}-${data?.user?.fullName}`} // Corrected template literal usage
+                      content={`${data?.user?.studentCode}-${data?.user?.fullName}`}
                       time={data.role}
                       value="Đang xử lý"
                     />
@@ -136,18 +166,28 @@ const StudentPages = () => {
               >
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-sm-medium">Lịch sử yêu cầu cuộc họp</h3>
-                  <Button
-                    size="sm"
-                    styleClass="text-white"
-                    variant="frosted-glass"
-                    fontSize="xs"
-                    status="none"
-                  >
-                    Tất cả
-                  </Button>
+                  <Select
+                    options={options}
+                    defaultValue="INDIVIDUAL"
+                    style={{ width: 120 }}
+                    onChange={handleSelectChange} // Trigger handleSelectChange on change
+                  />
                 </div>
                 <ul className="space-y-4 overflow-y-scroll h-4/5">
-                  <ContentsSection
+                  {dataSource?.map((item) => (
+                    <ContentsSection
+                      time={
+                        formatHours(item?.timeFrame.timeFrameFrom) +
+                        " - " +
+                        formatHours(item?.timeFrame.timeFrameTo)
+                      }
+                      value={convertStatus(item?.status)}
+                      status={convertStatusEnum(item?.status)}
+                      content={item?.mentor?.fullName}
+                      styleClass="pl-4"
+                    />
+                  ))}
+                  {/* <ContentsSection
                     time="30-10-2024"
                     value="Đánh giá nhóm"
                     status="feedback"
@@ -167,7 +207,7 @@ const StudentPages = () => {
                     time="30-10-2024"
                     value="Được chấp nhận"
                     styleClass="pl-4"
-                  />
+                  /> */}
                 </ul>
               </CustomizedCard>
             </div>

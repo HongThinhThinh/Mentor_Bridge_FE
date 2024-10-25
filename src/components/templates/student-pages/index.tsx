@@ -8,14 +8,16 @@ import { useCurrentUser } from "../../../utils/getcurrentUser";
 import GroupSections from "../../molecules/group-sections";
 import useStudentService from "../../../services/useStudentService";
 import ModalInvite from "../../molecules/modal-invite";
+import useBookingService from "../../../services/useBookingService";
 
 const StudentPages = () => {
   const [loading, setLoading] = useState(true);
   const [remainDate, setRemainDate] = useState(3);
   const [goodRate, setGoodRate] = useState(80);
+  const [dataSource, setDataSource] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const user = useCurrentUser();
-
+  const { getBooking } = useBookingService();
   const [dataTeam, setDataTeam] = useState();
   const { getUserTeam } = useStudentService();
   setTimeout(() => {
@@ -28,6 +30,24 @@ const StudentPages = () => {
   };
   useEffect(() => {
     fetchDataGroups();
+  }, []);
+
+  const fetchData = () => {
+    getBooking(undefined, "REQUESTED")
+      .then((response) => {
+        console.log(response);
+        setDataSource(response);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      })
+      .finally(() => {
+        // setIsFetching(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   console.log(dataTeam);
@@ -72,7 +92,7 @@ const StudentPages = () => {
                 </span>
               </div>
               <PieChart
-              variant="secondary"
+                variant="secondary"
                 data={[
                   {
                     id: "bad",

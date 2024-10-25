@@ -43,7 +43,7 @@ function MentorSchedule() {
   };
 
   const handleOpenMeetingDetails = (value: Dayjs) => {
-    const dateKey = value.format("YYYY-MM-DD");
+    const dateKey = value?.format("YYYY-MM-DD");
     setSelectedMeetingData(data[dateKey] || []); // Set the meeting data for the selected day
     setSelectedDate(dateKey); // Store the selected date
     setIsOpenDetail(true); // Open the meeting details modal

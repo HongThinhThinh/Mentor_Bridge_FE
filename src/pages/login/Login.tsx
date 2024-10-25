@@ -20,7 +20,13 @@ function Login() {
 
   return (
     <Row className="overflow-y-hidden h-[100vh]">
-      <Col md={9} className="flex justify-center items-center">
+      <Col
+        lg={9}
+        md={24}
+        sm={24}
+        xs={24}
+        className="flex justify-center items-center"
+      >
         <Row>
           <Col md={24}>
             <h1 className="text-2xl-bold pb-[72px]">Đăng nhập vào hệ thống</h1>
@@ -44,6 +50,7 @@ function Login() {
               <Form.Item
                 label="Tên tài khoản"
                 name="username" // Added name prop
+                required={false}
                 rules={[
                   { required: true, message: "Please input your username!" },
                 ]} // Validation
@@ -60,6 +67,7 @@ function Login() {
                   </div>
                 }
                 name="password" // Added name prop
+                required={false}
                 className="pb-[20px]"
                 rules={[
                   { required: true, message: "Please input your password!" },
@@ -78,7 +86,7 @@ function Login() {
           </Col>
         </Row>
       </Col>
-      <Col md={15} className="relative">
+      <Col lg={15} md={0} sm={0} xs={0} className="relative">
         <Image
           src={bg}
           preview={false}

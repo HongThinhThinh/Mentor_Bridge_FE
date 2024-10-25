@@ -11,6 +11,9 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ title }) => {
   const user = useCurrentUser();
+  const role =
+    user?.role == "STUDENT" ? "Xin Chào Sinh Viên!" : "Xin Chào Giảng Viên!";
+
   return (
     <div className="flex justify-between pt-7">
       <div className="">
@@ -24,7 +27,7 @@ const Header: FC<HeaderProps> = ({ title }) => {
         </Notification>
         <Account
           src={user?.avatar}
-          subTitle="Xin Chào Giảng Viên!"
+          subTitle={role}
           title={user?.fullName || user?.email}
         />
       </div>

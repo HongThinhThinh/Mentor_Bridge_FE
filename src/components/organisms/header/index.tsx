@@ -11,6 +11,7 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ title }) => {
   const user = useCurrentUser();
+
   return (
     <div className="flex justify-between pt-7">
       <div className="">

@@ -37,19 +37,24 @@ export const adminMenuItems: MenuItem[] = [
   getItem("Voucher", "voucher", <PieChartOutlined />),
 ];
 
-export const studentMenuItems: MenuItem[] = [
-  getItem("Topic", "topic", <PieChartOutlined />),
-  getItem("Food", "food", <PieChartOutlined />),
-  getItem("Product", "product", <PieChartOutlined />),
-  getItem("Voucher", "voucher", <PieChartOutlined />),
+ const studentItems = [
+  { label: "Trang Chủ", key: "home", icon: <HomeOutlined /> },
+  { label: "Lịch Trình", key: "schedule", icon: <CalendarOutlined /> },
+  // getItem("Product", "product", <PieChartOutlined />),
+  { label: "Đặt Lịch", key: "booking", icon: <BookOutlined />},
 ];
+
+export const studentMenuItems: MenuItem[] = studentItems.map((item) =>
+  getItem(item.label, item.key, item.icon)
+);
+
 
 const mentorItems = [
   { label: "Trang Chủ", key: "home", icon: <HomeOutlined /> },
   { label: "Lịch Trình", key: "schedule", icon: <CalendarOutlined /> },
   { label: "Lịch trống trong kỳ", key: "empty-schedule", icon: <BookOutlined /> },
   { label: "Xử Lí Yêu Cầu", key: "booking-request", icon: <SnippetsOutlined /> },
-  { label: "Đặt Lịch", key: "booking", icon: <BookOutlined />},
+ 
 ];
 
 export const mentorMenuItems: MenuItem[] = mentorItems.map((item) =>

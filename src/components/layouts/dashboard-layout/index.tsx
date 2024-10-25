@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import { Layout, Menu, theme } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
-import { getLabel, mentorMenuItems } from "../../../constants/menuItems";
+import {
+  getLabel,
+  mentorMenuItems,
+  studentMenuItems,
+} from "../../../constants/menuItems";
 import Header from "../../organisms/header";
 import { Button } from "../../atoms/button/Button";
 import { LogoutOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/features/userSlice";
 import { toast } from "react-toastify";
+import { useCurrentUser } from "../../../utils/getcurrentUser";
 
 const { Content, Sider } = Layout;
 
@@ -21,6 +26,9 @@ const DashboardLayout: React.FC = () => {
     navigate("/login");
     toast.success("Logged out");
   };
+
+  const user = useCurrentUser(); // get current user
+  const menuItem = user?.role == "STUDENT" ? studentMenuItems : mentorMenuItems;
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -39,7 +47,7 @@ const DashboardLayout: React.FC = () => {
             theme="dark"
             defaultSelectedKeys={["1"]}
             mode="inline"
-            items={mentorMenuItems}
+            items={menuItem}
             onClick={(e) => setCurrentItem(e)}
           />
           <Button

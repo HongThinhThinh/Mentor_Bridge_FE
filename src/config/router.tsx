@@ -94,7 +94,7 @@ export const router = createBrowserRouter([
       },
       {
         path: STUDENT_ROUTES.SCHEDULE,
-        element: <MentorSchedule />,
+        element: <></>,
       },
       {
         path: STUDENT_ROUTES.BOOKING,

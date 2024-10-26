@@ -33,7 +33,7 @@ function MentorSchedule() {
   const getListData = (value: Dayjs) => {
     let listData: { content: string }[] = [];
     const dateKey = value.format("YYYY-MM-DD");
-    if (data[dateKey]) {
+    if (data && data[dateKey]) {
       data[dateKey].forEach((booking: any) => {
         listData.push({ content: `${booking.student.fullName} có cuộc họp` });
       });

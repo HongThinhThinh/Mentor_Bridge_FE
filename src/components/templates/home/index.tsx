@@ -12,6 +12,7 @@ import { formatDateToDDMMYY } from "../../../utils/dateFormat";
 import { convertStatus } from "../../../utils/convertStatus";
 import { Select } from "antd";
 import { debounce } from "lodash";
+import useSemesterService from "../../../services/useSemesterService ";
 
 const HomeTemplate = () => {
   const [remainDate, setRemainDate] = useState(3);
@@ -21,6 +22,16 @@ const HomeTemplate = () => {
   const [topic, setTopic] = useState<Topic[] | undefined>();
   const { getTopics } = useTopicService();
   const [selectedStatus, setSelectedStatus] = useState("");
+  const { getUpcomingSemester } = useSemesterService();
+
+  // useEffect(() => {
+  //   const check = async() =>{
+  //     const res = await getUpcomingSemester();
+  //     console.log("s", res)
+  //   }
+  //   check();
+   
+  // }, []);
 
   // Use debounce to delay the filter action and avoid multiple renders
   const handleFilterChange = useMemo(

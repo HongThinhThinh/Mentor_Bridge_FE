@@ -23,6 +23,7 @@ import TeamInvitePage from "../pages/student/team-invite";
 import BookingMentorPage from "../pages/student/booking";
 import BookingRequestPage from "../pages/mentor/booking-request";
 import EmptySchedulePage from "../pages/mentor/empty-schedule";
+import ProtectedRoute from "../middleware/protected-route";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -72,7 +73,11 @@ export const router = createBrowserRouter([
       },
       {
         path: MENTOR_ROUTES.SCHEDULE,
-        element: <MentorSchedule />,
+        element: (
+          <ProtectedRoute>
+            <MentorSchedule />
+          </ProtectedRoute>
+        ),
       },
       {
         path: MENTOR_ROUTES.BOOKING_REQUEST,

@@ -18,7 +18,7 @@ const { Content, Sider } = Layout;
 
 const DashboardLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(true);
-  const [currentItem, setCurrentItem] = useState(mentorMenuItems[0]);
+ 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -29,7 +29,7 @@ const DashboardLayout: React.FC = () => {
 
   const user = useCurrentUser(); // get current user
   const menuItem = user?.role == "STUDENT" ? studentMenuItems : mentorMenuItems;
-
+  const [currentItem, setCurrentItem] = useState(menuItem[0]);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();

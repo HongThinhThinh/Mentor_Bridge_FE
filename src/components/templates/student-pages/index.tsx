@@ -177,9 +177,9 @@ const StudentPages = () => {
                   {dataSource?.map((item) => (
                     <ContentsSection
                       time={
-                        formatHours(item?.timeFrame.timeFrameFrom) +
+                        formatHours(item?.timeFrame?.timeFrameFrom) +
                         " - " +
-                        formatHours(item?.timeFrame.timeFrameTo)
+                        formatHours(item?.timeFrame?.timeFrameTo)
                       }
                       value={convertStatus(item?.status)}
                       status={convertStatusEnum(item?.status)}

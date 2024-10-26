@@ -18,7 +18,7 @@ const { Content, Sider } = Layout;
 
 const DashboardLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(true);
- 
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -61,7 +61,7 @@ const DashboardLayout: React.FC = () => {
       <Layout
         style={{ padding: "0 26px 0 106px", background: colorBgContainer }}
       >
-        <Header title={getLabel(currentItem?.key)} />
+        <Header title={getLabel(currentItem?.key,user?.role)} />
         <Content>
           <div
             style={{

@@ -26,8 +26,15 @@ function getItem(
   } as MenuItem;
 }
 
-export const getLabel = (key?: Key): string | undefined => {
-  return mentorItems.find((item) => item.key === key)?.label;
+export const getLabel = (key?: Key, role?: string): string | undefined => {
+  if (role == "STUDENT") {
+    return studentItems.find((item) => item.key === key)?.label;
+  }
+
+  if (role == "STUDENT") {
+    return mentorItems.find((item) => item.key === key)?.label;
+  }
+  return undefined;
 };
 
 export const adminMenuItems: MenuItem[] = [

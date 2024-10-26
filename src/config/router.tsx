@@ -81,7 +81,11 @@ export const router = createBrowserRouter([
       },
       {
         path: MENTOR_ROUTES.BOOKING_REQUEST,
-        element: <BookingRequestPage />,
+        element: (
+          <ProtectedRoute>
+            <BookingRequestPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: MENTOR_ROUTES.EMPTY_SCHEDULE,
@@ -99,11 +103,19 @@ export const router = createBrowserRouter([
       },
       {
         path: STUDENT_ROUTES.SCHEDULE,
-        element: <></>,
+        element: (
+          <ProtectedRoute>
+            <></>
+          </ProtectedRoute>
+        ),
       },
       {
         path: STUDENT_ROUTES.BOOKING,
-        element: <BookingMentorPage />,
+        element: (
+          <ProtectedRoute>
+            <BookingMentorPage />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

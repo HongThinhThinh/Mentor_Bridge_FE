@@ -14,17 +14,15 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
       {isInTerm ? (
         <>
           <div>
-            <div style={{}}>
-              {children}
-              <div>
-                <Alert
-                  // onCancel={() => setIsopen(false)}
-                  open={true}
-                  type="error"
-                  message="Giảng viên vui lòng cập nhật lịch trống trước ngày 30-08-2024"
-                  timeClose={3}
-                />
-              </div>
+            {children}
+            <div>
+              <Alert
+                // onCancel={() => setIsopen(false)}
+                open={true}
+                type="error"
+                message="Thời gian bắt đầu: 08:00 ngày 14/08/2024. Thời gian kết thúc: trước 23:59 ngày 23/08/2024"
+                timeClose={3}
+              />
             </div>
           </div>
         </>

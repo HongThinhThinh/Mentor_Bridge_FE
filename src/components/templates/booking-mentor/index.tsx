@@ -21,9 +21,6 @@ export interface TimeFrame {
 const { Panel } = Collapse;
 
 function BookingMentor({}: BookingMentorProps) {
-  const [checkActiveSemester, setCheckActiveSemester] = useState(false); // check semester active or upcoming
-  const [isOpen, setIsopen] = useState<boolean>(false);
-
   const [selectedMentor, setSelectedMentor] = useState("");
   const [selectedMentorId, setSelectedMentorId] = useState("");
   const [selectedType, setSelectedType] = useState("");
@@ -97,13 +94,6 @@ function BookingMentor({}: BookingMentorProps) {
 
   return (
     <div className="flex flex-col gap-5">
-      <Alert
-        onCancel={() => setIsopen(false)}
-        open={true}
-        type="error"
-        message="Đã quá hạn đặt lịch"
-        timeClose={3}
-      />
       <div className="flex gap-5">
         <Select
           defaultValue={items[0]}

@@ -9,20 +9,22 @@ import useBookingService from "../../services/useBookingService";
 import moment from "moment";
 
 function SchedulePage() {
-  const [isOpenMeetingDetail, setIsOpenDetail] = useState<boolean>(false);
-  const [data, setData] = useState<any>({});
+  const [isOpenMeetingDetail, setIsOpenDetail] = useState(false);
+  const [data, setData] = useState<Record<string, any>>({});
   const [selectedMeetingData, setSelectedMeetingData] = useState<any[]>([]);
-  const [selectedDate, setSelectedDate] = useState<string>("");
-  const [currentMonth, setCurrentMonth] = useState<string>(
-    moment().format("YYYY-MM")
-  ); // Lưu trữ tháng hiện tại
+  const [selectedDate, setSelectedDate] = useState("");
+  const [currentMonth, setCurrentMonth] = useState<number>(
+    Number(moment().format("MM")) // Chỉ lưu trữ tháng hiện tại dưới dạng số
+  );
 
   const { getBookingByRole } = useBookingService();
 
   const getListData = (value: Dayjs) => {
-    let listData: { content: string }[] = [];
+    const listData: { content: string }[] = [];
     const dateKey = value.format("YYYY-MM-DD");
-    if (data && data[dateKey]) {
+
+    // Kiểm tra xem data có tồn tại và có chứa khóa dateKey
+    if (data && data[dateKey] && Array.isArray(data[dateKey])) {
       data[dateKey].forEach((booking: any) => {
         listData.push({ content: `${booking.student.fullName} có cuộc họp` });
       });
@@ -31,44 +33,42 @@ function SchedulePage() {
     return listData;
   };
 
-  const fetchData = async (dateValue: string) => {
+  const fetchData = async (month: number) => {
     try {
-      const response = await getBookingByRole(dateValue);
-      console.log(response);
+      const response = await getBookingByRole(month);
       setData(response);
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching booking data:", error);
     }
   };
 
   const handleOpenMeetingDetails = (value: Dayjs) => {
-    const dateKey = value?.format("YYYY-MM-DD");
-    if (dateKey) {
-      setSelectedMeetingData(data[dateKey] || []);
-      setSelectedDate(dateKey);
-      setIsOpenDetail(true);
-    }
+    const dateKey = value.format("YYYY-MM-DD"); // Đổi lại định dạng gốc
+    console.log(data[dateKey]);
+    setSelectedMeetingData(data[dateKey] || []);
+    setSelectedDate(dateKey);
+    setIsOpenDetail(true);
   };
 
   useEffect(() => {
-    fetchData(currentMonth); // Lấy dữ liệu mặc định theo tháng hiện tại
+    fetchData(currentMonth); // Lấy dữ liệu khi `currentMonth` thay đổi
   }, [currentMonth]);
 
   const onMonthChange = (date: Dayjs) => {
-    const newMonth = date.format("MM");
-    setCurrentMonth(newMonth); // Cập nhật tháng khi thay đổi tháng
-    fetchData(newMonth); // Gọi lại fetchData với tháng mới
+    const newMonth = date.month() + 1; // `month()` trả về giá trị từ 0-11 nên cần cộng thêm 1
+    setCurrentMonth(newMonth);
+    fetchData(newMonth);
   };
 
   const dateCellRender = (value: Dayjs) => {
     const listData = getListData(value);
-    return listData.length > 0 ? (
+    return listData && listData.length > 0 ? (
       <div
         onClick={() => handleOpenMeetingDetails(value)}
         className="flex justify-center items-center gap-2 rounded-[20px] border-[2px] border-[#000000] max-w-[130px] h-[40px] p-2"
       >
         <AiOutlineVideoCamera color="#fe670d" size={20} />
-        <p className="text-xs-bold">Có {listData?.length} cuộc họp</p>
+        <p className="text-xs-bold">Có {listData.length} cuộc họp</p>
       </div>
     ) : null;
   };

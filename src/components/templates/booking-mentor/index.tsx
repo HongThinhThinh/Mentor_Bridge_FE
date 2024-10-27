@@ -1,4 +1,4 @@
-import { Collapse, Empty, Select, Space } from "antd";
+import { Collapse, Empty, Form, Select, Space } from "antd";
 import { Mentor } from "../../../pages/student/booking";
 import { useEffect, useState } from "react";
 import useAdminService from "../../../services/useAdminService";
@@ -7,7 +7,6 @@ import { Button } from "../../atoms/button/Button";
 import useScheduleService from "../../../services/useScheduleService";
 import useBookingService from "../../../services/useBookingService";
 import { formatHours } from "../../../utils/dateFormat";
-import Alert from "../../atoms/alert";
 
 interface BookingMentorProps {}
 
@@ -97,28 +96,33 @@ function BookingMentor({}: BookingMentorProps) {
       <div className="flex gap-5">
         <Select
           defaultValue={items[0]}
-          style={{ width: 120 }}
+          style={{ width: 180 }}
           onChange={handleChange}
           placeholder="Chọn giáo viên"
           options={items}
         />
-
-        <Select
-          defaultValue={items[0]}
-          style={{ width: 120 }}
-          onChange={handleTypeChange}
-          placeholder="Chọn loại yêu cầu"
-          options={[
-            {
-              label: "Cá Nhân",
-              value: "INDIVIDUAL",
-            },
-            {
-              label: "Nhóm",
-              value: "TEAM",
-            },
-          ]}
-        />
+        <Form initialValues={{ requestType: "TEAM" }}>
+          <Form.Item
+            name="requestType"
+            rules={[{ required: true, message: "Vui lòng chọn loại yêu cầu!" }]}
+          >
+            <Select
+              style={{ width: 120 }}
+              onChange={handleTypeChange}
+              placeholder="Chọn loại yêu cầu"
+              options={[
+                {
+                  label: "Cá Nhân",
+                  value: "INDIVIDUAL",
+                },
+                {
+                  label: "Nhóm",
+                  value: "TEAM",
+                },
+              ]}
+            />
+          </Form.Item>
+        </Form>
       </div>
       <Collapse items={scheduleItems} bordered={false}>
         {Object.entries(scheduleItems).map(([date, timeFrames]) => (

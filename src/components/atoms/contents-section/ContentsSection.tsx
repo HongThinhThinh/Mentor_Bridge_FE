@@ -65,7 +65,7 @@ function ContentsSection({
           size="xxs"
           fontSize="xs"
           fontWeight="medium"
-          onClick={status ? () => {} : onClick}
+          onClick={onClick}
           status={status}
         >
           {value}

@@ -12,20 +12,23 @@ const useStudentService = () => {
   const dispatch = useDispatch();
   const user = useCurrentUser();
 
-  const getUserTeam = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const response = await callApi(
-        "get",
-        `${TEAM_API.TEAM}?teamCode=${user?.teamCode}`
-      );
-      return response?.data;
-    } catch (e: any) {
-      console.error("Fetch User Team Error: ", e);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [callApi, user?.teamCode, setIsLoading]);
+  const getUserTeam = useCallback(
+    async (teamCode?: string) => {
+      try {
+        setIsLoading(true);
+        const response = await callApi(
+          "get",
+          `${TEAM_API.TEAM}${teamCode ? `?teamCode=${teamCode}` : ""}`
+        );
+        return response?.data;
+      } catch (e: any) {
+        console.error("Fetch User Team Error: ", e);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi, setIsLoading]
+  );
 
   const createTeam = useCallback(async () => {
     try {
@@ -91,7 +94,6 @@ const useStudentService = () => {
           "put",
           `accept-invitation?token=${token}&teamCode=${teamCode}`
         );
-
         return response?.message;
       } catch (e: any) {
         toast.error(e?.response?.data || "Có lỗi khi chấp nhận");

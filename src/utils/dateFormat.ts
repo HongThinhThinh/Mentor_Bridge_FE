@@ -21,5 +21,5 @@ export const formatDateForRequest = (
   const formattedTimeFrom = moment(dateFrom).format("HH:mm");
   const formattedTimeTo = moment(dateTo).format("HH:mm");
   const formattedDate = moment(dateFrom).format("DD [tháng] MM [năm] YYYY");
-  return `${formattedTimeFrom} - ${formattedTimeTo}   ngày ${formattedDate}`;
+  return `${formattedTimeFrom} - ${formattedTimeTo} ngày ${formattedDate}`;
 };

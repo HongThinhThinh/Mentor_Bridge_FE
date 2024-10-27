@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import useIsUpcoming from "../../hooks/useIsUpComing";
 import Alert from "../../components/atoms/alert";
-import { formatDateAndHour, formatDateToDDMMYY } from "../../utils/dateFormat";
+import { formatDateAndHour } from "../../utils/dateFormat";
 
 interface ProtectedRouteProps {
   children: ReactNode;

@@ -16,6 +16,7 @@ const useStudentService = () => {
     async (teamCode?: string) => {
       try {
         setIsLoading(true);
+        // check PATH
         const PATH = teamCode ? TEAM_API.TEAM + teamCode : TEAM_API.TEAM;
         const response = await callApi("get", PATH);
         return response?.data;

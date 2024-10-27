@@ -15,7 +15,6 @@ import {
   STUDENT_ROUTES,
   USER_ROUTES,
 } from "../constants/routes";
-import MentorSchedule from "../pages/mentor/schedule";
 import ManageConfig from "../pages/admin/manage-config";
 import GroupSections from "../components/molecules/group-sections";
 import StudentHomePage from "../pages/student/home";
@@ -24,6 +23,7 @@ import BookingMentorPage from "../pages/student/booking";
 import BookingRequestPage from "../pages/mentor/booking-request";
 import EmptySchedulePage from "../pages/mentor/empty-schedule";
 import ProtectedRoute from "../middleware/protected-route";
+import SchedulePage from "../pages/schedule";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -75,7 +75,7 @@ export const router = createBrowserRouter([
         path: MENTOR_ROUTES.SCHEDULE,
         element: (
           <ProtectedRoute>
-            <MentorSchedule />
+            <SchedulePage />
           </ProtectedRoute>
         ),
       },
@@ -105,7 +105,9 @@ export const router = createBrowserRouter([
         path: STUDENT_ROUTES.SCHEDULE,
         element: (
           <ProtectedRoute>
-            <></>
+            <>
+              <SchedulePage />
+            </>
           </ProtectedRoute>
         ),
       },

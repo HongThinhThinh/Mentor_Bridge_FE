@@ -4,23 +4,23 @@ import type { Dayjs } from "dayjs";
 import { AiOutlineVideoCamera } from "react-icons/ai";
 import "./index.scss";
 import { useEffect, useState } from "react";
-import MeetingDetail from "../../../components/organisms/meeting-detail";
-import useBookingService from "../../../services/useBookingService";
+import MeetingDetail from "../../components/organisms/meeting-detail";
+import useBookingService from "../../services/useBookingService";
 
-function MentorSchedule() {
+function SchedulePage() {
   const [isOpenMeetingDetail, setIsOpenDetail] = useState<boolean>(false);
   const [data, setData] = useState<any>({}); // Store booking data as an object
   const [selectedMeetingData, setSelectedMeetingData] = useState<any[]>([]); // Store the meeting data for the selected day
   const [selectedDate, setSelectedDate] = useState<string>("");
 
-  const { getMentorBooking } = useBookingService();
+  const { getBookingByRole } = useBookingService();
 
   // Fetch booking data
   const fetchData = async () => {
     try {
-      const response = await getMentorBooking(10);
+      const response = await getBookingByRole(10);
       console.log(response);
-      setData(response); // Set the fetched data as an object
+      setData(response);
     } catch (error) {
       console.log(error);
     }
@@ -81,4 +81,4 @@ function MentorSchedule() {
   );
 }
 
-export default MentorSchedule;
+export default SchedulePage;

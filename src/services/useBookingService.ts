@@ -3,10 +3,11 @@ import { useCallback } from "react";
 import useApiService from "../hooks/useApi";
 import { toast } from "react-toastify";
 import { BOOKING_API, SCHEDULE_API } from "../constants/endpoints";
+import { useCurrentUser } from "../utils/getcurrentUser";
 
 const useBookingService = () => {
   const { callApi, loading, setIsLoading } = useApiService();
-
+  const user = useCurrentUser();
   const sendBooking = useCallback(
     async (timeFrameId: string, type: string) => {
       try {
@@ -49,14 +50,15 @@ const useBookingService = () => {
     [callApi]
   );
 
-  const getMentorBooking = useCallback(
+  const getBookingByRole = useCallback(
     async (month: number) => {
       try {
         setIsLoading(true);
-        const response = await callApi(
-          "get",
-          `${BOOKING_API.MENTOR_MEETING}?month=${month}`
-        );
+        const PATH =
+          user?.role === "MENTOR"
+            ? BOOKING_API.MENTOR_MEETING
+            : BOOKING_API.STUDENT_MEETING;
+        const response = await callApi("get", `${PATH}?month=${month}`);
         return response?.data;
       } catch (e: any) {
         toast.error(e?.response?.data || "Failed to get data");
@@ -89,7 +91,7 @@ const useBookingService = () => {
     [callApi]
   );
 
-  return { sendBooking, loading, getBooking, updateBooking, getMentorBooking };
+  return { sendBooking, loading, getBooking, updateBooking, getBookingByRole };
 };
 
 export default useBookingService;

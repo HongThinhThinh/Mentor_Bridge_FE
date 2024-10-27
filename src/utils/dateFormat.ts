@@ -9,5 +9,7 @@ export const formatHours = (date: Date | string): string => {
 };
 
 export const formatDateAndHour = (date: Date | string): string => {
-  return moment(date).format("DD-MM-YYYY HH:mm");
+  return ` ${moment(date).format("HH[h]mm[ phút ]")}   -   ${moment(
+    date
+  ).format("DD [tháng] MM [năm] YYYY")}   `;
 };

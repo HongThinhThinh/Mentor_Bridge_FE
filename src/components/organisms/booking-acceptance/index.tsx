@@ -4,6 +4,7 @@ import { Column } from "../../templates/dashboard-template";
 import { Button } from "../../atoms/button/Button";
 import useBookingService from "../../../services/useBookingService";
 import { CustomModal } from "../../molecules/modal/Modal";
+import { formatDateAndHour } from "../../../utils/dateFormat";
 
 export interface BookingRecordData {
   id: string;
@@ -49,7 +50,9 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
       title: "Ngày tạo",
       dataIndex: "createdAt",
       key: "createdAt",
-      render: (id: string, record: any) => <span>{record?.createdAt}</span>,
+      render: (id: string, record: any) => (
+        <span>{formatDateAndHour(record?.createdAt)}</span>
+      ),
     },
     {
       title: "",

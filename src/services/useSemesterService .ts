@@ -14,6 +14,7 @@ const useSemesterService = () => {
         "get",
         `${SEMESTER_API.SEMESTER}/status?status=UPCOMING`
       );
+
       return response?.data;
     } catch (e: any) {
       // toast.error(e?.response?.data || "Failed to get upcoming semester");

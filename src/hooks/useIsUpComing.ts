@@ -11,7 +11,7 @@ const useIsUpcoming = () => {
     const fetchSemesterStatus = async () => {
       try {
         const response = await getUpcomingSemester();
-        setIsInTerm(response?.length > 0);
+        setIsInTerm(response);
       } catch (err) {
         console.error("Error fetching semester status:", err);
         setError(err);

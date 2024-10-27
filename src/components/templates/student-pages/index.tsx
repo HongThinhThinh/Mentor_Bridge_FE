@@ -20,19 +20,21 @@ const StudentPages = () => {
   const [dataSource, setDataSource] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState("INDIVIDUAL"); // New state for selected option
-
-  const options = [
-    { label: "INDIVIDUAL", value: "INDIVIDUAL" },
-    { label: "TEAM", value: "TEAM" },
-  ];
+  const [dataTeam, setDataTeam] = useState();
 
   const user = useCurrentUser();
+
   const { getBooking } = useBookingService();
-  const [dataTeam, setDataTeam] = useState();
   const { getUserTeam } = useStudentService();
+
   setTimeout(() => {
     setLoading(false);
   }, 1500);
+
+  const options = [
+    { label: "Cá nhân", value: "INDIVIDUAL" },
+    { label: "Nhóm", value: "TEAM" },
+  ];
 
   const fetchDataGroups = async () => {
     const response = await getUserTeam();
@@ -42,6 +44,12 @@ const StudentPages = () => {
   useEffect(() => {
     fetchDataGroups();
   }, []);
+
+  const leader = dataTeam?.userTeams.find(
+    (member) => member?.role === "LEADER"
+  ); // find id leader
+
+  const isLeader = leader?.user?.studentCode === user?.studentCode; // check user login is leader or member
 
   const fetchData = () => {
     getBooking(selectedOption, "REQUESTED")
@@ -130,17 +138,20 @@ const StudentPages = () => {
               >
                 <div className="flex justify-between items-center h-24">
                   <h3 className="text-sm-medium">
-                    Danh sách thành viên nhóm {" "}
-                    <span className="font-extrabold">{dataTeam?.code}</span>
+                    Danh sách thành viên nhóm
+                    <span className="font-extrabold">
+                      {" " + dataTeam?.code}
+                    </span>
                   </h3>
-                  <Button
-                    size="sm"
-                    fontSize="xs"
-                    onClick={() => setIsModalVisible(true)}
-                  >
-                    Thêm thành viên +
-                  </Button>
-
+                  {isLeader && (
+                    <Button
+                      size="sm"
+                      fontSize="xs"
+                      onClick={() => setIsModalVisible(true)}
+                    >
+                      Thêm thành viên +
+                    </Button>
+                  )}
                   <ModalInvite
                     visible={isModalVisible}
                     onClose={() => setIsModalVisible(false)}
@@ -152,10 +163,12 @@ const StudentPages = () => {
                       avt={data?.user?.avatar}
                       isGroup
                       key={data.id}
-                      // status="pending"
                       content={`${data?.user?.studentCode}-${data?.user?.fullName}`}
-                      time={data.role == "LEADER" ? "Nhóm trưởng" : "Thành viên nhóm"}
-                      // value="Đang xử lý"
+                      time={
+                        data.role == "LEADER"
+                          ? "Nhóm trưởng"
+                          : "Thành viên nhóm"
+                      }
                     />
                   ))}
                 </ul>
@@ -190,27 +203,6 @@ const StudentPages = () => {
                       styleClass="pl-4"
                     />
                   ))}
-                  {/* <ContentsSection
-                    time="30-10-2024"
-                    value="Đánh giá nhóm"
-                    status="feedback"
-                    styleClass="pl-4"
-                  />
-
-                  <ContentsSection
-                    status="deny"
-                    content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat placeat facere quas quasi beatae corrupti minima vero cum at dolorem, veniam consequuntur non? Voluptate laborum aspernatur, delectus quis dolor sequi."
-                    time="30-10-2024"
-                    value="Bị từ chối"
-                    styleClass="pl-4"
-                  />
-                  <ContentsSection
-                    status="success"
-                    content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat placeat facere quas quasi beatae corrupti minima vero cum at dolorem, veniam consequuntur non? Voluptate laborum aspernatur, delectus quis dolor sequi."
-                    time="30-10-2024"
-                    value="Được chấp nhận"
-                    styleClass="pl-4"
-                  /> */}
                 </ul>
               </CustomizedCard>
             </div>

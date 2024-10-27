@@ -6,9 +6,10 @@ import { Button } from "../../atoms/button/Button";
 import { useCallback, useEffect, useState } from "react";
 import useStudentService from "../../../services/useStudentService";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
-import { formatDateToDDMMYY } from "../../../utils/dateFormat";
 import useTopicService from "../../../services/useTopicService";
 import { Topic } from "../../../model/topic";
+import { HiDotsHorizontal } from "react-icons/hi";
+import TopicDetail from "../topic-detail";
 
 function StudentHomeUpcoming() {
   const [loading, setLoading] = useState(true);
@@ -17,14 +18,32 @@ function StudentHomeUpcoming() {
   const [dataTeam, setDataTeam] = useState();
   const [topic, setTopic] = useState<Topic[] | undefined>();
 
+  const [open, setOpen] = useState<boolean>(false);
+  const [selectedTopic, setSelectedTopic] = useState<Topic>();
+
   const user = useCurrentUser();
 
   const { getTopics } = useTopicService();
   const { getUserTeam } = useStudentService();
 
+  const leader = dataTeam?.userTeams.find(
+    (member) => member?.role === "LEADER"
+  ); // find id leader
+
+  const isLeader = leader?.user?.studentCode === user?.studentCode; // check user login is leader or member
+
   setTimeout(() => {
     setLoading(false);
   }, 1500);
+
+  const handleOpenModal = (e) => {
+    setOpen(true);
+    setSelectedTopic(e);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
 
   const fetchDataGroups = async () => {
     const response = await getUserTeam();
@@ -56,6 +75,8 @@ function StudentHomeUpcoming() {
     fetchTopics();
   }, []);
 
+  console.log("select", selectedTopic);
+
   return (
     <div className="mt-7">
       <div className="w-full h-full gap-6 flex flex-col">
@@ -67,14 +88,19 @@ function StudentHomeUpcoming() {
                 styleClass="border border-shade-800 border-1 h-full"
               >
                 <div className="flex justify-between items-center h-24">
-                  <h3 className="text-sm-medium">Danh sách thành viên nhóm <span className="font-extrabold">{dataTeam.code}</span></h3>
-                  <Button
-                    size="sm"
-                    fontSize="xs"
-                    onClick={() => setIsModalVisible(true)}
-                  >
-                    Thêm thành viên +
-                  </Button>
+                  <h3 className="text-sm-medium">
+                    Danh sách thành viên nhóm{" "}
+                    <span className="font-extrabold">{dataTeam?.code}</span>
+                  </h3>
+                  {isLeader && (
+                    <Button
+                      size="sm"
+                      fontSize="xs"
+                      onClick={() => setIsModalVisible(true)}
+                    >
+                      Thêm thành viên +
+                    </Button>
+                  )}
 
                   <ModalInvite
                     visible={isModalVisible}
@@ -89,7 +115,11 @@ function StudentHomeUpcoming() {
                       key={data.id}
                       // status="pending"
                       content={`${data?.user?.studentCode}-${data?.user?.fullName}`}
-                      time={data.role == "LEADER" ? "Nhóm trưởng" : "Thành viên nhóm"}
+                      time={
+                        data.role == "LEADER"
+                          ? "Nhóm trưởng"
+                          : "Thành viên nhóm"
+                      }
                       // value="Đang xử lý"
                     />
                   ))}
@@ -110,18 +140,19 @@ function StudentHomeUpcoming() {
                   {topic?.map((topic) => (
                     <ContentsSection
                       key={topic.id} // Ensure unique keys for each list item
-                      time={formatDateToDDMMYY(topic.createdAt)}
-                      content={topic.name}
-                      status={
-                        topic?.status?.toLowerCase() == "inactive"
-                          ? "success"
-                          : topic?.status?.toLowerCase()
+                      time={topic?.creator?.fullName}
+                      content={topic?.name}
+                      suffix={
+                        <HiDotsHorizontal
+                          onClick={() => handleOpenModal(topic)}
+                        />
                       }
-                      // value={convertStatus(topic?.status)}
                     />
                   ))}
                 </ul>
               </CustomizedCard>
+
+              <TopicDetail isOpen={open} onCancel={handleCloseModal} topic={selectedTopic}/>
             </div>
           </>
         ) : (

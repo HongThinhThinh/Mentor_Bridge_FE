@@ -13,3 +13,13 @@ export const formatDateAndHour = (date: Date | string): string => {
     date
   ).format("DD [tháng] MM [năm] YYYY")}   `;
 };
+
+export const formatDateForRequest = (
+  dateFrom: Date | string,
+  dateTo: Date | string
+): string => {
+  const formattedTimeFrom = moment(dateFrom).format("HH:mm");
+  const formattedTimeTo = moment(dateTo).format("HH:mm");
+  const formattedDate = moment(dateFrom).format("DD [tháng] MM [năm] YYYY");
+  return `${formattedTimeFrom} - ${formattedTimeTo}   ngày ${formattedDate}`;
+};

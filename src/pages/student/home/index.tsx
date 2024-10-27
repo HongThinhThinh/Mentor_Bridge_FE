@@ -7,7 +7,7 @@ function StudentHomePage() {
 
 
   return (
-    <>{(isInTerm?.length > 0) ? <StudentPages /> : <UpcomingSemester />}</>
+    <>{!(isInTerm?.length > 0) ? <StudentPages /> : <UpcomingSemester />}</>
   );
 }
 

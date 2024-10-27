@@ -61,15 +61,17 @@ function ContentsSection({
           </Button>
         </div>
       ) : (
-        <Button
-          size="xxs"
-          fontSize="xs"
-          fontWeight="medium"
-          onClick={onClick}
-          status={status}
-        >
-          {value}
-        </Button>
+        value && (
+          <Button
+            size="xxs"
+            fontSize="xs"
+            fontWeight="medium"
+            onClick={onClick}
+            status={status}
+          >
+            {value}
+          </Button>
+        )
       )}
       {suffix}
     </li>

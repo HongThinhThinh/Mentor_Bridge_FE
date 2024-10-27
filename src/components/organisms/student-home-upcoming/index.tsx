@@ -13,12 +13,12 @@ import { Topic } from "../../../model/topic";
 function StudentHomeUpcoming() {
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
- 
+
   const [dataTeam, setDataTeam] = useState();
   const [topic, setTopic] = useState<Topic[] | undefined>();
 
   const user = useCurrentUser();
-  
+
   const { getTopics } = useTopicService();
   const { getUserTeam } = useStudentService();
 
@@ -28,6 +28,7 @@ function StudentHomeUpcoming() {
 
   const fetchDataGroups = async () => {
     const response = await getUserTeam();
+    console.log("team", response.code);
     setDataTeam(response);
   };
 
@@ -55,25 +56,10 @@ function StudentHomeUpcoming() {
     fetchTopics();
   }, []);
 
-  //   const fetchData = () => {
-  //     getBooking(selectedOption, "REQUESTED")
-  //       .then((response) => {
-  //         console.log(response);
-  //         setDataSource(response);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching data:", error);
-  //       });
-  //   };
-
-  //   useEffect(() => {
-  //     fetchData();
-  //   }, [selectedOption]);
-
   return (
     <div className="mt-7">
       <div className="w-full h-full gap-6 flex flex-col">
-        {user?.teamCode != null ? (
+        {dataTeam != null ? (
           <>
             <div className="h-[calc(50%-12px)]">
               <CustomizedCard
@@ -81,7 +67,7 @@ function StudentHomeUpcoming() {
                 styleClass="border border-shade-800 border-1 h-full"
               >
                 <div className="flex justify-between items-center h-24">
-                  <h3 className="text-sm-medium">Danh sách thành viên nhóm</h3>
+                  <h3 className="text-sm-medium">Danh sách thành viên nhóm <span className="font-extrabold">{dataTeam.code}</span></h3>
                   <Button
                     size="sm"
                     fontSize="xs"
@@ -101,10 +87,10 @@ function StudentHomeUpcoming() {
                       avt={data?.user?.avatar}
                       isGroup
                       key={data.id}
-                      status="pending"
+                      // status="pending"
                       content={`${data?.user?.studentCode}-${data?.user?.fullName}`}
-                      time={data.role}
-                      value="Đang xử lý"
+                      time={data.role == "LEADER" ? "Nhóm trưởng" : "Thành viên nhóm"}
+                      // value="Đang xử lý"
                     />
                   ))}
                 </ul>

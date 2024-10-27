@@ -8,7 +8,12 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { isInTerm } = useIsUpcoming();
+  // Check if isInTerm has data
+  const hasTermData = isInTerm && isInTerm?.length > 0;
 
+  const message = hasTermData
+    ? `Thời gian bắt đầu: ${isInTerm[0]?.dateFrom}. Thời gian kết thúc: trước ${isInTerm[0]?.dateTo}`
+    : "No upcoming term information available.";
   return (
     <div>
       {isInTerm ? (
@@ -20,7 +25,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
                 // onCancel={() => setIsopen(false)}
                 open={true}
                 type="error"
-                message="Thời gian bắt đầu: 08:00 ngày 14/08/2024. Thời gian kết thúc: trước 23:59 ngày 23/08/2024"
+                message={message}
                 timeClose={3}
               />
             </div>

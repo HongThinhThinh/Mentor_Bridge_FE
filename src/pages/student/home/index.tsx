@@ -4,7 +4,11 @@ import UpcomingSemester from "../../upcoming-semester";
 
 function StudentHomePage() {
   const { isInTerm } = useIsUpcoming();
-  return <>{!isInTerm ? <StudentPages /> : <UpcomingSemester />}</>;
+
+
+  return (
+    <>{!(isInTerm?.length > 0) ? <StudentPages /> : <UpcomingSemester />}</>
+  );
 }
 
 export default StudentHomePage;

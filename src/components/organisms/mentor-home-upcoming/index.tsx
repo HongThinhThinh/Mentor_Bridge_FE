@@ -1,7 +1,5 @@
 import { Select } from "antd";
-
 import { useCallback, useEffect, useMemo, useState } from "react";
-
 import { debounce } from "lodash";
 import { Topic } from "../../../model/topic";
 import useTopicService from "../../../services/useTopicService";
@@ -9,10 +7,12 @@ import CustomizedCard from "../../molecules/card/Card";
 import { Button } from "../../atoms/button/Button";
 import AddTopicForm from "../../molecules/formTopic";
 import TopicList from "../../molecules/topic-section";
+import ContentsSection from "../../atoms/contents-section/ContentsSection";
+import { formatDateToDDMMYY } from "../../../utils/dateFormat";
+import { convertStatus } from "../../../utils/convertStatus";
 
 function MentorHomeUpcoming() {
   const [loading, setLoading] = useState(false);
-
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [topic, setTopic] = useState<Topic[] | undefined>();
   const { getTopics } = useTopicService();
@@ -52,11 +52,12 @@ function MentorHomeUpcoming() {
         <div className="h-full">
           <CustomizedCard
             loading={loading}
-            styleClass="border border-shade-800 border-1"
+            background="url('/src/assets/blue-green-abstract.svg')"
+            styleClass="border-none"
           >
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-sm-medium">Danh sách đề tài</h3>
-              <div className="gap-5 flex">
+              <div className="gap-4 flex">
                 <Select
                   defaultValue=""
                   style={{ width: 120 }}
@@ -64,12 +65,11 @@ function MentorHomeUpcoming() {
                   options={[
                     { value: "", label: "Tất cả" },
                     { value: "PENDING", label: "Đang xử lí" },
-                    { value: "ACCEPTED", label: "Được chấp nhận" },
-                    { value: "REJECTED", label: "Bị từ chối" },
-                    { value: "ACTIVE", label: "Active" },
-                    { value: "INACTIVE", label: "Inactive" },
+
+                    { value: "INACTIVE", label: "Được chấp nhận" },
                   ]}
                 />
+
                 <Button
                   size="xs"
                   styleClass="bg-gradient-to-r from-[#151316] to-[#4D4252] text-white"
@@ -79,14 +79,28 @@ function MentorHomeUpcoming() {
                   Thêm đề tài mới +
                 </Button>
               </div>
-              <AddTopicForm
-                fetchData={fetchTopics}
-                onClose={() => setIsModalVisible(false)}
-                isOpen={isModalVisible}
-              />
             </div>
-            <TopicList topics={topic} />
+            <ul className="space-y-4 overflow-y-scroll h-4/5">
+              {topic?.map((topic) => (
+                <ContentsSection
+                  key={topic.id} // Ensure unique keys for each list item
+                  time={formatDateToDDMMYY(topic.createdAt)}
+                  content={topic.name}
+                  status={
+                    topic?.status?.toLowerCase() == "inactive"
+                      ? "success"
+                      : topic?.status?.toLowerCase()
+                  }
+                  value={convertStatus(topic?.status)}
+                />
+              ))}
+            </ul>
           </CustomizedCard>
+          <AddTopicForm
+            fetchData={fetchTopics}
+            onClose={() => setIsModalVisible(false)}
+            isOpen={isModalVisible}
+          />
         </div>
       </div>
     </div>

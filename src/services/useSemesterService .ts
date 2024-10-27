@@ -2,7 +2,7 @@
 import { useCallback } from "react";
 import useApiService from "../hooks/useApi";
 import { toast } from "react-toastify";
-import {SEMESTER_API } from "../constants/endpoints";
+import { SEMESTER_API } from "../constants/endpoints";
 
 const useSemesterService = () => {
   const { callApi, loading, setIsLoading } = useApiService();
@@ -14,6 +14,7 @@ const useSemesterService = () => {
         "get",
         `${SEMESTER_API.SEMESTER}/status?status=UPCOMING`
       );
+
       return response?.data;
     } catch (e: any) {
       toast.error(e?.response?.data || "Failed to get upcoming semester");

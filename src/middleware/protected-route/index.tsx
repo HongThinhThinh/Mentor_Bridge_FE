@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import useIsUpcoming from "../../hooks/useIsUpComing";
 import Alert from "../../components/atoms/alert";
+import { formatDateAndHour, formatDateToDDMMYY } from "../../utils/dateFormat";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -8,15 +9,20 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { isInTerm } = useIsUpcoming();
+  console.log(isInTerm);
   // Check if isInTerm has data
   const hasTermData = isInTerm && isInTerm?.length > 0;
-
-  const message = hasTermData
-    ? `Thời gian bắt đầu: ${isInTerm[0]?.dateFrom}. Thời gian kết thúc: trước ${isInTerm[0]?.dateTo}`
-    : "No upcoming term information available.";
+  const message = hasTermData ? (
+    <div style={{ textAlign: "left" }}>
+      Thời gian bắt đầu: {formatDateAndHour(isInTerm[0]?.dateFrom)}. <br />
+      Thời gian kết thúc: trước {formatDateAndHour(isInTerm[0]?.dateTo)}
+    </div>
+  ) : (
+    "No upcoming term information available."
+  );
   return (
     <div>
-      {isInTerm ? (
+      {isInTerm && isInTerm?.length > 0 ? (
         <>
           <div>
             {children}

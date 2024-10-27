@@ -24,6 +24,7 @@ import BookingMentorPage from "../pages/student/booking";
 import BookingRequestPage from "../pages/mentor/booking-request";
 import EmptySchedulePage from "../pages/mentor/empty-schedule";
 import ProtectedRoute from "../middleware/protected-route";
+import StudentSchedule from "../pages/student/schedule";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -105,7 +106,9 @@ export const router = createBrowserRouter([
         path: STUDENT_ROUTES.SCHEDULE,
         element: (
           <ProtectedRoute>
-            <></>
+            <>
+              <StudentSchedule />
+            </>
           </ProtectedRoute>
         ),
       },

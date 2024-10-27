@@ -41,7 +41,7 @@ const useBookingService = () => {
         );
         return response?.data;
       } catch (e: any) {
-        toast.error(e?.response?.data || "Failed to get data");
+        // toast.error(e?.response?.data || "Failed to get data");
       } finally {
         setIsLoading(false);
       }

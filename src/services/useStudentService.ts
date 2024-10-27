@@ -16,10 +16,9 @@ const useStudentService = () => {
     async (teamCode?: string) => {
       try {
         setIsLoading(true);
-        const response = await callApi(
-          "get",
-          `${TEAM_API.TEAM}${teamCode ? `?teamCode=${teamCode}` : ""}`
-        );
+        // check PATH
+        const PATH = teamCode ? TEAM_API.TEAM + teamCode : TEAM_API.TEAM;
+        const response = await callApi("get", PATH);
         return response?.data;
       } catch (e: any) {
         console.error("Fetch User Team Error: ", e);

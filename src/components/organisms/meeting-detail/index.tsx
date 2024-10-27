@@ -33,7 +33,7 @@ function MeetingDetail({
 
   const header = (
     <div>
-      <h1 className="text-2xl-medium">Thông tin cuộc họp</h1>
+      <h1 className="text-2xl-medium mb-3">Thông tin cuộc họp</h1>
       <Button size="xs" status="date">
         <p className="text-xs-medium">{date}</p>
       </Button>
@@ -95,20 +95,18 @@ function MeetingDetail({
     </div>
   );
 
-  const footer = (
+  const footer = isReschedule ? (
     <div className="footer-container">
       <Button
-        onClick={() => setIsOpenDetail && setIsOpenDetail(false)}
+        onClick={() => {
+          if (setIsOpenDetail) setIsOpenDetail(false);
+          setIsReschedule(false);
+        }}
         styleClass="footer-btn--cancel"
       >
         Hủy
       </Button>
-      <Button
-        onClick={() => setIsReschedule(true)}
-        styleClass="footer-btn--reschedule"
-      >
-        Dời cuộc họp
-      </Button>
+
       <Button
         styleClass="footer-btn--submit"
         children={
@@ -119,6 +117,15 @@ function MeetingDetail({
         size="sm"
         type="submit"
       />
+    </div>
+  ) : (
+    <div className="flex justify-end items-end ">
+      <Button
+        onClick={() => setIsReschedule(true)}
+        styleClass="footer-btn--reschedule "
+      >
+        Dời cuộc họp
+      </Button>
     </div>
   );
 

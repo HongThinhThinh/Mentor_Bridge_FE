@@ -40,7 +40,9 @@ function MeetingDetail({
     </div>
   );
 
-  console.log(meetings);
+  const handleJoinMeeting = (meetingURL) => {
+    window.open(meetingURL);
+  };
 
   const body = (
     <div className="modal-container">
@@ -56,6 +58,9 @@ function MeetingDetail({
               )} - ${formatHours(meeting.timeFrame?.timeFrameTo)}`}
               status="success"
               value="Tham gia họp"
+              onClick={() => {
+                handleJoinMeeting(meeting?.meetLink);
+              }}
               isReady={meeting.isReady}
             />
           ))

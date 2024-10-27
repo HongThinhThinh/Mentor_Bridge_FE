@@ -6,29 +6,18 @@ import "./index.scss";
 import { useEffect, useState } from "react";
 import MeetingDetail from "../../components/organisms/meeting-detail";
 import useBookingService from "../../services/useBookingService";
+import moment from "moment";
 
 function SchedulePage() {
   const [isOpenMeetingDetail, setIsOpenDetail] = useState<boolean>(false);
-  const [data, setData] = useState<any>({}); // Store booking data as an object
-  const [selectedMeetingData, setSelectedMeetingData] = useState<any[]>([]); // Store the meeting data for the selected day
+  const [data, setData] = useState<any>({});
+  const [selectedMeetingData, setSelectedMeetingData] = useState<any[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>("");
+  const [currentMonth, setCurrentMonth] = useState<string>(
+    moment().format("YYYY-MM")
+  ); // Lưu trữ tháng hiện tại
 
   const { getBookingByRole } = useBookingService();
-
-  // Fetch booking data
-  const fetchData = async () => {
-    try {
-      const response = await getBookingByRole(10);
-      console.log(response);
-      setData(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const getListData = (value: Dayjs) => {
     let listData: { content: string }[] = [];
@@ -42,11 +31,33 @@ function SchedulePage() {
     return listData;
   };
 
+  const fetchData = async (dateValue: string) => {
+    try {
+      const response = await getBookingByRole(dateValue);
+      console.log(response);
+      setData(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleOpenMeetingDetails = (value: Dayjs) => {
     const dateKey = value?.format("YYYY-MM-DD");
-    setSelectedMeetingData(data[dateKey] || []); // Set the meeting data for the selected day
-    setSelectedDate(dateKey); // Store the selected date
-    setIsOpenDetail(true); // Open the meeting details modal
+    if (dateKey) {
+      setSelectedMeetingData(data[dateKey] || []);
+      setSelectedDate(dateKey);
+      setIsOpenDetail(true);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(currentMonth); // Lấy dữ liệu mặc định theo tháng hiện tại
+  }, [currentMonth]);
+
+  const onMonthChange = (date: Dayjs) => {
+    const newMonth = date.format("MM");
+    setCurrentMonth(newMonth); // Cập nhật tháng khi thay đổi tháng
+    fetchData(newMonth); // Gọi lại fetchData với tháng mới
   };
 
   const dateCellRender = (value: Dayjs) => {
@@ -69,13 +80,13 @@ function SchedulePage() {
 
   return (
     <>
-      <Calendar cellRender={cellRender} />
+      <Calendar onPanelChange={onMonthChange} cellRender={cellRender} />
       <MeetingDetail
         onCancel={() => setIsOpenDetail(false)}
         setIsOpenDetail={setIsOpenDetail}
         isOpen={isOpenMeetingDetail}
         date={selectedDate}
-        meetings={selectedMeetingData} // Pass the selected meeting data
+        meetings={selectedMeetingData}
       />
     </>
   );

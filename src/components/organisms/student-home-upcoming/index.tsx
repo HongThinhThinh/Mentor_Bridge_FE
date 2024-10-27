@@ -1,21 +1,27 @@
-
 import ContentsSection from "../../atoms/contents-section/ContentsSection";
 import GroupSections from "../../molecules/group-sections";
 import CustomizedCard from "../../molecules/card/Card";
 import ModalInvite from "../../molecules/modal-invite";
 import { Button } from "../../atoms/button/Button";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useStudentService from "../../../services/useStudentService";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
+import { formatDateToDDMMYY } from "../../../utils/dateFormat";
+import useTopicService from "../../../services/useTopicService";
+import { Topic } from "../../../model/topic";
 
 function StudentHomeUpcoming() {
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+ 
+  const [dataTeam, setDataTeam] = useState();
+  const [topic, setTopic] = useState<Topic[] | undefined>();
 
   const user = useCurrentUser();
-  const [dataTeam, setDataTeam] = useState();
+  
+  const { getTopics } = useTopicService();
   const { getUserTeam } = useStudentService();
+
   setTimeout(() => {
     setLoading(false);
   }, 1500);
@@ -29,22 +35,41 @@ function StudentHomeUpcoming() {
     fetchDataGroups();
   }, []);
 
-//   const fetchData = () => {
-//     getBooking(selectedOption, "REQUESTED")
-//       .then((response) => {
-//         console.log(response);
-//         setDataSource(response);
-//       })
-//       .catch((error) => {
-//         console.error("Error fetching data:", error);
-//       });
-//   };
+  const fetchTopics = useCallback(async () => {
+    try {
+      const topics = await getTopics({
+        page: 1,
+        size: 10,
+        sortBy: "name",
+        sortDirection: "asc",
+        status: "APPROVED",
+      });
+      console.log(topics);
+      setTopic(topics);
+    } catch (error) {
+      console.error("Error fetching topics:", error);
+    }
+  }, []);
 
-//   useEffect(() => {
-//     fetchData();
-//   }, [selectedOption]);
+  useEffect(() => {
+    fetchTopics();
+  }, []);
 
- 
+  //   const fetchData = () => {
+  //     getBooking(selectedOption, "REQUESTED")
+  //       .then((response) => {
+  //         console.log(response);
+  //         setDataSource(response);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching data:", error);
+  //       });
+  //   };
+
+  //   useEffect(() => {
+  //     fetchData();
+  //   }, [selectedOption]);
+
   return (
     <div className="mt-7">
       <div className="w-full h-full gap-6 flex flex-col">
@@ -85,7 +110,33 @@ function StudentHomeUpcoming() {
                 </ul>
               </CustomizedCard>
             </div>
-       
+
+            <div className="h-[calc(50%-12px)]">
+              <CustomizedCard
+                loading={loading}
+                background="url('/src/assets/blue-green-abstract.svg')"
+                styleClass="border-none"
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-sm-medium">Danh sách đề tài</h3>
+                </div>
+                <ul className="space-y-4 overflow-y-scroll h-4/5">
+                  {topic?.map((topic) => (
+                    <ContentsSection
+                      key={topic.id} // Ensure unique keys for each list item
+                      time={formatDateToDDMMYY(topic.createdAt)}
+                      content={topic.name}
+                      status={
+                        topic?.status?.toLowerCase() == "inactive"
+                          ? "success"
+                          : topic?.status?.toLowerCase()
+                      }
+                      // value={convertStatus(topic?.status)}
+                    />
+                  ))}
+                </ul>
+              </CustomizedCard>
+            </div>
           </>
         ) : (
           <div className="h-full flex justify-center items-center">

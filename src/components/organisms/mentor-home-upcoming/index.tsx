@@ -47,9 +47,9 @@ function MentorHomeUpcoming() {
     fetchTopics();
   }, [selectedStatus, fetchTopics]);
   return (
-    <div className="mt-7">
-      <div className="w-full h-full gap-6 flex flex-col">
-        <div className="h-full">
+    <div className="mt-7 h-full">
+      <div className="w-full h-[700px] gap-6 flex flex-col">
+        <div className="h-[calc(50%-12px)]">
           <CustomizedCard
             loading={loading}
             background="url('/src/assets/blue-green-abstract.svg')"
@@ -102,6 +102,7 @@ function MentorHomeUpcoming() {
             isOpen={isModalVisible}
           />
         </div>
+        {/* <div className="h-[calc(50%-12px)]"></div> */}
       </div>
     </div>
   );

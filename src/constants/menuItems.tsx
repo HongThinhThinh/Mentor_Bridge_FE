@@ -31,7 +31,7 @@ export const getLabel = (key?: Key, role?: string): string | undefined => {
     return studentItems.find((item) => item.key === key)?.label;
   }
 
-  if (role == "STUDENT") {
+  if (role == "MENTOR") {
     return mentorItems.find((item) => item.key === key)?.label;
   }
   return undefined;

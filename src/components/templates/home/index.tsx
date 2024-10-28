@@ -27,6 +27,7 @@ const HomeTemplate = () => {
   const [isOpenMeetingDetail, setIsOpenDetail] = useState(false);
   const { getBookingNearest } = useBookingService();
   const [bookingNearset, setBookingNearset] = useState([]);
+
   const fetch = async () => {
     try {
       const response = await getBookingNearest();
@@ -39,7 +40,7 @@ const HomeTemplate = () => {
   useEffect(() => {
     fetch();
   }, []);
-  console.log(bookingNearset);
+
   // Use debounce to delay the filter action and avoid multiple renders
   const handleFilterChange = useMemo(
     () =>
@@ -58,7 +59,6 @@ const HomeTemplate = () => {
         sortDirection: "asc",
         status: selectedStatus,
       });
-      console.log(topics);
       setTopic(topics);
     } catch (error) {
       console.error("Error fetching topics:", error);
@@ -80,28 +80,33 @@ const HomeTemplate = () => {
           >
             <div className="h-full flex flex-col justify-between">
               <div className="text-white gap-2 flex flex-col">
-                <span className="text-xs-large">
-                  Buổi hẹn tiếp theo sẽ bắt đầu vào:
-                </span>
-                <h3 className="text-xl-extra-bold">
-                  {bookingNearset && (
-                    <CountdownTimer
-                      targetDate={bookingNearset[0]?.timeFrame?.timeFrameFrom}
-                    />
-                  )}
-                </h3>
+                {bookingNearset ? (
+                  <>
+                    <span className="text-xs-large">
+                      Buổi hẹn tiếp theo sẽ bắt đầu vào:
+                    </span>
+                    <h3 className="text-xl-extra-bold">
+                      <CountdownTimer
+                        targetDate={bookingNearset[0]?.timeFrame?.timeFrameFrom}
+                      />
+                    </h3>
+                  </>
+                ) : (
+                  <span className="text-xs-large">
+                    Chưa có cuộc hẹn nào sắp tới
+                  </span>
+                )}
               </div>
-              <div className="flex justify-end">
-                <Button
-                  onClick={() => setIsOpenDetail(true)}
-                  size="xs"
-                  styleClass="bg-shade-900 text-white"
-                  fontSize="xs"
-                >
-                  Xem lịch ngay
-                </Button>
-
-                {bookingNearset && (
+              {bookingNearset && (
+                <div className="flex justify-end">
+                  <Button
+                    onClick={() => setIsOpenDetail(true)}
+                    size="xs"
+                    styleClass="bg-shade-900 text-white"
+                    fontSize="xs"
+                  >
+                    Xem lịch ngay
+                  </Button>
                   <MeetingDetail
                     onCancel={() => setIsOpenDetail(false)}
                     setIsOpenDetail={setIsOpenDetail}
@@ -111,8 +116,8 @@ const HomeTemplate = () => {
                     )}
                     meetings={bookingNearset}
                   />
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </CustomizedCard>
         </div>
@@ -146,7 +151,7 @@ const HomeTemplate = () => {
                     value: goodRate,
                   },
                 ]}
-              ></PieChart>
+              />
             </div>
           </CustomizedCard>
         </div>
@@ -201,11 +206,11 @@ const HomeTemplate = () => {
             <ul className="space-y-4 overflow-y-scroll h-4/5">
               {topic?.map((topic) => (
                 <ContentsSection
-                  key={topic.id} // Ensure unique keys for each list item
+                  key={topic.id}
                   time={formatDateToDDMMYY(topic.createdAt)}
                   content={topic.name}
                   status={
-                    topic?.status?.toLowerCase() == "inactive"
+                    topic?.status?.toLowerCase() === "inactive"
                       ? "success"
                       : topic?.status?.toLowerCase()
                   }

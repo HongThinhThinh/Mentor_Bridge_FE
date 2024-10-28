@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
-// Định nghĩa kiểu cho prop targetDate
+// Define the type for the prop targetDate
 interface CountdownTimerProps {
   targetDate: string | Date;
 }
@@ -30,15 +30,20 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
   const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
   const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
 
-  // Tạo một mảng các phần tử còn thời gian để hiển thị
-  const timeComponents = [
-    days > 0 ? `${days} days` : "",
-    hours > 0 ? `${hours} hours` : "",
-    minutes > 0 ? `${minutes} minutes` : "",
-    seconds > 0 ? `${seconds} seconds` : "",
-  ].filter(Boolean); // Lọc bỏ các phần tử rỗng
+  const timeComponents = useMemo(() => {
+    return [
+      days > 0 ? `${days} ngày` : "",
+      hours > 0 ? `${hours} giờ` : "",
+      minutes > 0 ? `${minutes} phút` : "",
+      seconds > 0 ? `${seconds} giây` : "",
+    ].filter(Boolean); // Filter out empty elements
+  }, [days, hours, minutes, seconds]);
 
-  return <h6>{timeComponents.join(" ")}</h6>;
+  return timeRemaining > 0 ? (
+    <h6>{timeComponents.join(" ")}</h6>
+  ) : (
+    <h6>Cuộc họp đang diễn ra</h6>
+  );
 };
 
 export default CountdownTimer;

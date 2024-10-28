@@ -10,20 +10,25 @@ import useStudentService from "../../../services/useStudentService";
 import ModalInvite from "../../molecules/modal-invite";
 import useBookingService from "../../../services/useBookingService";
 import { Select } from "antd";
-import { formatHours } from "../../../utils/dateFormat";
+import { formatDateToDDMMYY, formatHours } from "../../../utils/dateFormat";
 import { convertStatus, convertStatusEnum } from "../../../utils/convertStatus";
 import CountdownTimer from "../../layouts/countdown-timer";
+import MeetingDetail from "../../organisms/meeting-detail";
+import { useNavigate } from "react-router-dom";
+import { STUDENT_ROUTES } from "../../../constants/routes";
 
 const StudentPages = () => {
   const [loading, setLoading] = useState(true);
   const [remainDate, setRemainDate] = useState(3);
   const [goodRate, setGoodRate] = useState(80);
+  const [isOpenMeetingDetail, setIsOpenDetail] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState("INDIVIDUAL"); // New state for selected option
   const [dataTeam, setDataTeam] = useState();
   const { getBookingNearest } = useBookingService();
   const [bookingNearset, setBookingNearset] = useState([]);
+  const navigate = useNavigate();
   const user = useCurrentUser();
   const fetch = async () => {
     try {
@@ -94,17 +99,70 @@ const StudentPages = () => {
           >
             <div className="h-full flex flex-col justify-between">
               <div className="text-white gap-2 flex flex-col">
-                <span className="text-xs-large">
-                  Buổi hẹn tiếp theo sẽ bắt đầu vào:
-                </span>
-                <h3 className="text-xl-extra-bold">
-                  {" "}
-                  <CountdownTimer
-                    targetDate={bookingNearset[0]?.timeFrame?.timeFrameFrom}
-                  />{" "}
-                </h3>
+                {bookingNearset ? (
+                  <>
+                    <span className="text-xs-large">
+                      Buổi hẹn tiếp theo sẽ bắt đầu vào:
+                    </span>
+                    <h3 className="text-xl-extra-bold">
+                      {" "}
+                      <CountdownTimer
+                        targetDate={bookingNearset[0]?.timeFrame?.timeFrameFrom}
+                      />{" "}
+                    </h3>
+                  </>
+                ) : (
+                  <span
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "600",
+                      color: "#fff",
+                    }}
+                  >
+                    Chưa có cuộc họp nào sắp tới
+                  </span>
+                )}
               </div>
             </div>
+            {bookingNearset ? (
+              <div className="flex justify-end">
+                <Button
+                  onClick={() => setIsOpenDetail(true)}
+                  size="xs"
+                  styleClass="bg-shade-900 text-white"
+                  fontSize="xs"
+                >
+                  Xem lịch ngay
+                </Button>
+                <MeetingDetail
+                  onCancel={() => setIsOpenDetail(false)}
+                  setIsOpenDetail={setIsOpenDetail}
+                  isOpen={isOpenMeetingDetail}
+                  date={formatDateToDDMMYY(
+                    bookingNearset[0]?.timeFrame?.timeFrameFrom
+                  )}
+                  meetings={bookingNearset}
+                />
+              </div>
+            ) : (
+              <div className="flex justify-end">
+                <Button
+                  onClick={() =>
+                    navigate(
+                      "/" +
+                        STUDENT_ROUTES.STUDENT +
+                        "/" +
+                        STUDENT_ROUTES.BOOKING
+                    )
+                  }
+                  size="xs"
+                  styleClass="bg-shade-900 text-white"
+                  fontSize="xs"
+                >
+                  Đặt lịch ngay
+                </Button>
+              </div>
+            )}
           </CustomizedCard>
         </div>
         <div className="h-2/3">

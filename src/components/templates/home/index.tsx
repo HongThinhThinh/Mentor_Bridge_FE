@@ -12,7 +12,6 @@ import { formatDateToDDMMYY } from "../../../utils/dateFormat";
 import { convertStatus } from "../../../utils/convertStatus";
 import { Select } from "antd";
 import { debounce } from "lodash";
-import useSemesterService from "../../../services/useSemesterService ";
 import useBookingService from "../../../services/useBookingService";
 import CountdownTimer from "../../layouts/countdown-timer";
 import MeetingDetail from "../../organisms/meeting-detail";
@@ -85,10 +84,11 @@ const HomeTemplate = () => {
                   Buổi hẹn tiếp theo sẽ bắt đầu vào:
                 </span>
                 <h3 className="text-xl-extra-bold">
-                  {" "}
-                  <CountdownTimer
-                    targetDate={bookingNearset[0]?.timeFrame?.timeFrameFrom}
-                  />{" "}
+                  {bookingNearset && (
+                    <CountdownTimer
+                      targetDate={bookingNearset[0]?.timeFrame?.timeFrameFrom}
+                    />
+                  )}
                 </h3>
               </div>
               <div className="flex justify-end">
@@ -101,15 +101,17 @@ const HomeTemplate = () => {
                   Xem lịch ngay
                 </Button>
 
-                <MeetingDetail
-                  onCancel={() => setIsOpenDetail(false)}
-                  setIsOpenDetail={setIsOpenDetail}
-                  isOpen={isOpenMeetingDetail}
-                  date={formatDateToDDMMYY(
-                    bookingNearset[0]?.timeFrame?.timeFrameFrom
-                  )}
-                  meetings={bookingNearset}
-                />
+                {bookingNearset && (
+                  <MeetingDetail
+                    onCancel={() => setIsOpenDetail(false)}
+                    setIsOpenDetail={setIsOpenDetail}
+                    isOpen={isOpenMeetingDetail}
+                    date={formatDateToDDMMYY(
+                      bookingNearset[0]?.timeFrame?.timeFrameFrom
+                    )}
+                    meetings={bookingNearset}
+                  />
+                )}
               </div>
             </div>
           </CustomizedCard>

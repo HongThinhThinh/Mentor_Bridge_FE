@@ -1,3 +1,5 @@
+import { NOTIFICATIONAPI } from "./endpoints";
+import { Notification } from "./../components/atoms/notification/Notification";
 // ADMIN
 export enum ADMIN_API {
   ADMIN = "admin",
@@ -36,4 +38,8 @@ export enum BOOKING_API {
 export enum TEAM_API {
   TEAM = "team",
   INVITE = "invite",
+}
+
+export enum NOTIFICATIONAPIS {
+  NOTIFICATION = "notifications",
 }

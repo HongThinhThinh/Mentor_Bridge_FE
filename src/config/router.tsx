@@ -97,9 +97,15 @@ export const router = createBrowserRouter([
         path: USER_ROUTES.MESSAGE,
         element: (
           <ProtectedRoute>
-            <RoomChat />,
+            <RoomChat />
           </ProtectedRoute>
         ),
+        children: [
+          {
+            path: ":id",
+            element: <ChatDetail />,
+          },
+        ],
       },
     ],
   },
@@ -131,12 +137,12 @@ export const router = createBrowserRouter([
         path: USER_ROUTES.MESSAGE,
         element: (
           <ProtectedRoute>
-            <RoomChat />,
+            <RoomChat />
           </ProtectedRoute>
         ),
         children: [
           {
-            path: `${USER_ROUTES.MESSAGE}/:id`,
+            path: ":id", // Route con chỉ nên bao gồm `:id`
             element: <ChatDetail />,
           },
         ],

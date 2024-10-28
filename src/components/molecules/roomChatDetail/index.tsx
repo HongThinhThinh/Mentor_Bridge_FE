@@ -8,13 +8,14 @@ import useRealtime from "../../../hooks/useRealtime";
 import Message from "../../atoms/message/Message";
 import { useStateValue } from "../../../context/stateProvider";
 import api from "../../../config/api";
+import { useCurrentUser } from "../../../utils/getcurrentUser";
 
 function RoomChatDetail() {
   const { theme, setShowChatList, setActive, setRealtime } = useStateValue();
   const messagesContainerRef = useRef();
   const [data, setData] = useState([]);
   const [message, setMessage] = useState("");
-  //   const user = useSelector(selectUser);
+  const user = useCurrentUser();
   const params = useParams();
   const idRef = useRef(params.id);
   const [typing, setTyping] = useState("");
@@ -43,6 +44,8 @@ function RoomChatDetail() {
       }
     }
   });
+
+  console.log(data?.messages);
 
   function handleKeyDown(event) {
     if (event.key === "Enter") {
@@ -105,15 +108,12 @@ function RoomChatDetail() {
         </div>
       </div>
       <div className="chat-detail__messages" ref={messagesContainerRef}>
-        {/* <Message />
-        <Message me="me" /> */}
-
         {data?.messages?.map((item) => (
           <Message
             key={item.user?.id}
             text={item?.message}
             me={item.user?.id === user?.id ? "me" : ""}
-            avt={item.user.avt}
+            avt={item.user.avatar}
           />
         ))}
       </div>
@@ -130,10 +130,6 @@ function RoomChatDetail() {
           }}
           placeholder="Type a message"
           autoSize
-          style={{
-            backgroundColor: theme ? "#2b2c32" : "#f6f6f6",
-            color: theme ? "#fff" : "#000",
-          }}
         />
 
         <div className="chat-detail__input__iconSend">

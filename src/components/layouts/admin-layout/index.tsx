@@ -27,9 +27,9 @@ function getItem(
 }
 const items: MenuItem[] = [
   getItem("Config", "config", <FcDataConfiguration />),
+  getItem("Semester", "semester", <SlCalender />),
   getItem("User", "user", <SlCalender />),
   getItem("Topic", "topic", <MdOutlineTopic />),
-  getItem("Semester", "semester", <SlCalender />),
 ];
 const AdminLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);

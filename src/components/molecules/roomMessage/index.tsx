@@ -1,8 +1,7 @@
 import { FC } from "react";
 import { useStateValue } from "../../../context/stateProvider";
-import "./RoomMessage.scss";
+import "./index.scss";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 interface RoomMessageProps {
   key?: number;

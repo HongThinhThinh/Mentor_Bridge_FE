@@ -1,7 +1,6 @@
-
 import { IoClose } from "react-icons/io5";
-import { useStateValue } from "../../../context/stateProvider"
-import "./FormSearchFriends.scss";
+import { useStateValue } from "../../../context/stateProvider";
+import "./index.scss";
 import RoomMessage from "../roomMessage";
 
 function FormSearchFriends() {

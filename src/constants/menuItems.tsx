@@ -5,8 +5,8 @@ import {
   CalendarOutlined,
   HomeOutlined,
   PieChartOutlined,
-  SettingOutlined,
   SnippetsOutlined,
+  WechatOutlined,
 } from "@ant-design/icons";
 import { Key } from "react";
 
@@ -46,6 +46,7 @@ export const adminMenuItems: MenuItem[] = [
 
 const studentItems = [
   { label: "Trang Chủ", key: "home", icon: <HomeOutlined /> },
+  { label: "Đoạn chat", key: "messages", icon: <WechatOutlined /> },
   { label: "Lịch Trình", key: "schedule", icon: <CalendarOutlined /> },
   { label: "Đặt Lịch", key: "booking", icon: <BookOutlined /> },
   // getItem("Product", "product", <PieChartOutlined />),
@@ -57,6 +58,7 @@ export const studentMenuItems: MenuItem[] = studentItems.map((item) =>
 
 const mentorItems = [
   { label: "Trang Chủ", key: "home", icon: <HomeOutlined /> },
+  { label: "Đoạn chat", key: "messages", icon: <WechatOutlined /> },
   { label: "Lịch Trình", key: "schedule", icon: <CalendarOutlined /> },
   {
     label: "Lịch trống trong kỳ",

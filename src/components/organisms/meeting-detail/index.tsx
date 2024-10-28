@@ -7,6 +7,7 @@ import { AiOutlineSend } from "react-icons/ai";
 import { Select } from "antd";
 import "./index.scss";
 import { formatHours } from "../../../utils/dateFormat";
+import { useCurrentUser } from "../../../utils/getcurrentUser";
 
 interface MeetingDetailProps {
   date?: string;
@@ -30,7 +31,7 @@ function MeetingDetail({
   meetings = [], // Default to empty array if no meetings
 }: MeetingDetailProps) {
   const [isReschedule, setIsReschedule] = useState(false); // State to control reschedule visibility
-
+  const user = useCurrentUser();
   const header = (
     <div>
       <h1 className="text-2xl-medium mb-3">Thông tin cuộc họp</h1>
@@ -44,6 +45,16 @@ function MeetingDetail({
     window.open(meetingURL);
   };
 
+  const handleShowMeetingName = (data) => {
+    if (user?.role === "STUDENT") {
+      return data?.mentor?.fullName || data?.mentor?.email;
+    }
+    if (user?.role === "MENTOR") {
+      return data?.student?.fullName || data?.team?.code;
+    }
+    return null; // Optional: handle case where role is neither "STUDENT" nor "MENTOR"
+  };
+
   const body = (
     <div className="modal-container">
       <div className="modal-container__list">
@@ -51,7 +62,7 @@ function MeetingDetail({
         {meetings.length > 0 ? (
           meetings.map((meeting, index) => (
             <ContentsSection
-              content={meeting?.student?.fullName}
+              content={handleShowMeetingName(meeting)}
               key={meeting.id}
               time={`${formatHours(
                 meeting.timeFrame?.timeFrameFrom

@@ -27,18 +27,7 @@ const HomeTemplate = () => {
   const [selectedStatus, setSelectedStatus] = useState("");
   const [isOpenMeetingDetail, setIsOpenDetail] = useState(false);
   const { getBookingNearest } = useBookingService();
-
-  // useEffect(() => {
-  //   const check = async() =>{
-  //     const res = await getUpcomingSemester();
-  //     console.log("s", res)
-  //   }
-  //   check();
-
-  // }, []);
-
   const [bookingNearset, setBookingNearset] = useState([]);
-
   const fetch = async () => {
     try {
       const response = await getBookingNearest();

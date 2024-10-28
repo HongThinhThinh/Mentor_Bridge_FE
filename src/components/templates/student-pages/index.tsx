@@ -12,6 +12,7 @@ import useBookingService from "../../../services/useBookingService";
 import { Select } from "antd";
 import { formatHours } from "../../../utils/dateFormat";
 import { convertStatus, convertStatusEnum } from "../../../utils/convertStatus";
+import CountdownTimer from "../../layouts/countdown-timer";
 
 const StudentPages = () => {
   const [loading, setLoading] = useState(true);
@@ -21,9 +22,21 @@ const StudentPages = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState("INDIVIDUAL"); // New state for selected option
   const [dataTeam, setDataTeam] = useState();
-
+  const { getBookingNearest } = useBookingService();
+  const [bookingNearset, setBookingNearset] = useState([]);
   const user = useCurrentUser();
+  const fetch = async () => {
+    try {
+      const response = await getBookingNearest();
+      setBookingNearset(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  useEffect(() => {
+    fetch();
+  }, []);
   const { getBooking } = useBookingService();
   const { getUserTeam } = useStudentService();
 
@@ -45,7 +58,7 @@ const StudentPages = () => {
     fetchDataGroups();
   }, []);
 
-  const leader = dataTeam?.userTeams.find(
+  const leader = dataTeam?.userTeams?.find(
     (member) => member?.role === "LEADER"
   ); // find id leader
 
@@ -81,19 +94,15 @@ const StudentPages = () => {
           >
             <div className="h-full flex flex-col justify-between">
               <div className="text-white gap-2 flex flex-col">
-                <span className="text-xs-medium">
-                  Buổi hẹn tiếp theo sẽ bắt đầu vào
+                <span className="text-xs-large">
+                  Buổi hẹn tiếp theo sẽ bắt đầu vào:
                 </span>
-                <h3 className="text-xl-extra-bold">{remainDate} ngày nữa</h3>
-              </div>
-              <div className="flex justify-end">
-                <Button
-                  size="sm"
-                  styleClass="bg-shade-900 text-white"
-                  fontSize="xs"
-                >
-                  Xem lịch ngay
-                </Button>
+                <h3 className="text-xl-extra-bold">
+                  {" "}
+                  <CountdownTimer
+                    targetDate={bookingNearset[0]?.timeFrame?.timeFrameFrom}
+                  />{" "}
+                </h3>
               </div>
             </div>
           </CustomizedCard>

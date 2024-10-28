@@ -15,6 +15,8 @@ import { debounce } from "lodash";
 import useBookingService from "../../../services/useBookingService";
 import CountdownTimer from "../../layouts/countdown-timer";
 import MeetingDetail from "../../organisms/meeting-detail";
+import GroupList from "../../molecules/team-section";
+import useMentorService from "../../../services/useMentorService";
 
 const HomeTemplate = () => {
   const [remainDate, setRemainDate] = useState(3);
@@ -28,6 +30,9 @@ const HomeTemplate = () => {
   const { getBookingNearest } = useBookingService();
   const [bookingNearset, setBookingNearset] = useState([]);
 
+  const { getTeams } = useMentorService();
+  const [teams, setTeams] = useState([]);
+
   const fetch = async () => {
     try {
       const response = await getBookingNearest();
@@ -37,8 +42,18 @@ const HomeTemplate = () => {
     }
   };
 
+  const fetchTeams = async () => {
+    try {
+      const response = await getTeams();
+      setTeams(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetch();
+    fetchTeams();
   }, []);
 
   // Use debounce to delay the filter action and avoid multiple renders
@@ -164,14 +179,29 @@ const HomeTemplate = () => {
           >
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-sm-medium">Danh sách đề tài</h3>
-              <Button
-                size="xs"
-                styleClass="bg-gradient-to-r from-[#151316] to-[#4D4252] text-white"
-                fontSize="xs"
-                onClick={() => setIsModalVisible(true)}
-              >
-                Thêm đề tài mới +
-              </Button>
+              <div className="flex gap-4">
+                <Select
+                  defaultValue=""
+                  style={{ width: 120 }}
+                  onChange={handleFilterChange}
+                  options={[
+                    { value: "", label: "Tất cả" },
+                    { value: "PENDING", label: "Pending" },
+                    { value: "ACCEPTED", label: "Accepted" },
+                    { value: "REJECTED", label: "Rejected" },
+                    { value: "ACTIVE", label: "Active" },
+                    { value: "INACTIVE", label: "Inactive" },
+                  ]}
+                />
+                <Button
+                  size="xs"
+                  styleClass="bg-gradient-to-r from-[#151316] to-[#4D4252] text-white"
+                  fontSize="xs"
+                  onClick={() => setIsModalVisible(true)}
+                >
+                  Thêm đề tài mới +
+                </Button>
+              </div>
               <AddTopicForm
                 fetchData={fetchTopics}
                 onClose={() => setIsModalVisible(false)}
@@ -188,22 +218,9 @@ const HomeTemplate = () => {
             styleClass="border-none"
           >
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-sm-medium">Lịch sử yêu cầu thêm đề tài</h3>
-              <Select
-                defaultValue=""
-                style={{ width: 120 }}
-                onChange={handleFilterChange}
-                options={[
-                  { value: "", label: "Tất cả" },
-                  { value: "PENDING", label: "Pending" },
-                  { value: "ACCEPTED", label: "Accepted" },
-                  { value: "REJECTED", label: "Rejected" },
-                  { value: "ACTIVE", label: "Active" },
-                  { value: "INACTIVE", label: "Inactive" },
-                ]}
-              />
+              <h3 className="text-sm-medium">Danh sách nhóm</h3>
             </div>
-            <ul className="space-y-4 overflow-y-scroll h-4/5">
+            {/* <ul className="space-y-4 overflow-y-scroll h-4/5">
               {topic?.map((topic) => (
                 <ContentsSection
                   key={topic.id}
@@ -217,7 +234,9 @@ const HomeTemplate = () => {
                   value={convertStatus(topic?.status)}
                 />
               ))}
-            </ul>
+            </ul> */}
+
+            <GroupList groups={teams} />
           </CustomizedCard>
         </div>
       </div>

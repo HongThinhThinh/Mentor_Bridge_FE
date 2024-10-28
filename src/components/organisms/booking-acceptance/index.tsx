@@ -8,6 +8,7 @@ import {
   formatDateAndHour,
   formatDateForRequest,
 } from "../../../utils/dateFormat";
+import { downloadBase64File } from "../../../utils/dowloadBase64File";
 
 export interface BookingRecordData {
   id: string;
@@ -24,30 +25,86 @@ interface BookingAcceptanceProps {
 function BookingAcceptance({ columns }: BookingAcceptanceProps) {
   const [dataSource, setDataSource] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
-  const [isOpenCancelModel, setIsOpenCancelModel] = useState(false);
 
   const { getBooking, updateBooking } = useBookingService();
 
   const bookingColumns: Column[] = [
     {
+      title: "Avatar",
+      dataIndex: "avatar",
+      key: "avatar",
+      render: (id: string, record: any) => (
+        <img
+          src={
+            record?.student?.avatar || record?.team?.userTeams[0]?.user?.avatar
+          }
+          alt="Avatar"
+          style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+        />
+      ),
+    },
+    {
       title: "Người gửi",
       dataIndex: "sender",
       key: "sender",
       render: (id: string, record: any) => (
-        <span>
-          {record?.student
-            ? record.student.fullName
-            : record?.team?.userTeams[0]?.user?.fullName}
-        </span>
+        <div
+          style={{
+            padding: "8px",
+            border: "1px solid #f0f0f0",
+            borderRadius: "5px",
+            backgroundColor: "#f9f9f9",
+          }}
+        >
+          <span style={{ fontWeight: "bold", fontSize: "14px" }}>
+            {record?.student
+              ? record.student.fullName
+              : record?.team?.userTeams[0]?.user?.fullName}
+          </span>
+          {record?.team && (
+            <div
+              style={{
+                marginTop: "5px",
+                paddingLeft: "10px",
+                fontSize: "12px",
+              }}
+            >
+              <span style={{ display: "block", marginBottom: "4px" }}>
+                Nhóm: {record?.team?.code} {/* Tên nhóm */}
+              </span>
+              <div>
+                <p style={{ margin: "2px 0" }}>
+                  Email:{" "}
+                  {record?.student?.email ||
+                    record?.team?.userTeams[0]?.user?.email}
+                </p>
+                <p style={{ margin: "2px 0" }}>
+                  Điện thoại:{" "}
+                  {record?.student?.phone ||
+                    record?.team?.userTeams[0]?.user?.phone}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
       ),
     },
+
     {
       title: "Đề tài",
       dataIndex: "topic",
       key: "topic",
-      render: (id: string, record: any) => (
-        <span>{record?.team?.topics[0]?.name}</span>
-      ),
+      render: (id: string, record: any) => {
+        return <span>{record?.semester?.topics[0].name}</span>;
+      },
+    },
+    {
+      title: "Mô tả",
+      dataIndex: "topic",
+      key: "description", // Đã sửa lại key để tránh trùng lặp
+      render: (id: string, record: any) => {
+        return <span>{record?.semester?.topics[0].description}</span>;
+      },
     },
     {
       title: "Ngày tạo",
@@ -63,11 +120,29 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
       ),
     },
     {
-      title: "",
-      dataIndex: "id",
-      key: "id",
+      title: "Tài liệu nhóm",
+      dataIndex: "createdAt",
+      key: "document",
       render: (id: string, record: any) => (
-        <div className="flex gap-2 float-end">
+        <a
+          className="underline text-blue"
+          onClick={() => {
+            downloadBase64File(
+              record?.semester?.topics[0].files[0].content,
+              record?.semester?.topics[0].files[0].name
+            );
+          }}
+        >
+          {record?.semester?.topics[0].files[0].name}
+        </a>
+      ),
+    },
+    {
+      title: "Hành động",
+      dataIndex: "id",
+      key: "actions",
+      render: (id: string, record: any) => (
+        <div className="flex gap-2 ">
           <Popconfirm
             title={`Giảng viên có chắc chắn muốn từ chối yêu cầu này không?`}
             onConfirm={() => handleReject(record?.id)}

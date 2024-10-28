@@ -3,13 +3,13 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 
 function useRealtime(callback) {
-
-  const WS_URL = "http://137.184.153.35:8080/websocket";
+  const WS_SERVER = import.meta.env.VITE_API_URL_SERVER + "websocket";
+  const WS_LOCAL = import.meta.env.VITE_API_URL_LOCAL + "websocket";
   const accountID = localStorage.getItem("accountId");
 
   useEffect(() => {
     // Initialize socket and stomp client
-    const socket = new SockJS(WS_URL);
+    const socket = new SockJS(WS_LOCAL);
     const stomp = Stomp.over(socket);
 
     // Function to handle connection
@@ -37,11 +37,11 @@ function useRealtime(callback) {
       if (message.body) {
         console.log("Received message:", message.body);
         try {
-          const parsedMessage = JSON.parse(message.body);  // Parse message body if JSON
+          const parsedMessage = JSON.parse(message.body); // Parse message body if JSON
           callback && callback(parsedMessage);
         } catch (error) {
           console.error("Failed to parse message:", message.body);
-          callback && callback(message.body);  // Fallback to raw message body if not JSON
+          callback && callback(message.body); // Fallback to raw message body if not JSON
         }
       }
     };
@@ -62,9 +62,9 @@ function useRealtime(callback) {
         });
       }
     };
-  }, [accountID, callback, WS_URL]);
+  }, [accountID, callback, WS_LOCAL]);
 
-  return null;  // No UI needed for the hook
+  return null; // No UI needed for the hook
 }
 
 export default useRealtime;

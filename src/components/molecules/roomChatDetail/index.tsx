@@ -56,8 +56,8 @@ function RoomChatDetail() {
   }, [params.id]);
 
   useEffect(() => {
-    messagesContainerRef?.current?.scrollTop =
-      messagesContainerRef?.current?.scrollHeight;
+    messagesContainerRef.current.scrollTop =
+      messagesContainerRef.current.scrollHeight;
   }, [data.messages]);
 
   useEffect(() => {

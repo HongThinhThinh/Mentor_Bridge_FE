@@ -104,14 +104,16 @@ const useTopicService = () => {
   const bookTopic = useCallback(
     async (id: string) => {
       try {
+        console.log(`${TEAM_API.TEAM}/${TOPIC_API.TOPIC}/${id}`);
+
         setIsLoading(true);
         const response = await callApi(
           "put",
-          `${TEAM_API.TEAM}/${TOPIC_API.TOPIC}/${id}`
+          `${TEAM_API.TEAM}/topic?topicId=${id}`
         );
 
         toast.success("Choose topic successfully!");
-        return response?.data;
+        return response?.message;
       } catch (e: any) {
         toast.error(e?.response?.data || "Failed to choose topic");
       } finally {

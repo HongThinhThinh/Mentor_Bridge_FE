@@ -3,6 +3,7 @@ import { Button } from "../../atoms/button/Button";
 import { Topic } from "../../../model/topic";
 import { Avatar, Descriptions, DescriptionsProps } from "antd";
 import { downloadBase64File } from "../../../utils/dowloadBase64File";
+import useTopicService from "../../../services/useTopicService";
 
 interface TopicDetailProps {
   width?: number;
@@ -23,6 +24,8 @@ function TopicDetail({
   topic,
   isLeader,
 }: TopicDetailProps) {
+  const { bookTopic } = useTopicService();
+
   const items: DescriptionsProps["items"] = [
     {
       label: "Giảng viên",
@@ -41,7 +44,10 @@ function TopicDetail({
     {
       label: "File",
       children: (
-        <Button onClick={() => handleDownload(topic?.files[0])} className="asset">
+        <Button
+          onClick={() => handleDownload(topic?.files[0])}
+          className="asset"
+        >
           {topic?.files[0]?.name}
         </Button>
       ),
@@ -56,6 +62,16 @@ function TopicDetail({
 
   const handleDownload = (asset: any) => {
     downloadBase64File(asset.content, asset.name);
+  };
+
+  const onFinish = async () => {
+    console.log(topic)
+    try {
+      const res = await bookTopic(topic?.id || " ");
+    } catch (error) {
+    } finally {
+      onCancel();
+    }
   };
   const header = <h1 className="text-2xl-medium mb-3">Chi tiết đề tài</h1>;
 
@@ -90,10 +106,6 @@ function TopicDetail({
       )}
     </div>
   );
-
-  const onFinish = () =>{
-    console.log(topic?.id)
-  }
 
   return (
     <>

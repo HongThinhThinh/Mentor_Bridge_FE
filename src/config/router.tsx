@@ -82,7 +82,7 @@ const ProtectedRouteByRole: React.FC<ProtectedRouteByRoleProps> = ({ children, a
     return <Navigate to="/" replace />;
   }
 
-  return children; 
+  return children;
 };
 
 
@@ -98,12 +98,12 @@ export const router = createBrowserRouter([
 
   {
     path: USER_ROUTES.TEAM_INVITE,
-    element: <TeamInvitePage />,
+    element: <ProtectedRouteAuth><TeamInvitePage /></ProtectedRouteAuth>,
   },
 
   {
     path: MENTOR_ROUTES.MENTOR,
-    element: <DashboardLayout />,
+    element: <ProtectedRouteByRole allowedRoles={["MENTOR"]}><DashboardLayout /></ProtectedRouteByRole>,
     children: [
       {
         path: MENTOR_ROUTES.MENTOR_PAGE,
@@ -147,7 +147,7 @@ export const router = createBrowserRouter([
   },
   {
     path: STUDENT_ROUTES.STUDENT,
-    element: <DashboardLayout />,
+    element: <ProtectedRouteByRole allowedRoles={["STUDENT"]}><DashboardLayout /></ProtectedRouteByRole>,
     children: [
       {
         path: STUDENT_ROUTES.STUDENT_PAGE,
@@ -188,7 +188,7 @@ export const router = createBrowserRouter([
 
   {
     path: ADMIN_ROUTES.ADMIN,
-    element: <AdminLayout />,
+    element: <ProtectedRouteByRole allowedRoles={["ADMIN"]}><AdminLayout /></ProtectedRouteByRole>,
     children: [
       {
         path: ADMIN_ROUTES.TOPIC,

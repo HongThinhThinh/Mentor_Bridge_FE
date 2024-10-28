@@ -10,13 +10,7 @@ function RoomChat() {
   const { param } = useParams();
 
   return (
-    <div
-      className="roomChat"
-      style={{
-        backgroundColor: theme ? "#202020" : "#fff",
-        color: theme ? "#fff" : "#202020",
-      }}
-    >
+    <div className="roomChat">
       {isQuery ? (
         <>
           {showChatList && <ChatList />}

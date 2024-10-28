@@ -4,12 +4,10 @@ import { Input } from "antd";
 import "./index.scss";
 import { IoIosArrowBack } from "react-icons/io";
 import { useParams } from "react-router-dom";
-import api from "../../config/axios";
-import { useSelector } from "react-redux";
 import useRealtime from "../../../hooks/useRealtime";
 import Message from "../../atoms/message/Message";
 import { useStateValue } from "../../../context/stateProvider";
-const { TextArea } = Input;
+import api from "../../../config/api";
 
 function RoomChatDetail() {
   const { theme, setShowChatList, setActive, setRealtime } = useStateValue();
@@ -37,7 +35,7 @@ function RoomChatDetail() {
     if (body.body === "New message") {
       await fetch();
     } else {
-      if (!body.body.includes(user.name)) {
+      if (!body.body.includes(user?.name)) {
         setTyping(body.body);
         setTimeout(() => {
           setTyping("");
@@ -58,8 +56,8 @@ function RoomChatDetail() {
   }, [params.id]);
 
   useEffect(() => {
-    messagesContainerRef.current.scrollTop =
-      messagesContainerRef.current.scrollHeight;
+    messagesContainerRef?.current?.scrollTop =
+      messagesContainerRef?.current?.scrollHeight;
   }, [data.messages]);
 
   useEffect(() => {

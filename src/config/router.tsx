@@ -25,6 +25,7 @@ import EmptySchedulePage from "../pages/mentor/empty-schedule";
 import ProtectedRoute from "../middleware/protected-route";
 import SchedulePage from "../pages/schedule";
 import RoomChat from "../pages/roomChat";
+import ChatDetail from "../components/molecules/chatDetail";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -133,6 +134,12 @@ export const router = createBrowserRouter([
             <RoomChat />,
           </ProtectedRoute>
         ),
+        children: [
+          {
+            path: `${USER_ROUTES.MESSAGE}/:id`,
+            element: <ChatDetail />,
+          },
+        ],
       },
     ],
   },

@@ -13,6 +13,7 @@ import { convertStatus } from "../../../utils/convertStatus";
 import { Select } from "antd";
 import { debounce } from "lodash";
 import useSemesterService from "../../../services/useSemesterService ";
+import useBookingService from "../../../services/useBookingService";
 
 const HomeTemplate = () => {
   const [remainDate, setRemainDate] = useState(3);
@@ -22,7 +23,7 @@ const HomeTemplate = () => {
   const [topic, setTopic] = useState<Topic[] | undefined>();
   const { getTopics } = useTopicService();
   const [selectedStatus, setSelectedStatus] = useState("");
-  const { getUpcomingSemester } = useSemesterService();
+  const { getBookingNearest } = useBookingService();
 
   // useEffect(() => {
   //   const check = async() =>{
@@ -30,8 +31,24 @@ const HomeTemplate = () => {
   //     console.log("s", res)
   //   }
   //   check();
-   
+
   // }, []);
+
+  const [bookingNearset, setBookingNearset] = useState([]);
+
+  const fetch = async () => {
+    try {
+      const response = await getBookingNearest();
+      console.log(response);
+      setBookingNearset(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetch();
+  }, []);
 
   // Use debounce to delay the filter action and avoid multiple renders
   const handleFilterChange = useMemo(

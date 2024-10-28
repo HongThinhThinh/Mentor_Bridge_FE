@@ -24,6 +24,7 @@ import BookingRequestPage from "../pages/mentor/booking-request";
 import EmptySchedulePage from "../pages/mentor/empty-schedule";
 import ProtectedRoute from "../middleware/protected-route";
 import SchedulePage from "../pages/schedule";
+import RoomChat from "../pages/roomChat";
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -91,6 +92,14 @@ export const router = createBrowserRouter([
         path: MENTOR_ROUTES.EMPTY_SCHEDULE,
         element: <EmptySchedulePage />,
       },
+      {
+        path: USER_ROUTES.MESSAGE,
+        element: (
+          <ProtectedRoute>
+            <RoomChat />,
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
   {
@@ -105,9 +114,7 @@ export const router = createBrowserRouter([
         path: STUDENT_ROUTES.SCHEDULE,
         element: (
           <ProtectedRoute>
-            <>
-              <SchedulePage />
-            </>
+            <SchedulePage />
           </ProtectedRoute>
         ),
       },
@@ -116,6 +123,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <BookingMentorPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: USER_ROUTES.MESSAGE,
+        element: (
+          <ProtectedRoute>
+            <RoomChat />,
           </ProtectedRoute>
         ),
       },

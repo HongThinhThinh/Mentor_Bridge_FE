@@ -1,23 +1,23 @@
 import { FC, useEffect, useState } from "react";
-import "./ChatList.scss";
-import { FaEdit } from "react-icons/fa";
+import "./index.scss";
 import { useStateValue } from "../../../context/stateProvider";
-import api from "../../config/axios";
-import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+
+import { useParams } from "react-router-dom";
 import useRealtime from "../../../hooks/useRealtime";
-import RoomMessage from "../roomMessage"
+import RoomMessage from "../roomMessage";
+import api from "../../../config/api";
+import { useCurrentUser } from "../../../utils/getcurrentUser";
 
 interface ChatListProps {
   setFetchRoom?: () => void;
 }
-const RoomMessage: FC<ChatListProps> = ({ setFetchRoom }) => {
+const ChatList: FC<ChatListProps> = ({ setFetchRoom }) => {
   const { theme, setShowSearchFriends, active, setActive, realtime } =
     useStateValue();
   const [data, setData] = useState([]);
   const [isSet, setIsSet] = useState(false);
   // const [user, setUser] = useState([]);
-  const user = useSelector(selectUser);
+  const user = useCurrentUser();
   const { id } = useParams();
 
   useRealtime(async (body) => {

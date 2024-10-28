@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import TestApi from "../services/testApi";
 import Login from "../pages/login/Login";
 import ManageTopic from "../pages/admin/manage-topic";
@@ -26,6 +26,17 @@ import ProtectedRoute from "../middleware/protected-route";
 import SchedulePage from "../pages/schedule";
 import RoomChat from "../pages/roomChat";
 import ChatDetail from "../components/molecules/chatDetail";
+import { toast } from "react-toastify";
+import { useCurrentUser } from "../utils/getcurrentUser";
+
+interface ProtectedRouteByRoleProps {
+  children: ReactNode;
+  allowedRoles: Array<"ADMIN" | "STUDENT" | "MENTOR">; // Các vai trò cho phép
+}
+
+interface ProtectedRouteAuthProps {
+  children: ReactNode;
+}
 
 function TestAPi() {
   const { testApi } = TestApi();
@@ -49,6 +60,31 @@ function TestAPi() {
     </div>
   );
 }
+
+
+
+const ProtectedRouteAuth: React.FC<ProtectedRouteAuthProps> = ({ children }) => {
+  const user = useCurrentUser();
+
+  if (!user) {
+    toast.error("You need to login first!!");
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+};
+
+const ProtectedRouteByRole: React.FC<ProtectedRouteByRoleProps> = ({ children, allowedRoles }) => {
+  const user = useCurrentUser();
+
+  if (!user || !allowedRoles.includes(user.role)) {
+    toast.error("You do not have permissions to access");
+    return <Navigate to="/" replace />;
+  }
+
+  return children; 
+};
+
 
 export const router = createBrowserRouter([
   {

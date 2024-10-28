@@ -39,7 +39,6 @@ const HomeTemplate = () => {
   const fetch = async () => {
     try {
       const response = await getBookingNearest();
-      console.log(response);
       setBookingNearset(response);
     } catch (error) {
       console.log(error);
@@ -49,7 +48,7 @@ const HomeTemplate = () => {
   useEffect(() => {
     fetch();
   }, []);
-
+  console.log(bookingNearset);
   // Use debounce to delay the filter action and avoid multiple renders
   const handleFilterChange = useMemo(
     () =>

@@ -10,6 +10,7 @@ import useTopicService from "../../../services/useTopicService";
 import { Topic } from "../../../model/topic";
 import { HiDotsHorizontal } from "react-icons/hi";
 import TopicDetail from "../topic-detail";
+import { Empty } from "antd";
 
 function StudentHomeUpcoming() {
   const [loading, setLoading] = useState(true);
@@ -47,7 +48,6 @@ function StudentHomeUpcoming() {
 
   const fetchDataGroups = async () => {
     const response = await getUserTeam();
-    console.log("team", response.code);
     setDataTeam(response);
   };
 
@@ -74,8 +74,6 @@ function StudentHomeUpcoming() {
   useEffect(() => {
     fetchTopics();
   }, []);
-
-  console.log("select", selectedTopic);
 
   return (
     <div className="mt-7">
@@ -137,22 +135,31 @@ function StudentHomeUpcoming() {
                   <h3 className="text-sm-medium">Danh sách đề tài</h3>
                 </div>
                 <ul className="space-y-4 overflow-y-scroll h-4/5">
-                  {topic?.map((topic) => (
-                    <ContentsSection
-                      key={topic.id} // Ensure unique keys for each list item
-                      time={topic?.creator?.fullName}
-                      content={topic?.name}
-                      suffix={
-                        <HiDotsHorizontal
-                          onClick={() => handleOpenModal(topic)}
-                        />
-                      }
-                    />
-                  ))}
+                  {topic?.length > 0 ? (
+                    topic?.map((topic) => (
+                      <ContentsSection
+                        key={topic.id} // Ensure unique keys for each list item
+                        time={topic?.creator?.fullName}
+                        content={topic?.name}
+                        suffix={
+                          <HiDotsHorizontal
+                            onClick={() => handleOpenModal(topic)}
+                          />
+                        }
+                      />
+                    ))
+                  ) : (
+                    <Empty description="Hiện chưa có đề tài nào" />
+                  )}
                 </ul>
               </CustomizedCard>
 
-              <TopicDetail isOpen={open} onCancel={handleCloseModal} topic={selectedTopic}/>
+              <TopicDetail
+                isOpen={open}
+                onCancel={handleCloseModal}
+                topic={selectedTopic}
+                isLeader={isLeader}
+              />
             </div>
           </>
         ) : (

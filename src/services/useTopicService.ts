@@ -2,7 +2,7 @@
 import { useCallback } from "react";
 import useApiService from "../hooks/useApi";
 import { toast } from "react-toastify";
-import { TOPIC_API } from "../constants/endpoints";
+import { TEAM_API, TOPIC_API } from "../constants/endpoints";
 import api from "../config/api";
 
 const useTopicService = () => {
@@ -100,7 +100,36 @@ const useTopicService = () => {
     },
     [callApi, setIsLoading, acceptTopic, rejectTopic]
   );
-  return { createTopic, getTopics, loading, acceptTopic, rejectTopic };
+
+  const bookTopic = useCallback(
+    async (id: string) => {
+      try {
+        console.log(`${TEAM_API.TEAM}/${TOPIC_API.TOPIC}/${id}`);
+
+        setIsLoading(true);
+        const response = await callApi(
+          "put",
+          `${TEAM_API.TEAM}/topic?topicId=${id}`
+        );
+
+        toast.success("Choose topic successfully!");
+        return response?.message;
+      } catch (e: any) {
+        toast.error(e?.response?.data || "Failed to choose topic");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi, setIsLoading]
+  );
+  return {
+    createTopic,
+    getTopics,
+    loading,
+    acceptTopic,
+    rejectTopic,
+    bookTopic,
+  };
 };
 
 export default useTopicService;

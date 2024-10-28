@@ -1,27 +1,31 @@
-import { useState } from "react";
 import { CustomModal } from "../../molecules/modal/Modal";
 import { Button } from "../../atoms/button/Button";
-import { AiOutlineSend } from "react-icons/ai";
 import { Topic } from "../../../model/topic";
-import { Avatar, Descriptions } from "antd";
+import { Avatar, Descriptions, DescriptionsProps } from "antd";
+import { downloadBase64File } from "../../../utils/dowloadBase64File";
+import useTopicService from "../../../services/useTopicService";
 
 interface TopicDetailProps {
   width?: number;
   isOpen?: boolean;
   onCancel?: () => void;
-  onFinish?: (values: any) => void;
+  // onFinish?: (values: any) => void;
   onValueChange?: (values: any) => void;
   topic?: Topic;
+  isLeader?: boolean;
 }
 
 function TopicDetail({
   isOpen,
   onCancel,
-  onFinish,
+  // onFinish,
   onValueChange,
   width,
   topic,
+  isLeader,
 }: TopicDetailProps) {
+  const { bookTopic } = useTopicService();
+
   const items: DescriptionsProps["items"] = [
     {
       label: "Giảng viên",
@@ -39,7 +43,14 @@ function TopicDetail({
 
     {
       label: "File",
-      children: "18:00:00",
+      children: (
+        <Button
+          onClick={() => handleDownload(topic?.files[0])}
+          className="asset"
+        >
+          {topic?.files[0]?.name}
+        </Button>
+      ),
     },
 
     {
@@ -48,12 +59,25 @@ function TopicDetail({
       children: topic?.description || "Không có mô tả",
     },
   ];
+
+  const handleDownload = (asset: any) => {
+    downloadBase64File(asset.content, asset.name);
+  };
+
+  const onFinish = async () => {
+    console.log(topic)
+    try {
+      const res = await bookTopic(topic?.id || " ");
+    } catch (error) {
+    } finally {
+      onCancel();
+    }
+  };
   const header = <h1 className="text-2xl-medium mb-3">Chi tiết đề tài</h1>;
 
   const body = (
     <div className="modal-container">
       <Descriptions
-        // title="Responsive Descriptions"
         bordered
         column={{ xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 1 }}
         items={items}
@@ -63,20 +87,23 @@ function TopicDetail({
 
   const footer = (
     <div className="footer-container">
-      <Button styleClass="footer-btn--cancel" onClick={onCancel}>
-        Hủy
-      </Button>
-
-      <Button
-        styleClass="footer-btn--submit"
-        children={
-          <div className="flex justify-center items-center ">
-            <p className="mr-2">Chọn đề tài</p>
-          </div>
-        }
-        size="sm"
-        type="submit"
-      />
+      {isLeader && (
+        <>
+          <Button styleClass="footer-btn--cancel" onClick={onCancel}>
+            Hủy
+          </Button>
+          <Button
+            styleClass="footer-btn--submit"
+            children={
+              <div className="flex justify-center items-center ">
+                <p className="mr-2">Chọn đề tài</p>
+              </div>
+            }
+            size="sm"
+            type="submit"
+          />
+        </>
+      )}
     </div>
   );
 

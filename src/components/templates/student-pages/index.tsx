@@ -16,6 +16,7 @@ import CountdownTimer from "../../layouts/countdown-timer";
 import MeetingDetail from "../../organisms/meeting-detail";
 import { useNavigate } from "react-router-dom";
 import { STUDENT_ROUTES } from "../../../constants/routes";
+import { GiQueenCrown } from "react-icons/gi";
 
 const StudentPages = () => {
   const [loading, setLoading] = useState(true);
@@ -207,10 +208,14 @@ const StudentPages = () => {
                   <h3 className="text-sm-medium">
                     Danh sách thành viên nhóm
                     <span className="font-extrabold">
-                      {" " + dataTeam?.code}
+                      {" " +
+                        dataTeam?.code +
+                        " (" +
+                        dataTeam?.userTeams?.length +
+                        " thành viên)"}
                     </span>
                   </h3>
-                  {isLeader && (
+                  {/* {isLeader && (
                     <Button
                       size="sm"
                       fontSize="xs"
@@ -218,26 +223,33 @@ const StudentPages = () => {
                     >
                       Thêm thành viên +
                     </Button>
-                  )}
+                  )} */}
                   <ModalInvite
                     visible={isModalVisible}
                     onClose={() => setIsModalVisible(false)}
                   />
                 </div>
                 <ul className="flex flex-col gap-2 overflow-y-scroll flex-grow">
-                  {dataTeam?.userTeams?.map((data) => (
-                    <ContentsSection
-                      avt={data?.user?.avatar}
-                      isGroup
-                      key={data.id}
-                      content={`${data?.user?.studentCode}-${data?.user?.fullName}`}
-                      time={
-                        data.role == "LEADER"
-                          ? "Nhóm trưởng"
-                          : "Thành viên nhóm"
-                      }
-                    />
-                  ))}
+                  {dataTeam?.userTeams
+                    ?.sort((a, b) => (a.role === "LEADER" ? -1 : 1))
+                    .map((data) => (
+                      <ContentsSection
+                        avt={data?.user?.avatar}
+                        isGroup
+                        key={data.id}
+                        content={`${data?.user?.studentCode}-${data?.user?.fullName}`}
+                        time={
+                          data.role == "LEADER" ? (
+                            <div className="flex gap-2 items-center">
+                              <p>Nhóm trưởng</p>
+                              <GiQueenCrown size={20} />
+                            </div>
+                          ) : (
+                            "Thành viên nhóm"
+                          )
+                        }
+                      />
+                    ))}
                 </ul>
               </CustomizedCard>
             </div>

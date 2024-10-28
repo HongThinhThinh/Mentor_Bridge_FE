@@ -5,7 +5,7 @@ import "./ContentsSection.scss";
 interface ContentsSectionProps {
   value?: string;
   content?: string;
-  time?: string;
+  time?: React.ReactNode;
   status?: "none" | "pending" | "deny" | "success" | "feedback";
   isReady?: boolean;
   onClick?: () => void;

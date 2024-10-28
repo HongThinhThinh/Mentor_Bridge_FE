@@ -11,7 +11,6 @@ const EmptySchedulePage = () => {
   const fetchData = async () => {
     const response = await getWeeklyTimeFrame();
     setResponse(response);
-    console.log(response);
   };
 
   useEffect(() => {

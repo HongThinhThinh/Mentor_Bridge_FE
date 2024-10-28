@@ -50,7 +50,6 @@ function TestAPi() {
     const response = await testApi();
     setTest(response);
   };
-  console.log(test);
 
   return (
     <div>

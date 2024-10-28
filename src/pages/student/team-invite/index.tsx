@@ -45,7 +45,7 @@ const TeamInvitePage = () => {
       const result = await acceptInvitation(token, teamCode);
       setResponse("accepted");
       setShowConfetti(true);
-      console.log(result);
+      // console.log(result);
     } catch (error) {
       console.log(error);
     }

@@ -104,7 +104,6 @@ const useTopicService = () => {
   const bookTopic = useCallback(
     async (id: string) => {
       try {
-        console.log(`${TEAM_API.TEAM}/${TOPIC_API.TOPIC}/${id}`);
 
         setIsLoading(true);
         const response = await callApi(

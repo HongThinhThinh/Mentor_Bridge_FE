@@ -65,7 +65,6 @@ function TopicDetail({
   };
 
   const onFinish = async () => {
-    console.log(topic)
     try {
       const res = await bookTopic(topic?.id || " ");
     } catch (error) {

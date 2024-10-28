@@ -45,7 +45,7 @@ export const convertScheduleData = (values: any, timeDuration: number) => {
           .format("HH:mm");
 
         // Debugging values to ensure correct times
-        console.log(`Start Time: ${startTime}, End Time: ${endTime}`);
+        // console.log(`Start Time: ${startTime}, End Time: ${endTime}`);
 
         return { startTime, endTime };
       });

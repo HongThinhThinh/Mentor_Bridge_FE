@@ -25,7 +25,6 @@ const ChatList: FC<ChatListProps> = ({ setFetchRoom }) => {
   const fetch = async () => {
     try {
       const res = await api.get("/chat");
-      console.log(res.data);
       setData(res.data);
     } catch (err) {
       console.log(err);

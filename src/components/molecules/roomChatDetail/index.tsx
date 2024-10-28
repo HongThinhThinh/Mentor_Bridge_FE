@@ -24,8 +24,6 @@ function RoomChatDetail() {
     setData([]);
     try {
       const res = await api.get(`/chat/detail/${idRef.current}`);
-      console.log(res.data);
-      // console.log(res.data.users);
       setData(res.data);
     } catch (err) {
       console.log(err);
@@ -45,7 +43,6 @@ function RoomChatDetail() {
     }
   });
 
-  console.log(data?.messages);
 
   function handleKeyDown(event) {
     if (event.key === "Enter") {
@@ -54,7 +51,6 @@ function RoomChatDetail() {
   }
 
   useEffect(() => {
-    console.log(params.id);
     idRef.current = params.id;
   }, [params.id]);
 
@@ -69,7 +65,6 @@ function RoomChatDetail() {
 
   const sendMessage = async () => {
     if (message.length !== 0) {
-      console.log("asdasd");
       const res = await api.post(`/chat/send/${idRef.current}`, {
         message: message,
       });
@@ -77,7 +72,6 @@ function RoomChatDetail() {
       fetch();
       setRealtime(res);
       // fetchRoom();
-      console.log(res.data);
     }
   };
   return (

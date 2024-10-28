@@ -55,7 +55,6 @@ function AddTopicForm({ isOpen, onClose, fetchData }: AddTopicFormProps) {
       setSearchLoading(true);
       try {
         const results = await searchTeamMembers(teamName);
-        console.log(results);
         setTeamSearchResults(results);
       } catch (error) {
         console.error("Error searching for teams:", error);

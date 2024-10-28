@@ -20,9 +20,7 @@ function UpdateScheduler() {
   };
 
   const hanldeOnValuesChange = async (changedValues: any, allValues: any) => {
-    console.log(changedValues, allValues);
     const response = await checkSchedule(allValues, timeDuration);
-    console.log(response);
     setError(response);
   };
   const handleCancel = () => {
@@ -72,7 +70,6 @@ function UpdateScheduler() {
     </>
   );
 
-  console.log(error == null);
   const footer = (
     <div className="flex justify-between ">
       <Button

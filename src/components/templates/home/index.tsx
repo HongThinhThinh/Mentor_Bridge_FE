@@ -14,6 +14,8 @@ import { Select } from "antd";
 import { debounce } from "lodash";
 import useSemesterService from "../../../services/useSemesterService ";
 import useBookingService from "../../../services/useBookingService";
+import CountdownTimer from "../../layouts/countdown-timer";
+import MeetingDetail from "../../organisms/meeting-detail";
 
 const HomeTemplate = () => {
   const [remainDate, setRemainDate] = useState(3);
@@ -23,6 +25,7 @@ const HomeTemplate = () => {
   const [topic, setTopic] = useState<Topic[] | undefined>();
   const { getTopics } = useTopicService();
   const [selectedStatus, setSelectedStatus] = useState("");
+  const [isOpenMeetingDetail, setIsOpenDetail] = useState(false);
   const { getBookingNearest } = useBookingService();
 
   // useEffect(() => {
@@ -89,19 +92,35 @@ const HomeTemplate = () => {
           >
             <div className="h-full flex flex-col justify-between">
               <div className="text-white gap-2 flex flex-col">
-                <span className="text-xs-medium">
-                  Buổi hẹn tiếp theo sẽ bắt đầu vào
+                <span className="text-xs-large">
+                  Buổi hẹn tiếp theo sẽ bắt đầu vào:
                 </span>
-                <h3 className="text-xl-extra-bold">{remainDate} ngày nữa</h3>
+                <h3 className="text-xl-extra-bold">
+                  {" "}
+                  <CountdownTimer
+                    targetDate={bookingNearset[0]?.timeFrame?.timeFrameFrom}
+                  />{" "}
+                </h3>
               </div>
               <div className="flex justify-end">
                 <Button
+                  onClick={() => setIsOpenDetail(true)}
                   size="xs"
                   styleClass="bg-shade-900 text-white"
                   fontSize="xs"
                 >
                   Xem lịch ngay
                 </Button>
+
+                <MeetingDetail
+                  onCancel={() => setIsOpenDetail(false)}
+                  setIsOpenDetail={setIsOpenDetail}
+                  isOpen={isOpenMeetingDetail}
+                  date={formatDateToDDMMYY(
+                    bookingNearset[0]?.timeFrame?.timeFrameFrom
+                  )}
+                  meetings={bookingNearset}
+                />
               </div>
             </div>
           </CustomizedCard>

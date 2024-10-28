@@ -9,7 +9,6 @@ const useNotificationService = () => {
     try {
       setIsLoading(true);
       const response = await callApi("get", NOTIFICATIONAPIS.NOTIFICATION);
-      console.log(response?.data);
       return response?.data;
     } catch (e: any) {
       // toast.error(e?.response?.data || "Failed to get upcoming semester");

@@ -26,7 +26,7 @@ function SchedulePage() {
     // Kiểm tra xem data có tồn tại và có chứa khóa dateKey
     if (data && data[dateKey] && Array.isArray(data[dateKey])) {
       data[dateKey].forEach((booking: any) => {
-        listData.push({ content: `${booking.student.fullName} có cuộc họp` });
+        listData.push({ content: `${booking?.student?.fullName} có cuộc họp` });
       });
     }
 

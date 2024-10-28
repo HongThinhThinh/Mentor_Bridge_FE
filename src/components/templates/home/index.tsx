@@ -12,7 +12,9 @@ import { formatDateToDDMMYY } from "../../../utils/dateFormat";
 import { convertStatus } from "../../../utils/convertStatus";
 import { Select } from "antd";
 import { debounce } from "lodash";
-import useSemesterService from "../../../services/useSemesterService ";
+import useBookingService from "../../../services/useBookingService";
+import CountdownTimer from "../../layouts/countdown-timer";
+import MeetingDetail from "../../organisms/meeting-detail";
 
 const HomeTemplate = () => {
   const [remainDate, setRemainDate] = useState(3);
@@ -22,16 +24,22 @@ const HomeTemplate = () => {
   const [topic, setTopic] = useState<Topic[] | undefined>();
   const { getTopics } = useTopicService();
   const [selectedStatus, setSelectedStatus] = useState("");
-  const { getUpcomingSemester } = useSemesterService();
+  const [isOpenMeetingDetail, setIsOpenDetail] = useState(false);
+  const { getBookingNearest } = useBookingService();
+  const [bookingNearset, setBookingNearset] = useState([]);
 
-  // useEffect(() => {
-  //   const check = async() =>{
-  //     const res = await getUpcomingSemester();
-  //     console.log("s", res)
-  //   }
-  //   check();
-   
-  // }, []);
+  const fetch = async () => {
+    try {
+      const response = await getBookingNearest();
+      setBookingNearset(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetch();
+  }, []);
 
   // Use debounce to delay the filter action and avoid multiple renders
   const handleFilterChange = useMemo(
@@ -51,7 +59,6 @@ const HomeTemplate = () => {
         sortDirection: "asc",
         status: selectedStatus,
       });
-      console.log(topics);
       setTopic(topics);
     } catch (error) {
       console.error("Error fetching topics:", error);
@@ -73,20 +80,44 @@ const HomeTemplate = () => {
           >
             <div className="h-full flex flex-col justify-between">
               <div className="text-white gap-2 flex flex-col">
-                <span className="text-xs-medium">
-                  Buổi hẹn tiếp theo sẽ bắt đầu vào
-                </span>
-                <h3 className="text-xl-extra-bold">{remainDate} ngày nữa</h3>
+                {bookingNearset ? (
+                  <>
+                    <span className="text-xs-large">
+                      Buổi hẹn tiếp theo sẽ bắt đầu vào:
+                    </span>
+                    <h3 className="text-xl-extra-bold">
+                      <CountdownTimer
+                        targetDate={bookingNearset[0]?.timeFrame?.timeFrameFrom}
+                      />
+                    </h3>
+                  </>
+                ) : (
+                  <span className="text-xs-large">
+                    Chưa có cuộc hẹn nào sắp tới
+                  </span>
+                )}
               </div>
-              <div className="flex justify-end">
-                <Button
-                  size="xs"
-                  styleClass="bg-shade-900 text-white"
-                  fontSize="xs"
-                >
-                  Xem lịch ngay
-                </Button>
-              </div>
+              {bookingNearset && (
+                <div className="flex justify-end">
+                  <Button
+                    onClick={() => setIsOpenDetail(true)}
+                    size="xs"
+                    styleClass="bg-shade-900 text-white"
+                    fontSize="xs"
+                  >
+                    Xem lịch ngay
+                  </Button>
+                  <MeetingDetail
+                    onCancel={() => setIsOpenDetail(false)}
+                    setIsOpenDetail={setIsOpenDetail}
+                    isOpen={isOpenMeetingDetail}
+                    date={formatDateToDDMMYY(
+                      bookingNearset[0]?.timeFrame?.timeFrameFrom
+                    )}
+                    meetings={bookingNearset}
+                  />
+                </div>
+              )}
             </div>
           </CustomizedCard>
         </div>
@@ -120,7 +151,7 @@ const HomeTemplate = () => {
                     value: goodRate,
                   },
                 ]}
-              ></PieChart>
+              />
             </div>
           </CustomizedCard>
         </div>
@@ -175,11 +206,11 @@ const HomeTemplate = () => {
             <ul className="space-y-4 overflow-y-scroll h-4/5">
               {topic?.map((topic) => (
                 <ContentsSection
-                  key={topic.id} // Ensure unique keys for each list item
+                  key={topic.id}
                   time={formatDateToDDMMYY(topic.createdAt)}
                   content={topic.name}
                   status={
-                    topic?.status?.toLowerCase() == "inactive"
+                    topic?.status?.toLowerCase() === "inactive"
                       ? "success"
                       : topic?.status?.toLowerCase()
                   }

@@ -4,6 +4,7 @@ import { Notification } from "../../atoms/notification/Notification";
 import Account from "../../molecules/account/Account";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
 import useNotificationService from "../../../services/useNotificationService";
+import { formatDateAndHour } from "../../../utils/dateFormat";
 
 interface HeaderProps {
   title?: string;
@@ -38,7 +39,7 @@ const Header: FC<HeaderProps> = ({ title }) => {
         <strong>{item?.title}</strong>
         <p>{item?.message}</p>
         <span className="text-xs text-gray-500">
-          {new Date(item?.createdAt).toLocaleString()}
+          {formatDateAndHour(item?.createdAt)}
         </span>
       </div>
     ),

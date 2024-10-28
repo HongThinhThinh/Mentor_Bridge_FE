@@ -68,6 +68,18 @@ const useBookingService = () => {
     },
     [callApi]
   );
+  const getBookingNearest = useCallback(async () => {
+    try {
+      setIsLoading(true);
+
+      const response = await callApi("get", BOOKING_API.BOOKING_NEARST);
+      return response?.data;
+    } catch (e: any) {
+      toast.error(e?.response?.data || "Failed to get data");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [callApi]);
 
   const updateBooking = useCallback(
     async (
@@ -91,7 +103,14 @@ const useBookingService = () => {
     [callApi]
   );
 
-  return { sendBooking, loading, getBooking, updateBooking, getBookingByRole };
+  return {
+    sendBooking,
+    loading,
+    getBooking,
+    updateBooking,
+    getBookingByRole,
+    getBookingNearest,
+  };
 };
 
 export default useBookingService;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { CustomModal } from "../../molecules/modal/Modal";
 import { Button } from "../../atoms/button/Button";
 import ContentsSection from "../../atoms/contents-section/ContentsSection";
@@ -7,6 +7,7 @@ import { AiOutlineSend } from "react-icons/ai";
 import { Select } from "antd";
 import "./index.scss";
 import { formatHours } from "../../../utils/dateFormat";
+import { useCurrentUser } from "../../../utils/getcurrentUser";
 
 interface MeetingDetailProps {
   date?: string;
@@ -30,6 +31,7 @@ function MeetingDetail({
   meetings = [], // Default to empty array if no meetings
 }: MeetingDetailProps) {
   const [isReschedule, setIsReschedule] = useState(false); // State to control reschedule visibility
+  const user = useCurrentUser();
 
   const header = (
     <div>
@@ -40,27 +42,41 @@ function MeetingDetail({
     </div>
   );
 
-  const handleJoinMeeting = (meetingURL) => {
+  const handleJoinMeeting = (meetingURL: string) => {
     window.open(meetingURL);
   };
+
+  const handleShowMeetingName = (data: any) => {
+    if (user?.role === "STUDENT") {
+      return data?.mentor?.fullName || data?.mentor?.email;
+    }
+    if (user?.role === "MENTOR") {
+      return data?.student?.fullName || data?.team?.code;
+    }
+    return null;
+  };
+
+  const sortedMeetings = meetings.slice().sort((a, b) => {
+    const timeA = new Date(a.timeFrame?.timeFrameFrom).getTime();
+    const timeB = new Date(b.timeFrame?.timeFrameFrom).getTime();
+    return timeA - timeB;
+  });
 
   const body = (
     <div className="modal-container">
       <div className="modal-container__list">
         <h1 className="text-xl-medium">Danh sách cuộc họp trong ngày</h1>
-        {meetings.length > 0 ? (
-          meetings.map((meeting, index) => (
+        {sortedMeetings.length > 0 ? (
+          sortedMeetings.map((meeting) => (
             <ContentsSection
-              content={meeting?.student?.fullName}
+              content={handleShowMeetingName(meeting)}
               key={meeting.id}
               time={`${formatHours(
                 meeting.timeFrame?.timeFrameFrom
               )} - ${formatHours(meeting.timeFrame?.timeFrameTo)}`}
               status="success"
               value="Tham gia họp"
-              onClick={() => {
-                handleJoinMeeting(meeting?.meetLink);
-              }}
+              onClick={() => handleJoinMeeting(meeting?.meetLink)}
               isReady={meeting.isReady}
             />
           ))
@@ -69,7 +85,6 @@ function MeetingDetail({
         )}
       </div>
 
-      {/* Conditionally show the reschedule section */}
       {isReschedule && (
         <div className="modal-container__time-container">
           <h1 className="text-xl-medium">Dời cuộc họp lúc 15:30 đến</h1>
@@ -106,23 +121,17 @@ function MeetingDetail({
       >
         Hủy
       </Button>
-
-      <Button
-        styleClass="footer-btn--submit"
-        children={
-          <div className="flex justify-center items-center ">
-            <p className="mr-2">Xác nhận</p> <AiOutlineSend size={18} />
-          </div>
-        }
-        size="sm"
-        type="submit"
-      />
+      <Button styleClass="footer-btn--submit" size="sm" type="submit">
+        <div className="flex justify-center items-center">
+          <p className="mr-2">Xác nhận</p> <AiOutlineSend size={18} />
+        </div>
+      </Button>
     </div>
   ) : (
-    <div className="flex justify-end items-end ">
+    <div className="flex justify-end items-end">
       <Button
         onClick={() => setIsReschedule(true)}
-        styleClass="footer-btn--reschedule "
+        styleClass="footer-btn--reschedule"
       >
         Dời cuộc họp
       </Button>
@@ -130,18 +139,16 @@ function MeetingDetail({
   );
 
   return (
-    <>
-      <CustomModal
-        onValueChange={onValueChange}
-        header={header}
-        width={width}
-        body={body}
-        footer={footer}
-        isOpen={isOpen}
-        onCancel={onCancel}
-        onFinish={onFinish}
-      />
-    </>
+    <CustomModal
+      onValueChange={onValueChange}
+      header={header}
+      width={width}
+      body={body}
+      footer={footer}
+      isOpen={isOpen}
+      onCancel={onCancel}
+      onFinish={onFinish}
+    />
   );
 }
 

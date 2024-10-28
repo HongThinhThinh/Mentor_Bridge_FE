@@ -2,6 +2,7 @@ import { FC } from "react";
 import { useStateValue } from "../../../context/stateProvider";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
+import { USER_ROUTES } from "../../../constants/routes";
 
 interface RoomMessageProps {
   key?: number;
@@ -38,9 +39,7 @@ const RoomMessage: FC<RoomMessageProps> = ({
     setShowSearchFriends(false);
     setActive(room);
     setShowChatList(false);
-    user?.role === "CREATOR"
-      ? navigate(`/creator-manage/room/${room}`)
-      : navigate(`/room-messages/${room}`);
+    navigate(`${room}`);
   };
 
   return (

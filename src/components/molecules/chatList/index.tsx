@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import "./index.scss";
 import { useStateValue } from "../../../context/stateProvider";
-
 import { useParams } from "react-router-dom";
 import useRealtime from "../../../hooks/useRealtime";
 import RoomMessage from "../roomMessage";
@@ -15,8 +14,6 @@ const ChatList: FC<ChatListProps> = ({ setFetchRoom }) => {
   const { theme, setShowSearchFriends, active, setActive, realtime } =
     useStateValue();
   const [data, setData] = useState([]);
-  const [isSet, setIsSet] = useState(false);
-  // const [user, setUser] = useState([]);
   const user = useCurrentUser();
   const { id } = useParams();
 
@@ -29,10 +26,22 @@ const ChatList: FC<ChatListProps> = ({ setFetchRoom }) => {
     try {
       const res = await api.get("/chat");
       console.log(res.data);
-      // console.log(res.data.users);
       setData(res.data);
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const getNameMessage = (data) => {
+    if (data?.users && data?.users.length == 2) {
+      const response = data?.users.filter((item) => item.id != user?.id)[0];
+      return response?.fullName || response?.email;
+    }
+  };
+  const getImg = (data) => {
+    if (data?.users && data?.users.length == 2) {
+      const response = data?.users.filter((item) => item.id != user?.id)[0];
+      return response?.avartar;
     }
   };
 
@@ -49,8 +58,8 @@ const ChatList: FC<ChatListProps> = ({ setFetchRoom }) => {
       <div className="chat-list">
         <div className="chat-list__information">
           <div className="chat-list__information__left">
-            <img src={user?.avt} alt="" />
-            <span>{user?.name}</span>
+            <img src={user?.avatar} alt="" />
+            <span>{user?.fullName || user?.email}</span>
           </div>
           <div
             className="chat-list__information__right"
@@ -67,8 +76,8 @@ const ChatList: FC<ChatListProps> = ({ setFetchRoom }) => {
               room={room?.roomID}
               active={active}
               setActive={setActive}
-              avt={room.users.filter((item) => item.id != user.id)[0].avt}
-              name={room.users.filter((item) => item.id != user.id)[0].name}
+              avt={getImg(room)}
+              name={getNameMessage(room) || room?.name}
               lastMessage={room.lastMessage}
             />
           ))}

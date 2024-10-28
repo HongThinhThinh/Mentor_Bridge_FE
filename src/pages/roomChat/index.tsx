@@ -10,7 +10,7 @@ function RoomChat() {
   const { param } = useParams();
 
   return (
-    <div className="roomChat">
+    <div className="roomChat text-black">
       {isQuery ? (
         <>
           {showChatList && <ChatList />}

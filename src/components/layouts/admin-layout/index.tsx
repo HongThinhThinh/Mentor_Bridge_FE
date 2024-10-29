@@ -8,7 +8,7 @@ import { SlCalender } from "react-icons/sl";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { Button } from "../../atoms/button/Button";
-import { LogoutOutlined } from "@ant-design/icons";
+import { BookOutlined, CalendarOutlined, LogoutOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
 import { logout } from "../../../redux/features/userSlice";
 import { FcDataConfiguration } from "react-icons/fc";
 type MenuItem = Required<MenuProps>["items"][number];
@@ -26,10 +26,10 @@ function getItem(
   } as MenuItem;
 }
 const items: MenuItem[] = [
-  getItem("Config", "config", <FcDataConfiguration />),
-  getItem("User", "user", <SlCalender />),
-  getItem("Topic", "topic", <MdOutlineTopic />),
-  getItem("Semester", "semester", <SlCalender />),
+  getItem("Config", "config", <SettingOutlined />),
+  getItem("User", "user", <UserOutlined />),
+  getItem("Topic", "topic", <BookOutlined />),
+  getItem("Semester", "semester", <CalendarOutlined />),
 ];
 const AdminLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);

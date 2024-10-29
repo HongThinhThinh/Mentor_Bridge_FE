@@ -166,7 +166,7 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
   };
 
   return (
-    <div>
+    <div className="h-full">
       {isImport ? (
         <UploadFileComponent fetchData={fetchData} />
       ) : (

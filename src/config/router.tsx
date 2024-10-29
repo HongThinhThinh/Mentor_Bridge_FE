@@ -28,6 +28,7 @@ import RoomChat from "../pages/roomChat";
 import ChatDetail from "../components/molecules/chatDetail";
 import { toast } from "react-toastify";
 import { useCurrentUser } from "../utils/getcurrentUser";
+import ManageOverview from "../pages/admin/manage-overview";
 
 interface ProtectedRouteByRoleProps {
   children: ReactNode;
@@ -60,9 +61,9 @@ function TestAPi() {
   );
 }
 
-
-
-const ProtectedRouteAuth: React.FC<ProtectedRouteAuthProps> = ({ children }) => {
+const ProtectedRouteAuth: React.FC<ProtectedRouteAuthProps> = ({
+  children,
+}) => {
   const user = useCurrentUser();
 
   if (!user) {
@@ -73,7 +74,10 @@ const ProtectedRouteAuth: React.FC<ProtectedRouteAuthProps> = ({ children }) => 
   return children;
 };
 
-const ProtectedRouteByRole: React.FC<ProtectedRouteByRoleProps> = ({ children, allowedRoles }) => {
+const ProtectedRouteByRole: React.FC<ProtectedRouteByRoleProps> = ({
+  children,
+  allowedRoles,
+}) => {
   const user = useCurrentUser();
 
   if (!user || !allowedRoles.includes(user.role)) {
@@ -83,7 +87,6 @@ const ProtectedRouteByRole: React.FC<ProtectedRouteByRoleProps> = ({ children, a
 
   return children;
 };
-
 
 export const router = createBrowserRouter([
   {
@@ -97,12 +100,20 @@ export const router = createBrowserRouter([
 
   {
     path: USER_ROUTES.TEAM_INVITE,
-    element: <ProtectedRouteAuth><TeamInvitePage /></ProtectedRouteAuth>,
+    element: (
+      <ProtectedRouteAuth>
+        <TeamInvitePage />
+      </ProtectedRouteAuth>
+    ),
   },
 
   {
     path: MENTOR_ROUTES.MENTOR,
-    element: <ProtectedRouteByRole allowedRoles={["MENTOR"]}><DashboardLayout /></ProtectedRouteByRole>,
+    element: (
+      <ProtectedRouteByRole allowedRoles={["MENTOR"]}>
+        <DashboardLayout />
+      </ProtectedRouteByRole>
+    ),
     children: [
       {
         path: MENTOR_ROUTES.MENTOR_PAGE,
@@ -146,7 +157,11 @@ export const router = createBrowserRouter([
   },
   {
     path: STUDENT_ROUTES.STUDENT,
-    element: <ProtectedRouteByRole allowedRoles={["STUDENT"]}><DashboardLayout /></ProtectedRouteByRole>,
+    element: (
+      <ProtectedRouteByRole allowedRoles={["STUDENT"]}>
+        <DashboardLayout />
+      </ProtectedRouteByRole>
+    ),
     children: [
       {
         path: STUDENT_ROUTES.STUDENT_PAGE,
@@ -187,7 +202,11 @@ export const router = createBrowserRouter([
 
   {
     path: ADMIN_ROUTES.ADMIN,
-    element: <ProtectedRouteByRole allowedRoles={["ADMIN"]}><AdminLayout /></ProtectedRouteByRole>,
+    element: (
+      <ProtectedRouteByRole allowedRoles={["ADMIN"]}>
+        <AdminLayout />
+      </ProtectedRouteByRole>
+    ),
     children: [
       {
         path: ADMIN_ROUTES.TOPIC,
@@ -204,6 +223,10 @@ export const router = createBrowserRouter([
       {
         path: ADMIN_ROUTES.SEMESTER,
         element: <ManageSemester />,
+      },
+      {
+        path: ADMIN_ROUTES.OVERVIEW,
+        element: <ManageOverview />,
       },
     ],
   },

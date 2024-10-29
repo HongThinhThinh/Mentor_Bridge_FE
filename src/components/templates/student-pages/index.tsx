@@ -100,7 +100,7 @@ const StudentPages = () => {
           >
             <div className="h-full flex flex-col justify-between">
               <div className="text-white gap-2 flex flex-col">
-                {bookingNearset ? (
+                {bookingNearset && bookingNearset?.length > 0 ? (
                   <>
                     <span className="text-xs-large">
                       Buổi hẹn tiếp theo sẽ bắt đầu vào:
@@ -125,7 +125,7 @@ const StudentPages = () => {
                 )}
               </div>
             </div>
-            {bookingNearset ? (
+            {bookingNearset && bookingNearset?.length > 0 ? (
               <div className="flex justify-end">
                 <Button
                   onClick={() => setIsOpenDetail(true)}

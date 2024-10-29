@@ -89,7 +89,6 @@ function BookingMentor({}: BookingMentorProps) {
         setIsFetching(false);
       });
   };
-  console.log(scheduleItems);
 
   return (
     <div className="flex flex-col gap-5">

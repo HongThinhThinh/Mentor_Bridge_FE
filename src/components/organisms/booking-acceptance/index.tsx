@@ -172,7 +172,6 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
   const fetchData = () => {
     getBooking(undefined, "REQUESTED")
       .then((response) => {
-        console.log(response);
         setDataSource(response);
       })
       .catch((error) => {

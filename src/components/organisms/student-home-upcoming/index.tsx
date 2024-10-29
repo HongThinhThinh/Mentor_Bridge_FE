@@ -64,7 +64,6 @@ function StudentHomeUpcoming() {
         sortDirection: "asc",
         status: "APPROVED",
       });
-      console.log(topics);
       setTopic(topics);
     } catch (error) {
       console.error("Error fetching topics:", error);

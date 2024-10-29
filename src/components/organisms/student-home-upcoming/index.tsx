@@ -23,6 +23,7 @@ function StudentHomeUpcoming() {
 
   const [open, setOpen] = useState<boolean>(false);
   const [selectedTopic, setSelectedTopic] = useState<Topic>();
+  const [load, setLoad] = useState(false);
 
   const user = useCurrentUser();
 
@@ -74,7 +75,7 @@ function StudentHomeUpcoming() {
 
   useEffect(() => {
     fetchTopics();
-  }, []);
+  }, [load]);
 
   return (
     <div className="mt-7">
@@ -97,7 +98,7 @@ function StudentHomeUpcoming() {
                         " thành viên)"}
                     </span>
                   </h3>
-                  {(isLeader || dataTeam?.userTeams?.length <= 5) && (
+                  {isLeader && dataTeam?.userTeams?.length <= 5 && (
                     <Button
                       size="sm"
                       fontSize="xs"
@@ -156,7 +157,8 @@ function StudentHomeUpcoming() {
                         time={topic?.creator?.fullName}
                         content={topic?.name}
                         suffix={
-                          <HiDotsHorizontal size={22}
+                          <HiDotsHorizontal
+                            size={22}
                             onClick={() => handleOpenModal(topic)}
                           />
                         }
@@ -173,6 +175,8 @@ function StudentHomeUpcoming() {
                 onCancel={handleCloseModal}
                 topic={selectedTopic}
                 isLeader={isLeader}
+                load={load}
+                setLoad={setLoad}
               />
             </div>
           </>

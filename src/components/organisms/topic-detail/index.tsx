@@ -13,6 +13,9 @@ interface TopicDetailProps {
   onValueChange?: (values: any) => void;
   topic?: Topic;
   isLeader?: boolean;
+  load?: boolean;  // Thêm load
+  setLoad?: (value: boolean) => void;  // Thêm setLoad
+  
 }
 
 function TopicDetail({
@@ -23,6 +26,9 @@ function TopicDetail({
   width,
   topic,
   isLeader,
+  load,
+  setLoad,
+
 }: TopicDetailProps) {
   const { bookTopic, loading } = useTopicService();
 
@@ -67,6 +73,7 @@ function TopicDetail({
   const onFinish = async () => {
     try {
       const res = await bookTopic(topic?.id || " ");
+      setLoad && setLoad(true);
     } catch (error) {
     } finally {
       onCancel();

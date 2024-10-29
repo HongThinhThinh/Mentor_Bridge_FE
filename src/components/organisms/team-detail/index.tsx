@@ -27,8 +27,6 @@ function TeamDetail({
     (teamMember) => teamMember?.role === "LEADER"
   );
 
- 
-
   const items: DescriptionsProps["items"] = [
     {
       label: "Tên nhóm",
@@ -45,9 +43,9 @@ function TeamDetail({
     {
       label: "Thành viên",
       children: (
-        <div className="team-members">
+        <div>
           {userTeams?.map((users) => (
-            <div key={users.id} className="flex gap-3 items-center">
+            <div key={users.id} className="flex gap-3 items-center mb-1">
               <Avatar src={users?.user?.avatar} alt={users?.fullName} />
               <span className="member-name">
                 {users?.user?.fullName} - {users?.user?.studentCode}

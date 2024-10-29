@@ -11,12 +11,13 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ title }) => {
-  const { getNotifications } = useNotificationService();
+  const { getNotifications, updateNotifications } = useNotificationService();
   const [data, setData] = useState([]);
 
   const fetchNotifications = async () => {
     try {
       const response = await getNotifications();
+
       setData(response);
     } catch (error) {
       console.error("Error fetching notifications:", error);
@@ -26,6 +27,11 @@ const Header: FC<HeaderProps> = ({ title }) => {
   useEffect(() => {
     fetchNotifications();
   }, []);
+
+  const handleReadNoti = async () => {
+    await updateNotifications();
+    await fetchNotifications();
+  };
 
   const user = useCurrentUser();
   const role =
@@ -50,9 +56,13 @@ const Header: FC<HeaderProps> = ({ title }) => {
       <div>
         <h1 className="text-2xl-bold pt-3">{title}</h1>
       </div>
-      <div className="flex gap-5">
+      <div className="flex gap-5" onClick={() => handleReadNoti()}>
         <Notification
-          count={data?.length}
+          count={
+            Array.isArray(data)
+              ? data?.filter((item) => !item?.isRead).length
+              : 0
+          }
           items={notificationItems}
           placement="bottomRight"
           styleClass="cursor-pointer text-shade-800"

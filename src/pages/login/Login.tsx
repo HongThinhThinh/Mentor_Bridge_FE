@@ -9,7 +9,7 @@ import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
 import useAuthService from "../../services/useUserService";
 
 function Login() {
-  const { login, loginGoogle } = useAuthService();
+  const { login, loginGoogle,loading } = useAuthService();
 
   const handleLogin = async (values: any) => {
     await login(values);
@@ -81,6 +81,7 @@ function Login() {
                 styleClass="w-[369px] text-shade-300 bg-transparent border border-[#D5D5D7] 
          bg-gradient-to-r from-[#FF6001] from-43.73%  to-[#F9A26E] to-99.08%"
                 fontSize="xs"
+                loading={loading}
               />
             </Form>
           </Col>

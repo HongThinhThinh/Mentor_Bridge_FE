@@ -12,22 +12,32 @@ const ManageConfig: React.FC = () => {
       key: "id",
     },
     {
-      title: "Minimum Hours",
+      title: "Số giờ tối thiếu của giảng viên mỗi kỳ",
       dataIndex: "minimumHours",
       key: "minimumHours",
     },
     {
-      title: "Minimum Time Slot Duration",
+      title: "Thời gian tối thiểu cho từng slots",
       dataIndex: "minTimeSlotDuration",
       key: "minTimeSlotDuration",
       render: (value: string) => value || "00:00",
+    },
+    {
+      title: "Tổng số điểm",
+      dataIndex: "totalPoints",
+      key: "totalPoints",
+    },
+    {
+      title: "Điểm bị trừ ",
+      dataIndex: "pointsDeducted",
+      key: "pointsDeducted",
     },
   ];
 
   const formItems = (
     <>
       <Form.Item
-        label="Minimum Hours For Semester"
+        label="Số giờ tối thiếu của giảng viên mỗi kỳ"
         name="minimumHours"
         rules={[{ required: true, message: "Please enter minimum hours" }]}
       >
@@ -35,7 +45,7 @@ const ManageConfig: React.FC = () => {
       </Form.Item>
 
       <Form.Item
-        label="Minimum Time Slot Duration (Minutes)"
+        label="Thời gian tối thiểu cho từng slots (Phút)"
         name="minTimeSlotDuration"
         rules={[
           {
@@ -53,6 +63,22 @@ const ManageConfig: React.FC = () => {
           formatter={(value) => `${value} minutes`}
           parser={(value) => value?.replace(" minutes", "")}
         />
+      </Form.Item>
+
+      <Form.Item
+        label="Tổng số điểm"
+        name="totalPoints"
+        rules={[{ required: true, message: "Please enter total points" }]}
+      >
+        <InputNumber min={0} placeholder="Enter total points" />
+      </Form.Item>
+
+      <Form.Item
+        label="Điểm bị trừ cho mỗi bookings"
+        name="pointsDeducted"
+        rules={[{ required: true, message: "Please enter points deducted" }]}
+      >
+        <InputNumber min={0} placeholder="Enter points deducted" />
       </Form.Item>
     </>
   );

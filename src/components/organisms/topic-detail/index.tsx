@@ -1,7 +1,7 @@
 import { CustomModal } from "../../molecules/modal/Modal";
 import { Button } from "../../atoms/button/Button";
 import { Topic } from "../../../model/topic";
-import { Avatar, Descriptions, DescriptionsProps } from "antd";
+import { Avatar, Descriptions, DescriptionsProps, Spin } from "antd";
 import { downloadBase64File } from "../../../utils/dowloadBase64File";
 import useTopicService from "../../../services/useTopicService";
 
@@ -24,7 +24,7 @@ function TopicDetail({
   topic,
   isLeader,
 }: TopicDetailProps) {
-  const { bookTopic } = useTopicService();
+  const { bookTopic, loading } = useTopicService();
 
   const items: DescriptionsProps["items"] = [
     {
@@ -76,11 +76,17 @@ function TopicDetail({
 
   const body = (
     <div className="modal-container">
-      <Descriptions
-        bordered
-        column={{ xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 1 }}
-        items={items}
-      />
+      {!loading ? (
+        <Descriptions
+          bordered
+          column={{ xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 1 }}
+          items={items}
+        />
+      ) : (
+        <div className="flex items-center justify-center h-20">
+          <Spin size="large" />
+        </div>
+      )}
     </div>
   );
 

@@ -11,10 +11,12 @@ import { Topic } from "../../../model/topic";
 import { HiDotsHorizontal } from "react-icons/hi";
 import TopicDetail from "../topic-detail";
 import { Empty } from "antd";
+import { GiQueenCrown } from "react-icons/gi";
 
 function StudentHomeUpcoming() {
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isReload, setIsReload] = useState(false);
 
   const [dataTeam, setDataTeam] = useState();
   const [topic, setTopic] = useState<Topic[] | undefined>();
@@ -53,7 +55,7 @@ function StudentHomeUpcoming() {
 
   useEffect(() => {
     fetchDataGroups();
-  }, []);
+  }, [isReload]);
 
   const fetchTopics = useCallback(async () => {
     try {
@@ -87,9 +89,15 @@ function StudentHomeUpcoming() {
                 <div className="flex justify-between items-center h-24">
                   <h3 className="text-sm-medium">
                     Danh sách thành viên nhóm{" "}
-                    <span className="font-extrabold">{dataTeam?.code}</span>
+                    <span className="font-extrabold">
+                      {" " +
+                        dataTeam?.code +
+                        " (" +
+                        dataTeam?.userTeams?.length +
+                        " thành viên)"}
+                    </span>
                   </h3>
-                  {isLeader && (
+                  {(isLeader || dataTeam?.userTeams?.length <= 5) && (
                     <Button
                       size="sm"
                       fontSize="xs"
@@ -105,21 +113,28 @@ function StudentHomeUpcoming() {
                   />
                 </div>
                 <ul className="flex flex-col gap-2 overflow-y-scroll flex-grow">
-                  {dataTeam?.userTeams?.map((data) => (
-                    <ContentsSection
-                      avt={data?.user?.avatar}
-                      isGroup
-                      key={data.id}
-                      // status="pending"
-                      content={`${data?.user?.studentCode}-${data?.user?.fullName}`}
-                      time={
-                        data.role == "LEADER"
-                          ? "Nhóm trưởng"
-                          : "Thành viên nhóm"
-                      }
-                      // value="Đang xử lý"
-                    />
-                  ))}
+                  {dataTeam?.userTeams
+                    ?.sort((a, b) => (a.role === "LEADER" ? -1 : 1))
+                    .map((data) => (
+                      <ContentsSection
+                        avt={data?.user?.avatar}
+                        isGroup
+                        key={data.id}
+                        // status="pending"
+                        content={`${data?.user?.studentCode}-${data?.user?.fullName}`}
+                        time={
+                          data.role == "LEADER" ? (
+                            <div className="flex gap-2 items-center">
+                              <p>Nhóm trưởng</p>
+                              <GiQueenCrown size={20} />
+                            </div>
+                          ) : (
+                            "Thành viên nhóm"
+                          )
+                        }
+                        // value="Đang xử lý"
+                      />
+                    ))}
                 </ul>
               </CustomizedCard>
             </div>
@@ -141,7 +156,7 @@ function StudentHomeUpcoming() {
                         time={topic?.creator?.fullName}
                         content={topic?.name}
                         suffix={
-                          <HiDotsHorizontal
+                          <HiDotsHorizontal size={22}
                             onClick={() => handleOpenModal(topic)}
                           />
                         }
@@ -163,7 +178,7 @@ function StudentHomeUpcoming() {
           </>
         ) : (
           <div className="h-full flex justify-center items-center">
-            <GroupSections />
+            <GroupSections setIsReload={setIsReload} />
           </div>
         )}
       </div>

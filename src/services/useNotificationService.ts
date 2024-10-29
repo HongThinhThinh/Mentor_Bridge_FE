@@ -16,10 +16,22 @@ const useNotificationService = () => {
       setIsLoading(false);
     }
   }, []);
+  const updateNotifications = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const response = await callApi("put", NOTIFICATIONAPIS.NOTIFICATION);
+      return response?.data;
+    } catch (e: any) {
+      // toast.error(e?.response?.data || "Failed to get upcoming semester");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
   return {
     loading,
     setIsLoading,
     getNotifications,
+    updateNotifications,
   };
 };
 

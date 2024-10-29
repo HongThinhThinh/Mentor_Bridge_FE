@@ -9,7 +9,7 @@ import GroupSections from "../../molecules/group-sections";
 import useStudentService from "../../../services/useStudentService";
 import ModalInvite from "../../molecules/modal-invite";
 import useBookingService from "../../../services/useBookingService";
-import { Select } from "antd";
+import { Empty, Select } from "antd";
 import { formatDateToDDMMYY, formatHours } from "../../../utils/dateFormat";
 import { convertStatus, convertStatusEnum } from "../../../utils/convertStatus";
 import CountdownTimer from "../../layouts/countdown-timer";
@@ -268,19 +268,25 @@ const StudentPages = () => {
                   />
                 </div>
                 <ul className="space-y-4 overflow-y-scroll h-4/5">
-                  {dataSource?.map((item) => (
-                    <ContentsSection
-                      time={
-                        formatHours(item?.timeFrame?.timeFrameFrom) +
-                        " - " +
-                        formatHours(item?.timeFrame?.timeFrameTo)
-                      }
-                      value={convertStatus(item?.status)}
-                      status={convertStatusEnum(item?.status)}
-                      content={item?.mentor?.fullName}
-                      styleClass="pl-4"
-                    />
-                  ))}
+                  {dataSource && dataSource?.length > 0 ? (
+                    <>
+                      {dataSource?.map((item) => (
+                        <ContentsSection
+                          time={
+                            formatHours(item?.timeFrame?.timeFrameFrom) +
+                            " - " +
+                            formatHours(item?.timeFrame?.timeFrameTo)
+                          }
+                          value={convertStatus(item?.status)}
+                          status={convertStatusEnum(item?.status)}
+                          content={item?.mentor?.fullName}
+                          styleClass="pl-4"
+                        />
+                      ))}
+                    </>
+                  ) : (
+                    <Empty />
+                  )}
                 </ul>
               </CustomizedCard>
             </div>

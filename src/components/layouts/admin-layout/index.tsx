@@ -11,6 +11,7 @@ import { Button } from "../../atoms/button/Button";
 import { LogoutOutlined } from "@ant-design/icons";
 import { logout } from "../../../redux/features/userSlice";
 import { FcDataConfiguration } from "react-icons/fc";
+import { FaChartPie } from "react-icons/fa";
 type MenuItem = Required<MenuProps>["items"][number];
 function getItem(
   label: React.ReactNode,
@@ -26,6 +27,7 @@ function getItem(
   } as MenuItem;
 }
 const items: MenuItem[] = [
+  getItem("Overview", "overview", <FaChartPie />),
   getItem("Config", "config", <FcDataConfiguration />),
   getItem("Semester", "semester", <SlCalender />),
   getItem("User", "user", <SlCalender />),

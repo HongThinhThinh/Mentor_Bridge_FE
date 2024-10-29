@@ -9,7 +9,6 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { isInTerm } = useIsUpcoming();
-  console.log(isInTerm);
   // Check if isInTerm has data
   const hasTermData = isInTerm && isInTerm?.length > 0;
   const message = hasTermData ? (

@@ -31,7 +31,6 @@ const useScheduleService = () => {
         }
         return response?.data;
       } catch (e: any) {
-        console.log(e);
         toast.error(e?.response?.data);
       } finally {
         setIsLoading(false);
@@ -84,7 +83,6 @@ const useScheduleService = () => {
         "get",
         `${SCHEDULE_API.SCHEDULE}/weeklyTimeFrame`
       );
-      console.log(response?.data);
       // toast.success("Get Data Schedule Successfully !!!");
       return response?.data;
     } catch (e: any) {

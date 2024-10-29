@@ -126,7 +126,6 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
 
   const handleSubmitForm = async (values: any) => {
     setLoading(true);
-    console.log(values);
     if (values.minTimeSlotDuration) {
       values.minTimeSlotDuration = `PT${values.minTimeSlotDuration}M`;
     }

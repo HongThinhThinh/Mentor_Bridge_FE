@@ -73,7 +73,6 @@ const StudentPages = () => {
   const fetchData = () => {
     getBooking(selectedOption, "REQUESTED")
       .then((response) => {
-        console.log(response);
         setDataSource(response);
       })
       .catch((error) => {

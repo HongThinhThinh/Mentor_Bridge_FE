@@ -49,7 +49,6 @@ const studentItems = [
   { label: "Đoạn chat", key: "messages", icon: <WechatOutlined /> },
   { label: "Lịch Trình", key: "schedule", icon: <CalendarOutlined /> },
   { label: "Đặt Lịch", key: "booking", icon: <BookOutlined /> },
-  // getItem("Product", "product", <PieChartOutlined />),
 ];
 
 export const studentMenuItems: MenuItem[] = studentItems.map((item) =>

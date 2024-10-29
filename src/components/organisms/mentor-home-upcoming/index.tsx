@@ -36,7 +36,6 @@ function MentorHomeUpcoming() {
         sortDirection: "asc",
         status: selectedStatus,
       });
-      console.log(topics);
       setTopic(topics);
     } catch (error) {
       console.error("Error fetching topics:", error);

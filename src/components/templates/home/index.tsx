@@ -19,7 +19,6 @@ import GroupList from "../../molecules/team-section";
 import useMentorService from "../../../services/useMentorService";
 
 const HomeTemplate = () => {
-  const [remainDate, setRemainDate] = useState(3);
   const [loading, setLoading] = useState(false);
   const [goodRate, setGoodRate] = useState(80);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -95,7 +94,7 @@ const HomeTemplate = () => {
           >
             <div className="h-full flex flex-col justify-between">
               <div className="text-white gap-2 flex flex-col">
-                {bookingNearset ? (
+                {bookingNearset && bookingNearset?.length > 0 ? (
                   <>
                     <span className="text-xs-large">
                       Buổi hẹn tiếp theo sẽ bắt đầu vào:
@@ -107,12 +106,18 @@ const HomeTemplate = () => {
                     </h3>
                   </>
                 ) : (
-                  <span className="text-xs-large">
+                  <span
+                    style={{
+                      fontSize: "20px",
+                      fontWeight: "600",
+                      color: "#fff",
+                    }}
+                  >
                     Chưa có cuộc hẹn nào sắp tới
                   </span>
                 )}
               </div>
-              {bookingNearset && (
+              {bookingNearset && bookingNearset?.length > 0 && (
                 <div className="flex justify-end">
                   <Button
                     onClick={() => setIsOpenDetail(true)}

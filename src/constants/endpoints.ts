@@ -1,9 +1,7 @@
-import { NOTIFICATIONAPI } from "./endpoints";
-import { Notification } from "./../components/atoms/notification/Notification";
-// ADMIN
 export enum ADMIN_API {
   ADMIN = "admin",
   UPLOADCSV = "admin/upload-csv",
+  STATISTIC = "admin/stats",
 }
 
 //USER

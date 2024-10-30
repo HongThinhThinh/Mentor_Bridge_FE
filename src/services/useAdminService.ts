@@ -50,12 +50,24 @@ const useAdminService = () => {
     },
     [callApi, setIsLoading]
   );
+  const getStats = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const response = await callApi("get", `${ADMIN_API.STATISTIC}`);
+      return response;
+    } catch (e: any) {
+      // toast.error(e?.response?.data || "Failed to retrieve admin data");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [callApi, setIsLoading]);
 
   return {
     uploadFile,
     getAdminData,
     loading,
     setIsLoading,
+    getStats,
   };
 };
 

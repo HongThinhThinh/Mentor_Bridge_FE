@@ -58,6 +58,7 @@ function ManageUser() {
   return (
     <div>
       <DashboardTemplate
+        isCustom
         isImport
         apiURI={ADMIN_API.ADMIN}
         formItems={formItems}

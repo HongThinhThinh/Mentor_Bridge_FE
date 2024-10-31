@@ -29,11 +29,13 @@ export interface DashboardTemplateProps {
   apiURI: string;
   isCustom?: boolean;
   isReload?: boolean;
+  isConfig?: boolean;
 }
 
 export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
   isImport = false,
   isCustom = false,
+  isConfig = false,
   isReload,
   columns,
   title,

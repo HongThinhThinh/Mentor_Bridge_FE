@@ -30,7 +30,7 @@ function StudentHomeUpcoming() {
   const { getTopics } = useTopicService();
   const { getUserTeam } = useStudentService();
 
-  const leader = dataTeam?.userTeams.find(
+  const leader = dataTeam?.userTeams?.find(
     (member) => member?.role === "LEADER"
   ); // find id leader
 

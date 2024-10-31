@@ -1,4 +1,4 @@
-import { Popconfirm, Table } from "antd";
+import { Popconfirm, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 import { Column } from "../../templates/dashboard-template";
 import { Button } from "../../atoms/button/Button";
@@ -26,7 +26,7 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
   const [dataSource, setDataSource] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
 
-  const { getBooking, updateBooking } = useBookingService();
+  const { getBooking, updateBooking, loading } = useBookingService();
 
   const bookingColumns: Column[] = [
     {
@@ -198,6 +198,8 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
 
   return (
     <>
+      {loading && <Spin />}
+
       <Table
         columns={bookingColumns}
         dataSource={dataSource}

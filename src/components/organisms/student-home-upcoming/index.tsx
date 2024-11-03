@@ -12,12 +12,16 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import TopicDetail from "../topic-detail";
 import { Empty } from "antd";
 import { GiQueenCrown } from "react-icons/gi";
+import { FaQrcode } from "react-icons/fa";
+import { CustomModal } from "../../molecules/modal/Modal";
+import Modal from "antd/es/modal/Modal";
+import ModalQR from "../../molecules/modal-qr";
 
 function StudentHomeUpcoming() {
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isReload, setIsReload] = useState(false);
-
+  const [showQr, setShowQr] = useState(false);
   const [dataTeam, setDataTeam] = useState();
   const [topic, setTopic] = useState<Topic[] | undefined>();
 
@@ -98,21 +102,33 @@ function StudentHomeUpcoming() {
                         " thành viên)"}
                     </span>
                   </h3>
-                  {isLeader && dataTeam?.userTeams?.length <= 5 && (
-                    <Button
-                      size="sm"
-                      fontSize="xs"
-                      onClick={() => setIsModalVisible(true)}
-                    >
-                      Thêm thành viên +
+
+                  <div className="flex justify-center items-center gap-3">
+                    <Button status="date" onClick={() => setShowQr(true)}>
+                      <FaQrcode />
                     </Button>
-                  )}
+                    <ModalQR
+                      visible={showQr}
+                      onClose={() => setShowQr(false)}
+                    />
+
+                    {isLeader && dataTeam?.userTeams?.length <= 5 && (
+                      <Button
+                        size="sm"
+                        fontSize="xs"
+                        onClick={() => setIsModalVisible(true)}
+                      >
+                        Thêm thành viên +
+                      </Button>
+                    )}
+                  </div>
 
                   <ModalInvite
                     visible={isModalVisible}
                     onClose={() => setIsModalVisible(false)}
                   />
                 </div>
+
                 <ul className="flex flex-col gap-2 overflow-y-scroll flex-grow">
                   {dataTeam?.userTeams
                     ?.sort((a, b) => (a.role === "LEADER" ? -1 : 1))

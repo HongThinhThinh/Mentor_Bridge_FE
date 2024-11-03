@@ -32,6 +32,7 @@ export enum BOOKING_API {
   BOOKING_NEARST = "booking/nearest",
   MENTOR_MEETING = "booking/mentor-meeting",
   STUDENT_MEETING = "booking/student-meeting",
+  SEND_RESCHEDULE = "reschlue",
 }
 
 export enum TEAM_API {

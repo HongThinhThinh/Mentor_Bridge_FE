@@ -6,6 +6,7 @@ import Confetti from "react-confetti";
 import Logo from "../../../assets/logo.svg";
 import useStudentService from "../../../services/useStudentService";
 import useGetParams from "../../../hooks/useGetParams";
+import { useNavigate } from "react-router-dom";
 
 const { Text, Title } = Typography;
 
@@ -21,7 +22,7 @@ const TeamInvitePage = () => {
   const getParams = useGetParams();
   const token = getParams("token") || "";
   const teamCode = getParams("teamCode") || "";
-
+  const navigate = useNavigate();
 
   const groupName = "Mentor Bridge";
   const leaderName = "Hong Thinh";
@@ -85,7 +86,7 @@ const TeamInvitePage = () => {
             </p>
           }
           extra={
-            <Button size="sm" fontSize="xs">
+            <Button size="sm" fontSize="xs" onClick={() => navigate("/student/home")}>
               Vào nhóm ngay
             </Button>
           }

@@ -9,6 +9,7 @@ import Message from "../../atoms/message/Message";
 import { useStateValue } from "../../../context/stateProvider";
 import api from "../../../config/api";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
+import useChatService from "../../../services/useChatService";
 
 function RoomChatDetail() {
   const { theme, setShowChatList, setActive, setRealtime } = useStateValue();
@@ -19,12 +20,16 @@ function RoomChatDetail() {
   const params = useParams();
   const idRef = useRef(params.id);
   const [typing, setTyping] = useState("");
+  const { getChatDetail, sendChat } = useChatService();
 
   const fetch = async () => {
     setData([]);
     try {
-      const res = await api.get(`/chat/detail/${idRef.current}`);
-      setData(res.data);
+      // const res = await api.get(`/chat/detail/${idRef.current}`);
+      const response = await getChatDetail(idRef.current);
+
+      // setData(res.data);
+      setData(response);
     } catch (err) {
       console.log(err);
     }
@@ -64,9 +69,13 @@ function RoomChatDetail() {
 
   const sendMessage = async () => {
     if (message.length !== 0) {
-      const res = await api.post(`/chat/send/${idRef.current}`, {
-        message: message,
-      });
+      // const res = await api.post(`/chat/send/${idRef.current}`, {
+      //   message: message,
+      // });
+
+      const res = await sendChat(idRef.current, message);
+
+      console.log(res, "tran");
       setMessage("");
       fetch();
       setRealtime(res);

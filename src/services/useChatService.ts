@@ -9,7 +9,7 @@ const useChatService = () => {
     try {
       setIsLoading(true);
       const response = await callApi("get", "/chat");
-      return response?.data;
+      return response;
     } catch (e: any) {
       // toast.error(e?.response?.data || "Failed to get data");
     } finally {
@@ -17,9 +17,25 @@ const useChatService = () => {
     }
   }, [callApi]);
 
+  const getChatDetail = useCallback(
+    async (id: any) => {
+      try {
+        setIsLoading(true);
+        const response = await callApi("get", `/chat/detail/${id}`);
+        return response;
+      } catch (e: any) {
+        // toast.error(e?.response?.data || "Failed to get data");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi]
+  );
+
   return {
     loading,
     getChat,
+    getChatDetail
   };
 };
 

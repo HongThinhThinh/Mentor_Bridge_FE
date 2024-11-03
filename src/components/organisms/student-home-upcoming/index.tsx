@@ -108,6 +108,7 @@ function StudentHomeUpcoming() {
                       <FaQrcode />
                     </Button>
                     <ModalQR
+                      teamCode={dataTeam?.code}
                       visible={showQr}
                       onClose={() => setShowQr(false)}
                     />

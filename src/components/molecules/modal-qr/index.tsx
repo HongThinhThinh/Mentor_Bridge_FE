@@ -1,14 +1,17 @@
 import { Modal } from "antd";
 import React, { FC, useState } from "react";
 import QRCode from "react-qr-code";
+import { USER_ROUTES } from "../../../constants/routes";
 
 interface ModalQRProps {
   visible?: boolean;
   onClose: () => void;
+  teamCode?: string;
 }
 
-const ModalQR: FC<ModalQRProps> = ({ visible, onClose }) => {
+const ModalQR: FC<ModalQRProps> = ({ visible, onClose, teamCode }) => {
   const [text, setText] = useState("https://your-link.com");
+  const token = localStorage.getItem("token");
 
   return (
     <Modal
@@ -50,7 +53,7 @@ const ModalQR: FC<ModalQRProps> = ({ visible, onClose }) => {
         <QRCode
           size={300} // Đặt kích thước QR code
           style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-          value={text || "https://your-link.com"} // URL hoặc văn bản cho QR code
+          value={`http://localhost:5173/${USER_ROUTES.TEAM_INVITE}?token=${token}&teamCode=${teamCode}`}
         />
       </div>
 

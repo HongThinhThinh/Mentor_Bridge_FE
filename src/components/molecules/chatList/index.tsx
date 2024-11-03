@@ -4,7 +4,6 @@ import { useStateValue } from "../../../context/stateProvider";
 import { useParams } from "react-router-dom";
 import useRealtime from "../../../hooks/useRealtime";
 import RoomMessage from "../roomMessage";
-import api from "../../../config/api";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
 import useChatService from "../../../services/useChatService";
 
@@ -81,7 +80,7 @@ const ChatList: FC<ChatListProps> = ({ setFetchRoom }) => {
               setActive={setActive}
               avt={getImg(room)}
               name={getNameMessage(room) || room?.name}
-              lastMessage={room.lastMessage}
+              lastMessage={room?.lastMessage}
             />
           ))}
         </div>

@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import useRealtime from "../../../hooks/useRealtime";
 import Message from "../../atoms/message/Message";
 import { useStateValue } from "../../../context/stateProvider";
-import api from "../../../config/api";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
 import useChatService from "../../../services/useChatService";
 
@@ -75,7 +74,7 @@ function RoomChatDetail() {
 
       const res = await sendChat(idRef.current, message);
 
-      console.log(res, "tran");
+     
       setMessage("");
       fetch();
       setRealtime(res);

@@ -31,11 +31,28 @@ const useChatService = () => {
     },
     [callApi]
   );
+  const sendChat = useCallback(
+    async (id: any, message: string) => {
+      try {
+        setIsLoading(true);
+        const response = await callApi("post", `/chat/send/${id}`, {
+          message: message,
+        });
+        return response;
+      } catch (e: any) {
+        console.error("Failed to send message:", e);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi]
+  );
 
   return {
     loading,
     getChat,
-    getChatDetail
+    getChatDetail,
+    sendChat,
   };
 };
 

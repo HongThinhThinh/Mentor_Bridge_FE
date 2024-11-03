@@ -20,7 +20,7 @@ function RoomChatDetail() {
   const params = useParams();
   const idRef = useRef(params.id);
   const [typing, setTyping] = useState("");
-  const { getChatDetail } = useChatService();
+  const { getChatDetail, sendChat } = useChatService();
 
   const fetch = async () => {
     setData([]);
@@ -69,9 +69,13 @@ function RoomChatDetail() {
 
   const sendMessage = async () => {
     if (message.length !== 0) {
-      const res = await api.post(`/chat/send/${idRef.current}`, {
-        message: message,
-      });
+      // const res = await api.post(`/chat/send/${idRef.current}`, {
+      //   message: message,
+      // });
+
+      const res = await sendChat(idRef.current, message);
+
+      console.log(res, "tran");
       setMessage("");
       fetch();
       setRealtime(res);

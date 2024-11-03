@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import useRealtime from "../../../hooks/useRealtime";
 import Message from "../../atoms/message/Message";
 import { useStateValue } from "../../../context/stateProvider";
-import api from "../../../config/api";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
 import useChatService from "../../../services/useChatService";
 
@@ -20,7 +19,7 @@ function RoomChatDetail() {
   const params = useParams();
   const idRef = useRef(params.id);
   const [typing, setTyping] = useState("");
-  const { getChatDetail, sendChat } = useChatService();
+  const { getChatDetail, sendChat, sendTyping } = useChatService();
 
   const fetch = async () => {
     setData([]);
@@ -75,7 +74,7 @@ function RoomChatDetail() {
 
       const res = await sendChat(idRef.current, message);
 
-      console.log(res, "tran");
+     
       setMessage("");
       fetch();
       setRealtime(res);
@@ -130,9 +129,10 @@ function RoomChatDetail() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onInput={async () => {
-            const response = await api.post(
-              `/chat/typing/${idRef.current}/${user.name}`
-            );
+            // const response = await api.post(
+            //   `/chat/typing/${idRef.current}/${user.name}`
+            // );
+            await sendTyping(idRef.current, user.name);
           }}
           placeholder="Type a message"
           autoSize

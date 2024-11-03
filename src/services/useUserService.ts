@@ -37,6 +37,7 @@ const useAuthService = () => {
       try {
         const response = await callApi("post", USER_API.LOGIN, values);
         localStorage.setItem("token", response?.data?.token);
+        localStorage.setItem("userId", response?.data?.id);
         dispatch(loginRedux(response?.data));
         navigateByRole(response.data.role);
         toast.success("Login Successfully");
@@ -55,6 +56,7 @@ const useAuthService = () => {
       if (token) {
         const res = await callApi("post", USER_API.LOGIN_GOOGLE, { token });
         localStorage.setItem("token", res?.data?.token);
+        localStorage.setItem("userId", res?.data?.id);
         dispatch(loginRedux(res?.data));
         navigateByRole(res?.data?.role);
       }

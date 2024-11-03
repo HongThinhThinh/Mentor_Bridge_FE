@@ -60,7 +60,7 @@ function RoomChatDetail() {
   useEffect(() => {
     messagesContainerRef.current.scrollTop =
       messagesContainerRef.current.scrollHeight;
-  }, [data.messages]);
+  }, [data?.messages]);
 
   useEffect(() => {
     fetch();
@@ -74,7 +74,6 @@ function RoomChatDetail() {
 
       const res = await sendChat(idRef.current, message);
 
-     
       setMessage("");
       fetch();
       setRealtime(res);

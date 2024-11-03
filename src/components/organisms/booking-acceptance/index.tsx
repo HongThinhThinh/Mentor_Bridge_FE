@@ -95,7 +95,7 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
       dataIndex: "topic",
       key: "topic",
       render: (id: string, record: any) => {
-        return <span>{record?.semester?.topics[0].name}</span>;
+        return <span>{record?.semester?.topics[0]?.name}</span>;
       },
     },
     {
@@ -103,7 +103,7 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
       dataIndex: "topic",
       key: "description", // Đã sửa lại key để tránh trùng lặp
       render: (id: string, record: any) => {
-        return <span>{record?.semester?.topics[0].description}</span>;
+        return <span>{record?.semester?.topics[0]?.description}</span>;
       },
     },
     {
@@ -128,12 +128,12 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
           className="underline text-blue"
           onClick={() => {
             downloadBase64File(
-              record?.semester?.topics[0].files[0].content,
-              record?.semester?.topics[0].files[0].name
+              record?.semester?.topics[0]?.files[0]?.content,
+              record?.semester?.topics[0]?.files[0]?.name
             );
           }}
         >
-          {record?.semester?.topics[0].files[0].name}
+          {record?.semester?.topics[0]?.files[0]?.name}
         </a>
       ),
     },

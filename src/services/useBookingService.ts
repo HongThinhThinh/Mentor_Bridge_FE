@@ -102,6 +102,23 @@ const useBookingService = () => {
     },
     [callApi]
   );
+  const sendReschedule = useCallback(
+    async (bookingId: string, newTimeFrameId: string) => {
+      try {
+        setIsLoading(true);
+        const response = await callApi(
+          "put",
+          `${BOOKING_API.BOOKING}/${bookingId}/${BOOKING_API.SEND_RESCHEDULE}?newTimeFrameId=${newTimeFrameId}`
+        );
+        return response?.data;
+      } catch (e: any) {
+        toast.error(e?.response?.data || "Failed to get data");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi]
+  );
 
   return {
     sendBooking,
@@ -110,6 +127,7 @@ const useBookingService = () => {
     updateBooking,
     getBookingByRole,
     getBookingNearest,
+    sendReschedule,
   };
 };
 

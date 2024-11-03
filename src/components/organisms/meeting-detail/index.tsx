@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CustomModal } from "../../molecules/modal/Modal";
 import { Button } from "../../atoms/button/Button";
 import ContentsSection from "../../atoms/contents-section/ContentsSection";
-import { FaArrowRight } from "react-icons/fa";
 import { AiOutlineSend } from "react-icons/ai";
-import { Select } from "antd";
+import { Collapse, Empty, Popconfirm, Select, Tag } from "antd";
 import "./index.scss";
-import { formatHours } from "../../../utils/dateFormat";
+import {
+  formatDateAndHour,
+  formatDateForRequest,
+  formatDateToDDMMYY,
+  formatHours,
+} from "../../../utils/dateFormat";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
-
+import useScheduleService from "../../../services/useScheduleService";
+import { TimeFrame } from "../../templates/booking-mentor";
+import { PiSwapLight } from "react-icons/pi";
+import useBookingService from "../../../services/useBookingService";
+import { Role } from "../../../constants/role";
 interface MeetingDetailProps {
   date?: string;
   width?: number;
@@ -32,6 +40,24 @@ function MeetingDetail({
 }: MeetingDetailProps) {
   const [isReschedule, setIsReschedule] = useState(false); // State to control reschedule visibility
   const user = useCurrentUser();
+  const [selectedMeeting, setSelectedMeeting] = useState("");
+  const { getSchedule } = useScheduleService();
+  const { sendReschedule } = useBookingService();
+  const [schedule, setSchedule] = useState([]);
+  const { Panel } = Collapse;
+  const fetchSchedule = async () => {
+    try {
+      const response = await getSchedule(user?.id);
+      console.log(response);
+      setSchedule(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSchedule();
+  }, []);
 
   const header = (
     <div>
@@ -62,23 +88,49 @@ function MeetingDetail({
     return timeA - timeB;
   });
 
+  // Generate options dynamically based on available meeting times
+  const rescheduleOptions = sortedMeetings.map((meeting) => ({
+    value: meeting.timeFrame?.timeFrameFrom,
+    label: `${meeting.timeFrame?.date} ${formatHours(
+      meeting.timeFrame?.timeFrameFrom
+    )}`,
+  }));
+
   const body = (
     <div className="modal-container">
       <div className="modal-container__list">
         <h1 className="text-xl-medium">Danh sách cuộc họp trong ngày</h1>
         {sortedMeetings.length > 0 ? (
           sortedMeetings.map((meeting) => (
-            <ContentsSection
-              content={handleShowMeetingName(meeting)}
-              key={meeting.id}
-              time={`${formatHours(
-                meeting.timeFrame?.timeFrameFrom
-              )} - ${formatHours(meeting.timeFrame?.timeFrameTo)}`}
-              status="success"
-              value="Tham gia họp"
-              onClick={() => handleJoinMeeting(meeting?.meetLink)}
-              isReady={meeting.isReady}
-            />
+            <>
+              <ContentsSection
+                content={handleShowMeetingName(meeting)}
+                key={meeting.id}
+                time={`${formatHours(
+                  meeting.timeFrame?.timeFrameFrom
+                )} - ${formatHours(meeting.timeFrame?.timeFrameTo)}`}
+                status="success"
+                value="Tham gia họp"
+                onClick={() => handleJoinMeeting(meeting?.meetLink)}
+                isReady={meeting.isReady}
+              />
+              {user?.role !== Role.STUDENT && (
+                <div className="flex justify-end items-end w-full">
+                  <PiSwapLight
+                    style={{
+                      fontSize: "20px",
+                      marginRight: "20px",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      console.log(meeting);
+                      setSelectedMeeting(meeting);
+                      setIsReschedule(true);
+                    }}
+                  />
+                </div>
+              )}
+            </>
           ))
         ) : (
           <p>Không có cuộc họp nào trong ngày này.</p>
@@ -87,23 +139,90 @@ function MeetingDetail({
 
       {isReschedule && (
         <div className="modal-container__time-container">
-          <h1 className="text-xl-medium">Dời cuộc họp lúc 15:30 đến</h1>
+          <h1 className="text-xl-medium">
+            Dời cuộc họp của{" "}
+            {selectedMeeting?.team != null ? (
+              <Tag
+                style={{
+                  fontSize: "15px",
+                }}
+                color="green"
+              >
+                Nhóm {selectedMeeting?.team.code}
+              </Tag>
+            ) : (
+              <Tag
+                style={{
+                  fontSize: "15px",
+                }}
+                color="green"
+              >
+                {selectedMeeting?.student?.fullName}
+              </Tag>
+            )}{" "}
+            từ:
+            <p className="my-2">
+              {formatDateForRequest(
+                selectedMeeting.timeFrame?.timeFrameFrom,
+                selectedMeeting.timeFrame?.timeFrameTo
+              )}
+            </p>
+            đến
+          </h1>
           <div className="flex gap-5 items-center justify-around modal-container__time-wrapper">
-            <Select
-              defaultValue="12-10-2024 15:30"
-              style={{ width: 161 }}
-              options={[
-                { value: "12-10-2024 15:30", label: "12-10-2024 15:30" },
-              ]}
-            />
-            <FaArrowRight />
-            <Select
-              defaultValue="12-10-2024 15:30"
-              style={{ width: 161 }}
-              options={[
-                { value: "12-10-2024 15:31", label: "12-10-2024 15:30" },
-              ]}
-            />
+            <Collapse className="w-full" items={schedule} bordered={false}>
+              {Object.entries(schedule).map(([date, timeFrames]) => (
+                <Panel header={date} key={date}>
+                  <div className="flex flex-col gap-3">
+                    {timeFrames?.filter(
+                      (timeFrame: TimeFrame) =>
+                        timeFrame?.timeFrameStatus === "AVAILABLE"
+                    ).length > 0 ? (
+                      timeFrames
+                        .filter(
+                          (timeFrame: TimeFrame) =>
+                            timeFrame?.timeFrameStatus === "AVAILABLE"
+                        )
+                        .map((timeFrame: TimeFrame) => (
+                          <>
+                            <ContentsSection
+                              status="none"
+                              content=""
+                              time={`${formatHours(
+                                timeFrame?.timeFrameFrom
+                              )} - ${formatHours(timeFrame?.timeFrameTo)}`}
+                              key={timeFrame?.id}
+                              suffix={
+                                <Popconfirm
+                                  onConfirm={() => {
+                                    sendReschedule(
+                                      selectedMeeting?.id,
+                                      timeFrame.id
+                                    );
+                                  }}
+                                  title="Bạn có chắc muốn dời sang ngày này chứ?"
+                                >
+                                  <Button
+                                    // loading={loading}
+                                    key={timeFrame?.id}
+                                    size="xxs"
+                                    fontSize="xs"
+                                    fontWeight="medium"
+                                  >
+                                    Dời sang ngày này
+                                  </Button>
+                                </Popconfirm>
+                              }
+                            />
+                          </>
+                        ))
+                    ) : (
+                      <Empty description="Không có khung giờ nào khả dụng" />
+                    )}
+                  </div>
+                </Panel>
+              ))}
+            </Collapse>
           </div>
         </div>
       )}
@@ -129,12 +248,12 @@ function MeetingDetail({
     </div>
   ) : (
     <div className="flex justify-end items-end">
-      <Button
+      {/* <Button
         onClick={() => setIsReschedule(true)}
         styleClass="footer-btn--reschedule"
       >
         Dời cuộc họp
-      </Button>
+      </Button> */}
     </div>
   );
 

@@ -107,7 +107,7 @@ const useBookingService = () => {
       try {
         setIsLoading(true);
         const response = await callApi(
-          "post",
+          "put",
           `${BOOKING_API.BOOKING}/${bookingId}/${BOOKING_API.SEND_RESCHEDULE}?newTimeFrameId=${newTimeFrameId}`
         );
         return response?.data;

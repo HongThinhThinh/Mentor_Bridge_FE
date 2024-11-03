@@ -38,18 +38,20 @@ const Header: FC<HeaderProps> = ({ title }) => {
     user?.role === "STUDENT" ? "Xin Chào Sinh Viên!" : "Xin Chào Giảng Viên!";
 
   // Format items for Dropdown menu
-  const notificationItems = data?.map((item) => ({
-    key: item.id,
-    label: (
-      <div className="p-2">
-        <strong>{item?.title}</strong>
-        <p>{item?.message}</p>
-        <span className="text-xs text-gray-500">
-          {formatDateAndHour(item?.createdAt)}
-        </span>
-      </div>
-    ),
-  }));
+  const notificationItems = data
+    ?.sort((a, b) => new Date(b?.createdAt) - new Date(a?.createdAt)) // Sort by date in descending order
+    .map((item) => ({
+      key: item.id,
+      label: (
+        <div className="p-2">
+          <strong>{item?.title}</strong>
+          <p>{item?.message}</p>
+          <span className="text-xs text-gray-500">
+            {formatDateAndHour(item?.createdAt)}
+          </span>
+        </div>
+      ),
+    }));
 
   return (
     <div className="flex justify-between pt-7">

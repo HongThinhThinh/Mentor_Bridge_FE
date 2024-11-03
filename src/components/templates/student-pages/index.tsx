@@ -107,6 +107,7 @@ const StudentPages = () => {
                     <h3 className="text-xl-extra-bold">
                       {" "}
                       <CountdownTimer
+                        dateTo={bookingNearset[0]?.timeFrame?.timeFrameTo}
                         targetDate={bookingNearset[0]?.timeFrame?.timeFrameFrom}
                       />{" "}
                     </h3>

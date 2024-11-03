@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CustomModal } from "../../molecules/modal/Modal";
 import { Button } from "../../atoms/button/Button";
 import ContentsSection from "../../atoms/contents-section/ContentsSection";
 import { FaArrowRight } from "react-icons/fa";
 import { AiOutlineSend } from "react-icons/ai";
-import { Select } from "antd";
+import { Collapse, Empty, Select } from "antd";
 import "./index.scss";
 import { formatHours } from "../../../utils/dateFormat";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
+import useScheduleService from "../../../services/useScheduleService";
+import { TimeFrame } from "../../templates/booking-mentor";
 
 interface MeetingDetailProps {
   date?: string;
@@ -32,6 +34,22 @@ function MeetingDetail({
 }: MeetingDetailProps) {
   const [isReschedule, setIsReschedule] = useState(false); // State to control reschedule visibility
   const user = useCurrentUser();
+  const { getSchedule } = useScheduleService();
+  const [schedule, setSchedule] = useState([]);
+  const { Panel } = Collapse;
+  const fetchSchedule = async () => {
+    try {
+      const response = await getSchedule(user?.id);
+      console.log(response);
+      setSchedule(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSchedule();
+  }, []);
 
   const header = (
     <div>
@@ -62,6 +80,14 @@ function MeetingDetail({
     return timeA - timeB;
   });
 
+  // Generate options dynamically based on available meeting times
+  const rescheduleOptions = sortedMeetings.map((meeting) => ({
+    value: meeting.timeFrame?.timeFrameFrom,
+    label: `${meeting.timeFrame?.date} ${formatHours(
+      meeting.timeFrame?.timeFrameFrom
+    )}`,
+  }));
+
   const body = (
     <div className="modal-container">
       <div className="modal-container__list">
@@ -87,23 +113,52 @@ function MeetingDetail({
 
       {isReschedule && (
         <div className="modal-container__time-container">
-          <h1 className="text-xl-medium">Dời cuộc họp lúc 15:30 đến</h1>
+          <h1 className="text-xl-medium">Dời cuộc họp lúc đến</h1>
           <div className="flex gap-5 items-center justify-around modal-container__time-wrapper">
-            <Select
-              defaultValue="12-10-2024 15:30"
-              style={{ width: 161 }}
-              options={[
-                { value: "12-10-2024 15:30", label: "12-10-2024 15:30" },
-              ]}
-            />
-            <FaArrowRight />
-            <Select
-              defaultValue="12-10-2024 15:30"
-              style={{ width: 161 }}
-              options={[
-                { value: "12-10-2024 15:31", label: "12-10-2024 15:30" },
-              ]}
-            />
+            <Collapse className="w-full" items={schedule} bordered={false}>
+              {Object.entries(schedule).map(([date, timeFrames]) => (
+                <Panel header={date} key={date}>
+                  <div className="flex flex-col gap-3">
+                    {timeFrames?.filter(
+                      (timeFrame: TimeFrame) =>
+                        timeFrame?.timeFrameStatus === "AVAILABLE"
+                    ).length > 0 ? (
+                      timeFrames
+                        .filter(
+                          (timeFrame: TimeFrame) =>
+                            timeFrame?.timeFrameStatus === "AVAILABLE"
+                        )
+                        .map((timeFrame: TimeFrame) => (
+                          <>
+                            <ContentsSection
+                              status="none"
+                              content=""
+                              time={`${formatHours(
+                                timeFrame?.timeFrameFrom
+                              )} - ${formatHours(timeFrame?.timeFrameTo)}`}
+                              key={timeFrame?.id}
+                              suffix={
+                                <Button
+                                  // loading={loading}
+                                  key={timeFrame?.id}
+                                  size="xxs"
+                                  fontSize="xs"
+                                  fontWeight="medium"
+                                  // onClick={() => handleBooking(timeFrame.id)}
+                                >
+                                  Dời sang ngày này
+                                </Button>
+                              }
+                            />
+                          </>
+                        ))
+                    ) : (
+                      <Empty description="Không có khung giờ nào khả dụng" />
+                    )}
+                  </div>
+                </Panel>
+              ))}
+            </Collapse>
           </div>
         </div>
       )}

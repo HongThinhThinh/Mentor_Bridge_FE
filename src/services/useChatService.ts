@@ -48,11 +48,28 @@ const useChatService = () => {
     [callApi]
   );
 
+  const sendTyping = useCallback(
+    async (id: any, userName: string) => {
+      try {
+        setIsLoading(true);
+        const response = await callApi("post", `/chat/typing/${id}/${userName}`);
+        return response;
+      } catch (e: any) {
+        console.error("Failed to send typing indicator:", e);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi]
+  );
+  
+
   return {
     loading,
     getChat,
     getChatDetail,
     sendChat,
+    sendTyping
   };
 };
 

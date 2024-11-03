@@ -20,7 +20,7 @@ function RoomChatDetail() {
   const params = useParams();
   const idRef = useRef(params.id);
   const [typing, setTyping] = useState("");
-  const { getChatDetail, sendChat } = useChatService();
+  const { getChatDetail, sendChat, sendTyping } = useChatService();
 
   const fetch = async () => {
     setData([]);
@@ -130,9 +130,10 @@ function RoomChatDetail() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onInput={async () => {
-            const response = await api.post(
-              `/chat/typing/${idRef.current}/${user.name}`
-            );
+            // const response = await api.post(
+            //   `/chat/typing/${idRef.current}/${user.name}`
+            // );
+            await sendTyping(idRef.current, user.name);
           }}
           placeholder="Type a message"
           autoSize

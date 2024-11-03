@@ -76,16 +76,17 @@ function BookingMentor({}: BookingMentorProps) {
 
   const handleBooking = (id: string) => {
     sendBooking(id, selectedType);
-    getSchedule(selectedMentorId)
-      .then((listSchedule) => {
-        setScheduleItems(listSchedule);
-      })
-      .catch((error) => {
-        console.error("Error fetching mentor data:", error);
-      })
-      .finally(() => {
-        setIsFetching(false);
-      });
+    // getSchedule(selectedMentorId)
+    //   .then((listSchedule) => {
+    //     setScheduleItems(listSchedule);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching mentor data:", error);
+    //   })
+    //   .finally(() => {
+    //     setIsFetching(false);
+    //   });
+    console.log("alo");
   };
 
   return (
@@ -159,6 +160,8 @@ function BookingMentor({}: BookingMentorProps) {
                           }
                           suffix={
                             <Button
+                              loading={loading}
+                              key={timeFrame?.id}
                               size="xxs"
                               fontSize="xs"
                               fontWeight="medium"
@@ -168,7 +171,6 @@ function BookingMentor({}: BookingMentorProps) {
                             </Button>
                           }
                         />
-                        {loading && <Spin />}
                       </>
                     ))
                 ) : (

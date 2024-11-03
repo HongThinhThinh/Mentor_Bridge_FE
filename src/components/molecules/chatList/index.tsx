@@ -6,6 +6,7 @@ import useRealtime from "../../../hooks/useRealtime";
 import RoomMessage from "../roomMessage";
 import api from "../../../config/api";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
+import useChatService from "../../../services/useChatService";
 
 interface ChatListProps {
   setFetchRoom?: () => void;
@@ -16,6 +17,7 @@ const ChatList: FC<ChatListProps> = ({ setFetchRoom }) => {
   const [data, setData] = useState([]);
   const user = useCurrentUser();
   const { id } = useParams();
+  const { getChat } = useChatService();
 
   useRealtime(async (body) => {
     if (body.body === "New message") {
@@ -24,15 +26,17 @@ const ChatList: FC<ChatListProps> = ({ setFetchRoom }) => {
   });
   const fetch = async () => {
     try {
-      const res = await api.get("/chat");
-      setData(res.data);
+      // const res = await api.get("/chat");
+      const res = await getChat();
+      // setData(res.data);
+      setData(res);
     } catch (err) {
       console.log(err);
     }
   };
 
   const getNameMessage = (data) => {
-    if (data?.users && data?.users.length == 2) {
+    if (data?.users && data?.users?.length == 2) {
       const response = data?.users.filter((item) => item.id != user?.id)[0];
       return response?.fullName || response?.email;
     }
@@ -69,7 +73,7 @@ const ChatList: FC<ChatListProps> = ({ setFetchRoom }) => {
         </div>
         <h3>Message</h3>
         <div className="chat-list__items">
-          {data.map((room) => (
+          {data?.map((room) => (
             <RoomMessage
               key={room?.roomID}
               room={room?.roomID}

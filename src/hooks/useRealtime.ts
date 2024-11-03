@@ -5,17 +5,15 @@ import Stomp from "stompjs";
 function useRealtime(callback) {
   const WS_SERVER = import.meta.env.VITE_API_URL_SERVER + "websocket";
   const WS_LOCAL = import.meta.env.VITE_API_URL_LOCAL + "websocket";
-  const accountID = localStorage.getItem("accountId");
-
+  const accountID = localStorage.getItem("userId");
   useEffect(() => {
     // Initialize socket and stomp client
-    const socket = new SockJS(WS_SERVER);
+    const socket = new SockJS(WS_LOCAL);
     const stomp = Stomp.over(socket);
 
     // Function to handle connection
     const onConnected = () => {
       console.log("WebSocket connected");
-
       // Subscribe to chat
       stomp.subscribe(`/topic/chat/${accountID}`, (message) => {
         handleMessage(message);

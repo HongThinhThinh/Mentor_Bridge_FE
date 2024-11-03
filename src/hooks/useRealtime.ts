@@ -9,7 +9,7 @@ function useRealtime(callback) {
 
   useEffect(() => {
     // Initialize socket and stomp client
-    const socket = new SockJS(WS_LOCAL);
+    const socket = new SockJS(WS_SERVER);
     const stomp = Stomp.over(socket);
 
     // Function to handle connection

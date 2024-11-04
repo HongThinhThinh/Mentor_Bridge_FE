@@ -79,7 +79,7 @@ const VerticalScheduler = ({ scheduleData }) => {
   }, [scheduleData]);
 
   const getScheduler = () => schedulerRef.current?.control;
-  console.log(object);
+
   return (
     <div>
       <DayPilotCalendar {...config} ref={schedulerRef} />

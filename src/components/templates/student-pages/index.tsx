@@ -17,6 +17,7 @@ import MeetingDetail from "../../organisms/meeting-detail";
 import { useNavigate } from "react-router-dom";
 import { STUDENT_ROUTES } from "../../../constants/routes";
 import { GiQueenCrown } from "react-icons/gi";
+import { Role } from "../../../constants/role";
 
 const StudentPages = () => {
   const [loading, setLoading] = useState(true);
@@ -206,12 +207,16 @@ const StudentPages = () => {
               >
                 <div className="flex justify-between items-center h-24">
                   <h3 className="text-sm-medium">
-                    Danh sách thành viên nhóm
+                    Danh sách thành viên nhóm{" "}
                     <span className="font-extrabold">
                       {" " +
                         dataTeam?.code +
                         " (" +
-                        dataTeam?.userTeams?.length +
+                        (dataTeam?.userTeams.filter(
+                          (item) => item?.role === Role.MENTOR
+                        )
+                          ? dataTeam?.userTeams?.length - 1
+                          : dataTeam?.userTeams?.length) +
                         " thành viên)"}
                     </span>
                   </h3>
@@ -231,12 +236,14 @@ const StudentPages = () => {
                 </div>
                 <ul className="flex flex-col gap-2 overflow-y-scroll flex-grow">
                   {dataTeam?.userTeams
+                    ?.filter((data) => data?.role !== Role.MENTOR)
                     ?.sort((a, b) => (a.role === "LEADER" ? -1 : 1))
                     .map((data) => (
                       <ContentsSection
                         avt={data?.user?.avatar}
                         isGroup
                         key={data.id}
+                        // status="pending"
                         content={`${data?.user?.studentCode}-${data?.user?.fullName}`}
                         time={
                           data.role == "LEADER" ? (
@@ -248,6 +255,7 @@ const StudentPages = () => {
                             "Thành viên nhóm"
                           )
                         }
+                        // value="Đang xử lý"
                       />
                     ))}
                 </ul>

@@ -4,6 +4,7 @@ import "./index.scss";
 import { Topic } from "../../../model/topic";
 import { HiDotsHorizontal } from "react-icons/hi";
 import TeamDetail from "../../organisms/team-detail";
+import { Role } from "../../../constants/role";
 interface GroupItemProps {
   index?: number;
   id?: string;
@@ -39,7 +40,14 @@ const GroupItem: React.FC<GroupItemProps> = memo(
             <span className="title">{topic?.name}</span>
           </div>
           <div>
-            <HiDotsHorizontal onClick={handleOpen} />
+            <HiDotsHorizontal
+              style={{
+                cursor: "pointer",
+                marginRight: "20px",
+                fontSize: "20px",
+              }}
+              onClick={handleOpen}
+            />
           </div>
         </li>
 
@@ -66,7 +74,9 @@ const GroupList: React.FC<GroupListProps> = ({ groups }) => {
         <GroupItem
           key={index}
           index={index + 1}
-          userTeams={group?.userTeams}
+          userTeams={group?.userTeams?.filter(
+            (item) => item?.role !== Role.MENTOR
+          )}
           topic={group?.topics[0]}
           code={group?.code}
         />

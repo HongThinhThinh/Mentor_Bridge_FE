@@ -40,7 +40,10 @@ const TreeBookingDetail = ({ booking }) => {
     <Collapse bordered={false} style={{ marginBottom: 16 }}>
       <Panel header={"Xem chi tiết"} key={booking.id}>
         <BookingDetailCard title="Lịch sử đặt chỗ">
-          <Steps direction="vertical" current={0}>
+          <Steps
+            direction="vertical"
+            current={booking.bookingHistories.length - 1}
+          >
             {booking.bookingHistories.map((history) => (
               <Step
                 key={history?.id}

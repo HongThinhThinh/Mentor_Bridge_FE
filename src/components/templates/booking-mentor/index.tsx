@@ -7,6 +7,8 @@ import { Button } from "../../atoms/button/Button";
 import useScheduleService from "../../../services/useScheduleService";
 import useBookingService from "../../../services/useBookingService";
 import { formatHours } from "../../../utils/dateFormat";
+import { useNavigate } from "react-router-dom";
+import { STUDENT_ROUTES, USER_ROUTES } from "../../../constants/routes";
 
 interface BookingMentorProps {}
 
@@ -26,7 +28,7 @@ function BookingMentor({}: BookingMentorProps) {
   const [items, setItems] = useState([]);
   const [scheduleItems, setScheduleItems] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
-
+  const navigate = useNavigate();
   const { getSchedule } = useScheduleService();
   const { sendBooking, loading } = useBookingService();
   const { getAdminData } = useAdminService();
@@ -74,19 +76,22 @@ function BookingMentor({}: BookingMentorProps) {
     setSelectedType(value);
   };
 
-  const handleBooking = (id: string) => {
-    sendBooking(id, selectedType);
-    // getSchedule(selectedMentorId)
-    //   .then((listSchedule) => {
-    //     setScheduleItems(listSchedule);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching mentor data:", error);
-    //   })
-    //   .finally(() => {
-    //     setIsFetching(false);
-    //   });
-    console.log("alo");
+  const handleBooking = async (id: string) => {
+    setIsFetching(true); // Bật loading để cho người dùng thấy
+    try {
+      await sendBooking(id, selectedType);
+      // Sau khi đặt lịch thành công, gọi lại fetchData để lấy lại danh sách giáo viên
+      await fetchData();
+      navigate(`/${STUDENT_ROUTES.STUDENT}/${USER_ROUTES.BOOKING_HISTORY}`);
+      if (selectedMentorId) {
+        const listSchedule = await getSchedule(selectedMentorId);
+        setScheduleItems(listSchedule);
+      }
+    } catch (error) {
+      console.error("Error during booking:", error);
+    } finally {
+      setIsFetching(false);
+    }
   };
 
   return (
@@ -165,7 +170,9 @@ function BookingMentor({}: BookingMentorProps) {
                               size="xxs"
                               fontSize="xs"
                               fontWeight="medium"
-                              onClick={() => handleBooking(timeFrame.id)}
+                              onClick={() => {
+                                handleBooking(timeFrame.id);
+                              }}
                             >
                               Đặt lịch
                             </Button>

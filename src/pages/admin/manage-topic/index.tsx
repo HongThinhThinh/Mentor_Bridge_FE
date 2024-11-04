@@ -32,7 +32,6 @@ function ManageTopic() {
     }
   };
 
-  // Define status color mapping
   const getStatusTag = (status: string) => {
     switch (status.toLocaleLowerCase()) {
       case "pending":
@@ -43,6 +42,8 @@ function ManageTopic() {
         return <Tag color="blue">Inactive</Tag>;
       case "rejected":
         return <Tag color="red">Rejected</Tag>;
+      case "approved":
+        return <Tag color="green">APPROVED</Tag>;
       default:
         return <Tag color="blue">Unknown</Tag>;
     }

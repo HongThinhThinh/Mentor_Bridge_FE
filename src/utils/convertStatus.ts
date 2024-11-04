@@ -8,6 +8,10 @@ export const convertStatus = (status: string): string => {
       return "Được chấp nhận";
     case "requested":
       return "Đang yêu cầu ";
+    case "rejected":
+      return "Đã từ chối ";
+    case "accepted":
+      return "Đã chấp nhận";
     default:
       return status;
   }
@@ -23,5 +27,17 @@ export const convertStatusEnum = (status: string): string => {
       return "deny";
     default:
       return "Trạng thái không xác định";
+  }
+};
+export const convertColorTag = (status: string): string => {
+  switch (status.toUpperCase()) {
+    case "REQUESTED":
+      return "#d9d9d9";
+    case "ACCEPTED":
+      return "#52c41a";
+    case "REJECTED":
+      return "#f5222d";
+    default:
+      return "#000000";
   }
 };

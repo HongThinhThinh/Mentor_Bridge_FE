@@ -92,7 +92,7 @@ const useBookingService = () => {
   }, [callApi]);
 
   const getBookingDetails = useCallback(
-    async (id: string) => {
+    async (id: any) => {
       try {
         setIsLoading(true);
         const response = await callApi("get", `${BOOKING_API.BOOKING}/${id}`);
@@ -166,6 +166,26 @@ const useBookingService = () => {
     [callApi]
   );
 
+  const confirmReschedule = useCallback(
+    async (id: any, isConfirmed?: true | false, newTimeFrameId?: any) => {
+      try {
+        setIsLoading(true);
+        const response = await callApi(
+          "put",
+          `${BOOKING_API.BOOKING}/${id}/confirm-reschedule?
+          newTimeFrameId=${newTimeFrameId}&isConfirmed=${isConfirmed}`
+        );
+
+        return response?.data;
+      } catch (e: any) {
+        // toast.error(e?.response?.data || "Failed to get data");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi]
+  );
+
   return {
     sendBooking,
     loading,
@@ -176,6 +196,7 @@ const useBookingService = () => {
     sendReschedule,
     getBookingDetails,
     makeBookingCompleted,
+    confirmReschedule
   };
 };
 

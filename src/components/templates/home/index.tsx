@@ -190,11 +190,11 @@ const HomeTemplate = () => {
                   onChange={handleFilterChange}
                   options={[
                     { value: "", label: "Tất cả" },
-                    { value: "PENDING", label: "Pending" },
-                    { value: "ACCEPTED", label: "Accepted" },
-                    { value: "REJECTED", label: "Rejected" },
-                    { value: "ACTIVE", label: "Active" },
-                    { value: "INACTIVE", label: "Inactive" },
+                    { value: "PENDING", label: "Đang yêu cầu" },
+                    { value: "ACCEPTED", label: "Đã chấp nhận" },
+                    { value: "REJECTED", label: "Bị từ chối" },
+                    { value: "ACTIVE", label: "Đang hoạt động" },
+                    { value: "APPROVE", label: "Đã đồng ý" },
                   ]}
                 />
                 <Button

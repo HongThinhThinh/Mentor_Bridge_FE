@@ -30,6 +30,7 @@ import { toast } from "react-toastify";
 import { useCurrentUser } from "../utils/getcurrentUser";
 import ManageOverview from "../pages/admin/manage-overview";
 import BookingHistory from "../pages/mentor/booking-history";
+import ConfirmReschedule from "../components/organisms/confirmReschedule";
 
 interface ProtectedRouteByRoleProps {
   children: ReactNode;
@@ -96,7 +97,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/test",
-    element: <TestAPi />,
+    element: <ConfirmReschedule />,
   },
 
   {
@@ -104,6 +105,14 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRouteAuth>
         <TeamInvitePage />
+      </ProtectedRouteAuth>
+    ),
+  },
+  {
+    path: USER_ROUTES.RESCHEDULE,
+    element: (
+      <ProtectedRouteAuth>
+        <ConfirmReschedule />
       </ProtectedRouteAuth>
     ),
   },
@@ -184,6 +193,7 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+
       {
         path: STUDENT_ROUTES.BOOKING,
         element: (

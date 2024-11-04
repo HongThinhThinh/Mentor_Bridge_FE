@@ -5,6 +5,7 @@ export enum USER_ROUTES {
   TEAM_INVITE = "team-invite",
   MESSAGE = "messages",
   BOOKING_HISTORY = "booking-history",
+  RESCHEDULE = "reschedule",
 }
 
 // Admin Routes

@@ -97,7 +97,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/test",
-    element: <ConfirmReschedule/>,
+    element: <ConfirmReschedule />,
   },
 
   {
@@ -105,6 +105,14 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRouteAuth>
         <TeamInvitePage />
+      </ProtectedRouteAuth>
+    ),
+  },
+  {
+    path: USER_ROUTES.RESCHEDULE,
+    element: (
+      <ProtectedRouteAuth>
+        <ConfirmReschedule />
       </ProtectedRouteAuth>
     ),
   },
@@ -185,6 +193,7 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+
       {
         path: STUDENT_ROUTES.BOOKING,
         element: (

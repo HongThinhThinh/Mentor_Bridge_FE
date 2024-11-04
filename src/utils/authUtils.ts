@@ -9,14 +9,9 @@ export const refreshAuthToken = async () => {
     const response = await api.post(USER_API.REFRESH, {
       token: refreshToken,
     });
+
     const newAccessToken = response.data.token;
-    const newRefreshToken = response.data.refreshToken;
-
-    // Update tokens in local storage
     localStorage.setItem("token", newAccessToken);
-    localStorage.setItem("refreshToken", newRefreshToken);
-
-    // Dispatch loginRedux action to update the Redux state
     store.dispatch(loginRedux(response.data));
 
     return newAccessToken;

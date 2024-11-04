@@ -156,6 +156,7 @@ const useBookingService = () => {
           "put",
           `${BOOKING_API.BOOKING}/${bookingId}/${BOOKING_API.SEND_RESCHEDULE}?newTimeFrameId=${newTimeFrameId}`
         );
+        toast.success("Dời lịch thành công!");
         return response?.data;
       } catch (e: any) {
         toast.error(e?.response?.data || "Failed to get data");
@@ -172,8 +173,7 @@ const useBookingService = () => {
         setIsLoading(true);
         const response = await callApi(
           "put",
-          `${BOOKING_API.BOOKING}/${id}/confirm-reschedule?
-          newTimeFrameId=${newTimeFrameId}&isConfirmed=${isConfirmed}`
+          `${BOOKING_API.BOOKING}/${id}/confirm-reschedule?newTimeFrameId=${newTimeFrameId}&isConfirmed=${isConfirmed}`
         );
 
         return response?.data;
@@ -196,7 +196,7 @@ const useBookingService = () => {
     sendReschedule,
     getBookingDetails,
     makeBookingCompleted,
-    confirmReschedule
+    confirmReschedule,
   };
 };
 

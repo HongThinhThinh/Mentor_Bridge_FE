@@ -71,7 +71,7 @@ const useStudentService = () => {
         setIsLoading(true);
         const response = await callApi(
           "post",
-          `http://103.200.20.149:8080/api/team/invite?email=${email}&teamCode=${user?.teamCode}`
+          `/team/invite?email=${email}&teamCode=${user?.teamCode}`
         );
         toast.success("Mời thành công");
         return response?.data;

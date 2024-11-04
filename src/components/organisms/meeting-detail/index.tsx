@@ -199,6 +199,7 @@ function MeetingDetail({
                                       selectedMeeting?.id,
                                       timeFrame.id
                                     );
+                                    onCancel();
                                   }}
                                   title="Bạn có chắc muốn dời sang ngày này chứ?"
                                 >

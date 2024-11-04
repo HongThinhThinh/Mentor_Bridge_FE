@@ -16,6 +16,7 @@ import { FaQrcode } from "react-icons/fa";
 import { CustomModal } from "../../molecules/modal/Modal";
 import Modal from "antd/es/modal/Modal";
 import ModalQR from "../../molecules/modal-qr";
+import { Role } from "../../../constants/role";
 
 function StudentHomeUpcoming() {
   const [loading, setLoading] = useState(true);
@@ -80,7 +81,7 @@ function StudentHomeUpcoming() {
   useEffect(() => {
     fetchTopics();
   }, [load]);
-
+  console.log();
   return (
     <div className="mt-7">
       <div className="w-full h-full gap-6 flex flex-col">
@@ -98,7 +99,11 @@ function StudentHomeUpcoming() {
                       {" " +
                         dataTeam?.code +
                         " (" +
-                        dataTeam?.userTeams?.length +
+                        (dataTeam?.userTeams.filter(
+                          (item) => item?.role === Role.MENTOR
+                        )
+                          ? dataTeam?.userTeams?.length - 1
+                          : dataTeam?.userTeams?.length) +
                         " thành viên)"}
                     </span>
                   </h3>
@@ -132,6 +137,7 @@ function StudentHomeUpcoming() {
 
                 <ul className="flex flex-col gap-2 overflow-y-scroll flex-grow">
                   {dataTeam?.userTeams
+                    ?.filter((data) => data?.role !== Role.MENTOR)
                     ?.sort((a, b) => (a.role === "LEADER" ? -1 : 1))
                     .map((data) => (
                       <ContentsSection
@@ -175,6 +181,7 @@ function StudentHomeUpcoming() {
                         content={topic?.name}
                         suffix={
                           <HiDotsHorizontal
+                            style={{ cursor: "pointer", marginRight: "20px" }}
                             size={22}
                             onClick={() => handleOpenModal(topic)}
                           />

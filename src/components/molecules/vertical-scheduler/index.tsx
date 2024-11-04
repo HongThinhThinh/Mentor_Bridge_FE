@@ -6,10 +6,15 @@ const VerticalScheduler = ({ scheduleData }) => {
 
   const [config, setConfig] = useState({
     viewType: "Resources",
-    scale: "Hour",
-    cellHeight: 70,
+    scale: "CellDuration",
+    cellDuration: 15,
+    timeHeaders: [{ groupBy: "Hour" }, { groupBy: "Cell", format: "mm" }],
+    cellHeight: 30,
     days: 1,
     startDate: "2024-01-01",
+    businessBeginsHour: 0,
+    businessEndsHour: 24,
+    heightSpec: "BusinessHours",
 
     onBeforeEventRender: (args) => {
       if (!args.data.barColor) {

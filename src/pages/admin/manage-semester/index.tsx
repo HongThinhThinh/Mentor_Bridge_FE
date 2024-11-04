@@ -5,7 +5,7 @@ import DashboardTemplate, {
 import { SEMESTER, SEMESTER_API } from "../../../constants/endpoints";
 
 const ManageSemester: React.FC = () => {
-  const title = "Semester";
+  const title = "kỳ mới ";
 
   const columns: Column[] = [
     {

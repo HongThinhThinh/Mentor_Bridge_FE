@@ -1,4 +1,4 @@
-import { Select } from "antd";
+import { Empty, Select } from "antd";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { debounce } from "lodash";
 import { Topic } from "../../../model/topic";
@@ -80,19 +80,23 @@ function MentorHomeUpcoming() {
               </div>
             </div>
             <ul className="space-y-4 overflow-y-scroll h-4/5">
-              {topic?.map((topic) => (
-                <ContentsSection
-                  key={topic.id} // Ensure unique keys for each list item
-                  time={formatDateToDDMMYY(topic.createdAt)}
-                  content={topic.name}
-                  status={
-                    topic?.status?.toLowerCase() == "inactive"
-                      ? "success"
-                      : topic?.status?.toLowerCase()
-                  }
-                  value={convertStatus(topic?.status)}
-                />
-              ))}
+              {topic?.length > 0 ? (
+                topic.map((topic) => (
+                  <ContentsSection
+                    key={topic.id} // Ensure unique keys for each list item
+                    time={formatDateToDDMMYY(topic.createdAt)}
+                    content={topic.name}
+                    status={
+                      topic?.status?.toLowerCase() === "inactive"
+                        ? "success"
+                        : topic?.status?.toLowerCase()
+                    }
+                    value={convertStatus(topic?.status)}
+                  />
+                ))
+              ) : (
+                <Empty />
+              )}
             </ul>
           </CustomizedCard>
           <AddTopicForm

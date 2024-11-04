@@ -45,7 +45,7 @@ function UploadFileComponent({ fetchData }: UploadFileProps) {
   return (
     <div>
       <Button onClick={handleOpenModal} type="primary">
-        Upload File
+        Import danh sách người dùng
       </Button>
 
       <Modal

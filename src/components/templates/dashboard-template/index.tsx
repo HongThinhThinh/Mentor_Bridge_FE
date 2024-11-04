@@ -150,7 +150,7 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
         : api.post(apiURI, apiData);
 
       await apiCall;
-      toast.success(values.id ? "Update successfully" : "Added successfully");
+      toast.success(values.id ? "Chỉnh sửa thành công" : "Thêm thành công !!");
 
       formTag.resetFields();
       handleCloseModal();
@@ -199,7 +199,7 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
         <UploadFileComponent fetchData={fetchData} />
       ) : (
         <Button onClick={() => handleOpenModal()} type="primary">
-          Add New {title}
+          Thiết lập {title}
         </Button>
       )}
 
@@ -210,7 +210,7 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
       />
       <Modal
         open={isOpenModal}
-        title={`${isUpdate ? "Edit" : "Create new"} ${title}`}
+        title={`${isUpdate ? "Edit" : "Thiết lập "} ${title}`}
         onCancel={handleCloseModal}
         footer={[
           <Button key="back" onClick={handleCloseModal}>

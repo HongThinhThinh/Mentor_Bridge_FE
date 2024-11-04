@@ -9,7 +9,7 @@ import useTopicService from "../../../services/useTopicService"; // Import the h
 import { useState } from "react";
 
 function ManageTopic() {
-  const title = "Topic";
+  const title = "đề tài";
   const { acceptTopic, rejectTopic, loading } = useTopicService(); // Destructure the hook to get methods
   const [isReload, setIsReload] = useState(false);
   const handleAccept = async (id: string) => {

@@ -23,9 +23,14 @@ const ManageConfig: React.FC = () => {
       render: (value: string) => value || "00:00",
     },
     {
-      title: "Tổng số điểm",
-      dataIndex: "totalPoints",
-      key: "totalPoints",
+      title: "Tổng số điểm của mỗi nhóm",
+      dataIndex: "totalTeamPoints",
+      key: "totalTeamPoints",
+    },
+    {
+      title: "Tổng số điểm của sinh viên",
+      dataIndex: "totalStudentPoints",
+      key: "totalStudentPoints",
     },
     {
       title: "Điểm bị trừ ",
@@ -59,16 +64,34 @@ const ManageConfig: React.FC = () => {
           min={15}
           step={15}
           className="w-[170px]"
-          placeholder="Enter duration in minutes"
-          formatter={(value) => `${value} minutes`}
-          parser={(value) => value?.replace(" minutes", "")}
+          placeholder="Vui lòng nhập thời gian  "
+          formatter={(value) => `${value} p`}
+          parser={(value) => value?.replace(" p", "")}
         />
       </Form.Item>
 
       <Form.Item
-        label="Tổng số điểm"
-        name="totalPoints"
-        rules={[{ required: true, message: "Please enter total points" }]}
+        label="Tổng số điểm của mỗi nhóm "
+        name="totalTeamPoints"
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng  nhập tổng số điểm của mỗi nhóm",
+          },
+        ]}
+      >
+        <InputNumber min={0} placeholder="tổng số điểm của mỗi nhóm" />
+      </Form.Item>
+
+      <Form.Item
+        label="Tổng số điểm của mỗi sinh viên"
+        name="totalStudentPoints"
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng nhập tổng số điểm của mỗi sinh viên",
+          },
+        ]}
       >
         <InputNumber min={0} placeholder="Enter total points" />
       </Form.Item>

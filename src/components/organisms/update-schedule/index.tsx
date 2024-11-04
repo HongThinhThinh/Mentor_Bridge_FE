@@ -17,6 +17,8 @@ function UpdateScheduler() {
 
   const onFinish = async (values: any) => {
     const response = await sendSchedule(values, timeDuration);
+    handleCancel();
+    fetchData();
   };
 
   const hanldeOnValuesChange = async (changedValues: any, allValues: any) => {

@@ -66,7 +66,33 @@ const useAuthService = () => {
     }
   }, [callApi, dispatch, router]);
 
-  return { register, login, loginGoogle, loading, setIsLoading };
+  const refreshAuthToken = useCallback(async () => {
+    const refreshToken = localStorage.getItem("token");
+    if (refreshToken) {
+      const response = await callApi("post", USER_API.REFRESH, {
+        token: refreshToken,
+      });
+      const newAccessToken = response.data.token;
+      const newRefreshToken = response.data.refreshToken;
+
+      // Update tokens in local storage
+      localStorage.setItem("token", newAccessToken);
+      localStorage.setItem("refreshToken", newRefreshToken);
+      dispatch(loginRedux(response.data));
+
+      return newAccessToken;
+    }
+    throw new Error("Refresh token not available");
+  }, [callApi, dispatch, router]);
+
+  return {
+    register,
+    login,
+    loginGoogle,
+    loading,
+    setIsLoading,
+    refreshAuthToken,
+  };
 };
 
 export default useAuthService;

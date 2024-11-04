@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Card, Typography, Collapse, Steps, Tag, Avatar, Select } from "antd";
+import {
+  Card,
+  Typography,
+  Collapse,
+  Steps,
+  Tag,
+  Avatar,
+  Select,
+  Popconfirm,
+} from "antd";
 import useBookingService from "../../../services/useBookingService";
 import { formatDateAndHour } from "../../../utils/dateFormat";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
@@ -98,7 +107,7 @@ const BookingHistory = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("");
-  const { getBooking } = useBookingService();
+  const { getBooking, makeBookingCompleted } = useBookingService();
   const user = useCurrentUser();
 
   const fetch = async () => {
@@ -137,7 +146,7 @@ const BookingHistory = () => {
         <Option value="REQUESTED">Yêu cầu</Option>
         <Option value="ACCEPTED">Chấp nhận</Option>
         <Option value="REJECTED">Từ chối</Option>
-        <Option value="CANCELLED">Hủy</Option>
+        <Option value="FINISHED">Hoàn thành</Option>
         <Option value="RESCHEDULED">Đặt lại lịch</Option>
         <Option value="PENDING_RESCHEDULE">Đang chờ đặt lại lịch</Option>
         <Option value="RESCHEDULE_REJECTED">Đặt lại lịch bị từ chối</Option>
@@ -157,10 +166,16 @@ const BookingHistory = () => {
                   <p className="flex justify-between">
                     Mã cuộc họp: {booking?.id}
                     {booking?.timeFrame?.timeFrameStatus === "COMPLETED" &&
+                      booking?.status !== "FINISHED" &&
                       user?.role === Role.MENTOR && (
-                        <Button variant="frosted-glass" status="date">
-                          Đánh dấu hoàn thành
-                        </Button>
+                        <Popconfirm
+                          title="Bạn có chắc là đã tham gia cuộc họp này rồi chứ ?"
+                          onConfirm={() => makeBookingCompleted(booking?.id)}
+                        >
+                          <Button variant="frosted-glass" status="date">
+                            Đánh dấu hoàn thành
+                          </Button>
+                        </Popconfirm>
                       )}
                   </p>
 

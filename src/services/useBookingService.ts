@@ -100,6 +100,7 @@ const useBookingService = () => {
           "patch",
           `${BOOKING_API.BOOKING}/${id}/${BOOKING_API.FINISH} `
         );
+        toast.success("Hoàn thành cuộc hẹn");
         return response?.data;
       } catch (e: any) {
         // toast.error(e?.response?.data || "Failed to get data");

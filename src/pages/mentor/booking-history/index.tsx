@@ -117,8 +117,9 @@ const BookingHistory = () => {
     useBookingService();
   const user = useCurrentUser();
   const params = useGetParams();
-  const navigate = useNavigate();
   const idBooking = params("bookingId");
+
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [bookingDetails, setBookingDetails] = useState([]);
   const [leader, setLeader] = useState<User>();

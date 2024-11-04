@@ -12,6 +12,8 @@ export const convertStatus = (status: string): string => {
       return "Đã từ chối ";
     case "accepted":
       return "Đã chấp nhận";
+    case "finished":
+      return "Đã hoàn thành";
     default:
       return status;
   }
@@ -37,6 +39,8 @@ export const convertColorTag = (status: string): string => {
       return "#52c41a";
     case "REJECTED":
       return "#f5222d";
+    case "FINISHED":
+      return "#70c7f4";
     default:
       return "#000000";
   }

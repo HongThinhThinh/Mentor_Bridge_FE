@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Card, Typography, Collapse, Steps, Tag, Avatar, Select } from "antd";
+import {
+  Card,
+  Typography,
+  Collapse,
+  Steps,
+  Tag,
+  Avatar,
+  Select,
+  Popconfirm,
+} from "antd";
 import useBookingService from "../../../services/useBookingService";
 import { formatDateAndHour } from "../../../utils/dateFormat";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
@@ -39,7 +48,7 @@ const TreeBookingDetail = ({ booking }) => {
         </BookingDetailCard>
 
         <BookingDetailCard title={`Loại: ${booking.type}`}>
-          <Text strong>Liên kết cuộc họp:</Text>
+          <Text strong>Liên kết cuộc họp: </Text>
           <a
             href={booking.meetLink}
             target="_blank"
@@ -50,26 +59,45 @@ const TreeBookingDetail = ({ booking }) => {
           </a>
           <br />
         </BookingDetailCard>
-
         {user?.role === Role.STUDENT ? (
-          <BookingDetailCard title="Thông tin sinh viên">
-            <Text type="secondary">Tên: {booking?.student?.fullName}</Text>
+          <BookingDetailCard title="Thông tin giảng viên">
+            <Text type="secondary">Tên: {booking?.mentor?.fullName}</Text>
             <br />
-            <Text type="secondary">Mã: {booking?.student?.studentCode}</Text>
+            <Text type="secondary">Mã: {booking?.mentor?.studentCode}</Text>
             <br />
-            <Text type="secondary">Email: {booking?.student?.email}</Text>
+            <Text type="secondary">Email: {booking?.mentor?.email}</Text>
           </BookingDetailCard>
         ) : (
-          <BookingDetailCard title="Thông tin kỳ học">
-            <Text type="secondary">Mã: {booking?.semester?.code}</Text>
-            <br />
-            <Text type="secondary">Tên: {booking?.semester?.name}</Text>
-            <br />
-            <Text type="secondary">
-              Trạng thái: {booking?.semester?.status}
-            </Text>
+          <BookingDetailCard title="Thông tin nhóm: ">
+            {booking?.team != null ? (
+              <>
+                <Text type="secondary">Mã nhóm: {booking?.team?.code}</Text>
+                <br />
+                <Text type="secondary">
+                  Số lượng thành viên: {booking?.team?.userTeams?.length}
+                </Text>
+              </>
+            ) : (
+              <>
+                <Text type="secondary">Tên: {booking?.student?.fullName}</Text>
+                <br />
+                <Text type="secondary">
+                  Mã: {booking?.student?.studentCode}
+                </Text>
+                <br />
+                <Text type="secondary">Email: {booking?.student?.email}</Text>
+              </>
+            )}
           </BookingDetailCard>
         )}
+
+        <BookingDetailCard title="Thông tin kỳ học">
+          <Text type="secondary">Mã: {booking?.semester?.code}</Text>
+          <br />
+          <Text type="secondary">Tên: {booking?.semester?.name}</Text>
+          <br />
+          <Text type="secondary">Trạng thái: {booking?.semester?.status}</Text>
+        </BookingDetailCard>
       </Panel>
     </Collapse>
   );
@@ -79,7 +107,7 @@ const BookingHistory = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("");
-  const { getBooking } = useBookingService();
+  const { getBooking, makeBookingCompleted } = useBookingService();
   const user = useCurrentUser();
 
   const fetch = async () => {
@@ -118,7 +146,7 @@ const BookingHistory = () => {
         <Option value="REQUESTED">Yêu cầu</Option>
         <Option value="ACCEPTED">Chấp nhận</Option>
         <Option value="REJECTED">Từ chối</Option>
-        <Option value="CANCELLED">Hủy</Option>
+        <Option value="FINISHED">Hoàn thành</Option>
         <Option value="RESCHEDULED">Đặt lại lịch</Option>
         <Option value="PENDING_RESCHEDULE">Đang chờ đặt lại lịch</Option>
         <Option value="RESCHEDULE_REJECTED">Đặt lại lịch bị từ chối</Option>
@@ -135,7 +163,22 @@ const BookingHistory = () => {
               }
               title={
                 <>
-                  <p>Mã cuộc họp: {booking?.id}</p>
+                  <p className="flex justify-between">
+                    Mã cuộc họp: {booking?.id}
+                    {booking?.timeFrame?.timeFrameStatus === "COMPLETED" &&
+                      booking?.status !== "FINISHED" &&
+                      user?.role === Role.MENTOR && (
+                        <Popconfirm
+                          title="Bạn có chắc là đã tham gia cuộc họp này rồi chứ ?"
+                          onConfirm={() => makeBookingCompleted(booking?.id)}
+                        >
+                          <Button variant="frosted-glass" status="date">
+                            Đánh dấu hoàn thành
+                          </Button>
+                        </Popconfirm>
+                      )}
+                  </p>
+
                   {user?.role === Role.STUDENT ? (
                     <p>Cuộc họp với Mentor: {booking?.mentor?.fullName}</p>
                   ) : (

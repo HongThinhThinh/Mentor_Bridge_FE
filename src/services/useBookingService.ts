@@ -91,6 +91,26 @@ const useBookingService = () => {
     }
   }, [callApi]);
 
+  const makeBookingCompleted = useCallback(
+    async (id: string) => {
+      try {
+        setIsLoading(true);
+
+        const response = await callApi(
+          "patch",
+          `${BOOKING_API.BOOKING}/${id}/${BOOKING_API.FINISH} `
+        );
+        toast.success("Hoàn thành cuộc hẹn");
+        return response?.data;
+      } catch (e: any) {
+        // toast.error(e?.response?.data || "Failed to get data");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi]
+  );
+
   const updateBooking = useCallback(
     async (
       id: string,
@@ -138,6 +158,7 @@ const useBookingService = () => {
     getBookingByRole,
     getBookingNearest,
     sendReschedule,
+    makeBookingCompleted,
   };
 };
 

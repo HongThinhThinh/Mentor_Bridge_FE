@@ -8,6 +8,7 @@ import {
   SnippetsOutlined,
   WechatOutlined,
 } from "@ant-design/icons";
+import { GrHistory } from "react-icons/gr";
 import { Key } from "react";
 
 export type MenuItem = Required<MenuProps>["items"][number];
@@ -68,6 +69,11 @@ const mentorItems = [
     label: "Xử Lí Yêu Cầu",
     key: "booking-request",
     icon: <SnippetsOutlined />,
+  },
+  {
+    label: "Lịch sử đặt lịch",
+    key: "booking-history",
+    icon: <GrHistory />,
   },
 ];
 

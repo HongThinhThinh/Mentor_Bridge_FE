@@ -8,6 +8,7 @@ import {
   Avatar,
   Select,
   Popconfirm,
+  Modal,
 } from "antd";
 import useBookingService from "../../../services/useBookingService";
 import { formatDateAndHour } from "../../../utils/dateFormat";
@@ -15,6 +16,11 @@ import { useCurrentUser } from "../../../utils/getcurrentUser";
 import { Role } from "../../../constants/role";
 import { convertColorTag, convertStatus } from "../../../utils/convertStatus";
 import { Button } from "../../../components/atoms/button/Button";
+import useGetParams from "../../../hooks/useGetParams";
+import { User } from "../../../model/user";
+import { useNavigate } from "react-router-dom";
+import { MdDownloadDone } from "react-icons/md";
+import { IoMdDoneAll } from "react-icons/io";
 
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
@@ -107,9 +113,39 @@ const BookingHistory = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("");
-  const { getBooking, makeBookingCompleted } = useBookingService();
+  const { getBooking, makeBookingCompleted, getBookingDetails } =
+    useBookingService();
   const user = useCurrentUser();
+  const params = useGetParams();
+  const navigate = useNavigate();
+  const idBooking = params("bookingId");
+  const [show, setShow] = useState(false);
+  const [bookingDetails, setBookingDetails] = useState([]);
+  const [leader, setLeader] = useState<User>();
+  const fetchBookingDetails = async () => {
+    try {
+      const response = await getBookingDetails(idBooking);
+      console.log(response);
+      const leader = response?.userTeams?.find(
+        (member) => member?.role === "LEADER"
+      );
+      setLeader(leader);
+      setBookingDetails(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  useEffect(() => {
+    fetch();
+  }, []);
+
+  useEffect(() => {
+    if (idBooking) {
+      setShow(true);
+      fetchBookingDetails();
+    }
+  }, []);
   const fetch = async () => {
     try {
       const response = await getBooking();
@@ -136,6 +172,84 @@ const BookingHistory = () => {
 
   return (
     <div style={{ padding: 16 }}>
+      <Modal footer={null} open={show} onCancel={() => setShow(false)}>
+        <Card style={{ width: 300 }}>
+          {bookingDetails?.team == null ? (
+            <Card.Meta
+              avatar={<Avatar src={bookingDetails?.student?.avatar} />}
+              title={bookingDetails?.student?.fullName}
+              description={
+                <>
+                  <p>
+                    <strong>Mã sinh viên: </strong>
+                    {bookingDetails?.student?.studentCode}
+                  </p>
+
+                  <p>
+                    <strong>Email : </strong> {bookingDetails?.student?.email}
+                  </p>
+                  <p>
+                    <strong>Số điện thoại</strong>:{" "}
+                    {bookingDetails?.student?.phone}
+                  </p>
+                </>
+              }
+            />
+          ) : (
+            <Card.Meta
+              avatar={
+                <Avatar
+                  src={
+                    "https://e7.pngegg.com/pngimages/364/836/png-clipart-computer-icons-users-group-others.png"
+                  }
+                />
+              }
+              title={bookingDetails?.team?.code}
+              description={
+                <>
+                  <p>
+                    <strong>Mã sinh viên nhóm trưởng: </strong>
+                    {leader?.studentCode}
+                  </p>
+
+                  <p>
+                    <strong>Email : </strong> {leader?.email}
+                  </p>
+                  <p>
+                    <strong>Số điện thoại</strong>: {leader?.phone}
+                  </p>
+                </>
+              }
+            />
+          )}
+          <div style={{ marginTop: "16px" }}>
+            <p>
+              <strong>Created At:</strong>{" "}
+              {new Date(bookingDetails?.createdAt).toLocaleString()}
+            </p>
+          </div>
+          <div className="flex justify-end">
+            <Popconfirm
+              title="Bạn có chắc là đã tham gia cuộc họp này rồi chứ ?"
+              onConfirm={() => {
+                makeBookingCompleted(bookingDetails?.id);
+                navigate("/mentor/booking-history");
+                setShow(false);
+              }}
+            >
+              <IoMdDoneAll
+                style={{
+                  fontSize: 24,
+                  color: "#52c41a",
+                  cursor: "pointer",
+                  marginLeft: 8,
+                }}
+              />
+            </Popconfirm>
+          </div>
+        </Card>
+      </Modal>
+
       <Select
         placeholder="Chọn trạng thái"
         style={{ width: 200, marginBottom: 16 }}

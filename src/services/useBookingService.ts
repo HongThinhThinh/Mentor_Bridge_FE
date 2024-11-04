@@ -91,6 +91,22 @@ const useBookingService = () => {
     }
   }, [callApi]);
 
+  const getBookingDetails = useCallback(
+    async (id: string) => {
+      try {
+        setIsLoading(true);
+        const response = await callApi("get", `${BOOKING_API.BOOKING}/${id}`);
+
+        return response?.data;
+      } catch (e: any) {
+        // toast.error(e?.response?.data || "Failed to get data");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi]
+  );
+
   const makeBookingCompleted = useCallback(
     async (id: string) => {
       try {
@@ -158,6 +174,7 @@ const useBookingService = () => {
     getBookingByRole,
     getBookingNearest,
     sendReschedule,
+    getBookingDetails,
     makeBookingCompleted,
   };
 };

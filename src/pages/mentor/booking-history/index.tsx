@@ -39,7 +39,7 @@ const TreeBookingDetail = ({ booking }) => {
         </BookingDetailCard>
 
         <BookingDetailCard title={`Loại: ${booking.type}`}>
-          <Text strong>Liên kết cuộc họp:</Text>
+          <Text strong>Liên kết cuộc họp: </Text>
           <a
             href={booking.meetLink}
             target="_blank"
@@ -50,26 +50,45 @@ const TreeBookingDetail = ({ booking }) => {
           </a>
           <br />
         </BookingDetailCard>
-
         {user?.role === Role.STUDENT ? (
-          <BookingDetailCard title="Thông tin sinh viên">
-            <Text type="secondary">Tên: {booking?.student?.fullName}</Text>
+          <BookingDetailCard title="Thông tin giảng viên">
+            <Text type="secondary">Tên: {booking?.mentor?.fullName}</Text>
             <br />
-            <Text type="secondary">Mã: {booking?.student?.studentCode}</Text>
+            <Text type="secondary">Mã: {booking?.mentor?.studentCode}</Text>
             <br />
-            <Text type="secondary">Email: {booking?.student?.email}</Text>
+            <Text type="secondary">Email: {booking?.mentor?.email}</Text>
           </BookingDetailCard>
         ) : (
-          <BookingDetailCard title="Thông tin kỳ học">
-            <Text type="secondary">Mã: {booking?.semester?.code}</Text>
-            <br />
-            <Text type="secondary">Tên: {booking?.semester?.name}</Text>
-            <br />
-            <Text type="secondary">
-              Trạng thái: {booking?.semester?.status}
-            </Text>
+          <BookingDetailCard title="Thông tin nhóm: ">
+            {booking?.team != null ? (
+              <>
+                <Text type="secondary">Mã nhóm: {booking?.team?.code}</Text>
+                <br />
+                <Text type="secondary">
+                  Số lượng thành viên: {booking?.team?.userTeams?.length}
+                </Text>
+              </>
+            ) : (
+              <>
+                <Text type="secondary">Tên: {booking?.student?.fullName}</Text>
+                <br />
+                <Text type="secondary">
+                  Mã: {booking?.student?.studentCode}
+                </Text>
+                <br />
+                <Text type="secondary">Email: {booking?.student?.email}</Text>
+              </>
+            )}
           </BookingDetailCard>
         )}
+
+        <BookingDetailCard title="Thông tin kỳ học">
+          <Text type="secondary">Mã: {booking?.semester?.code}</Text>
+          <br />
+          <Text type="secondary">Tên: {booking?.semester?.name}</Text>
+          <br />
+          <Text type="secondary">Trạng thái: {booking?.semester?.status}</Text>
+        </BookingDetailCard>
       </Panel>
     </Collapse>
   );
@@ -135,7 +154,16 @@ const BookingHistory = () => {
               }
               title={
                 <>
-                  <p>Mã cuộc họp: {booking?.id}</p>
+                  <p className="flex justify-between">
+                    Mã cuộc họp: {booking?.id}
+                    {booking?.timeFrame?.timeFrameStatus === "COMPLETED" &&
+                      user?.role === Role.MENTOR && (
+                        <Button variant="frosted-glass" status="date">
+                          Đánh dấu hoàn thành
+                        </Button>
+                      )}
+                  </p>
+
                   {user?.role === Role.STUDENT ? (
                     <p>Cuộc họp với Mentor: {booking?.mentor?.fullName}</p>
                   ) : (

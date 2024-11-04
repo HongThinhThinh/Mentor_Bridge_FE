@@ -294,7 +294,16 @@ const StudentPages = () => {
           </>
         ) : (
           <div className="h-lvh flex justify-center items-center">
-            <GroupSections />
+            {/* <GroupSections /> */}
+            <Empty
+              children={
+                <p>
+                  {" "}
+                  Bạn chưa có team, và đã quá hạn đăng kí. Vui lòng liên hệ
+                  admin với số điện thoại : 0765041143 để được giúp đỡ
+                </p>
+              }
+            />
           </div>
         )}
       </div>

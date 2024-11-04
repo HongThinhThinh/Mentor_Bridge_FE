@@ -80,7 +80,7 @@ const TreeBookingDetail = ({ booking }) => {
 const BookingHistory = () => {
   const [data, setData] = useState([]);
   const { getBooking } = useBookingService();
-
+  const user = useCurrentUser();
   const fetch = async () => {
     try {
       const response = await getBooking();
@@ -108,7 +108,21 @@ const BookingHistory = () => {
               avatar={
                 <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
               }
-              title={"Mã cuộc họp: " + booking?.id}
+              title={
+                <>
+                  <p>Mã cuộc họp: {booking?.id}</p>
+                  {user?.role === Role.STUDENT ? (
+                    <p>Cuộc họp với Mentor : {booking?.mentor?.fullName}</p>
+                  ) : (
+                    <p>
+                      Cuộc họp với :{" "}
+                      {booking?.team != null
+                        ? "Nhóm " + booking?.team?.code
+                        : booking?.student?.fullName}
+                    </p>
+                  )}
+                </>
+              }
               description={
                 <>
                   <Tag color={convertColorTag(booking?.status)}>

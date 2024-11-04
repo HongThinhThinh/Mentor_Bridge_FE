@@ -29,6 +29,7 @@ import ChatDetail from "../components/molecules/chatDetail";
 import { toast } from "react-toastify";
 import { useCurrentUser } from "../utils/getcurrentUser";
 import ManageOverview from "../pages/admin/manage-overview";
+import BookingHistory from "../pages/mentor/booking-history";
 
 interface ProtectedRouteByRoleProps {
   children: ReactNode;
@@ -138,6 +139,10 @@ export const router = createBrowserRouter([
       {
         path: MENTOR_ROUTES.EMPTY_SCHEDULE,
         element: <EmptySchedulePage />,
+      },
+      {
+        path: USER_ROUTES.BOOKING_HISTORY,
+        element: <BookingHistory />,
       },
       {
         path: USER_ROUTES.MESSAGE,

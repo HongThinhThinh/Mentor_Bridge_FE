@@ -29,17 +29,27 @@ const useBookingService = () => {
 
   const getBooking = useCallback(
     async (
-      type: "INDIVIDUAL" | "TEAM" | undefined,
-      status: "REQUESTED" | "ACCEPTED" | "REJECTED" | "CANCELLED"
+      type: "INDIVIDUAL" | "TEAM" | undefined = undefined,
+      status:
+        | "REQUESTED"
+        | "ACCEPTED"
+        | "REJECTED"
+        | "CANCELLED"
+        | undefined = undefined
     ) => {
+      let path = BOOKING_API.BOOKING;
+      if (type) {
+        path += `?type=${type}`;
+        if (status) {
+          path += `&status=${status}`;
+        }
+      } else if (status) {
+        path += `?status=${status}`;
+      }
+
       try {
         setIsLoading(true);
-        const response = await callApi(
-          "get",
-          type
-            ? `${BOOKING_API.BOOKING}?type=${type}&status=${status}`
-            : `${BOOKING_API.BOOKING}?status=${status}`
-        );
+        const response = await callApi("get", path);
         return response?.data;
       } catch (e: any) {
         // toast.error(e?.response?.data || "Failed to get data");
@@ -75,7 +85,7 @@ const useBookingService = () => {
       const response = await callApi("get", BOOKING_API.BOOKING_NEARST);
       return response?.data;
     } catch (e: any) {
-      toast.error(e?.response?.data || "Failed to get data");
+      // toast.error(e?.response?.data || "Failed to get data");
     } finally {
       setIsLoading(false);
     }

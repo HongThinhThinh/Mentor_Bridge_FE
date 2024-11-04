@@ -3,13 +3,11 @@ import CustomizedCard from "../../molecules/card/Card";
 import { Button } from "../../atoms/button/Button";
 import { PieChart } from "../../molecules/chart/pie-chart/PieChart";
 import { EyeOutlined } from "@ant-design/icons";
-import ContentsSection from "../../atoms/contents-section/ContentsSection";
 import AddTopicForm from "../../molecules/formTopic";
 import useTopicService from "../../../services/useTopicService";
 import TopicList from "../../molecules/topic-section";
 import { Topic } from "../../../model/topic";
 import { formatDateToDDMMYY } from "../../../utils/dateFormat";
-import { convertStatus } from "../../../utils/convertStatus";
 import { Select } from "antd";
 import { debounce } from "lodash";
 import useBookingService from "../../../services/useBookingService";
@@ -101,6 +99,7 @@ const HomeTemplate = () => {
                     </span>
                     <h3 className="text-xl-extra-bold">
                       <CountdownTimer
+                        dateTo={bookingNearset[0]?.timeFrame?.timeFrameTo}
                         targetDate={bookingNearset[0]?.timeFrame?.timeFrameFrom}
                       />
                     </h3>

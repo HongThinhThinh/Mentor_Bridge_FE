@@ -49,6 +49,17 @@ function ConfirmReschedule() {
     }
   }, [confirmReschedule, bookingId, newTimeFrameId]);
 
+  const handleReject = useCallback(async () => {
+    try {
+      await confirmReschedule(bookingId, false, newTimeFrameId);
+      // Xử lý tiếp theo sau khi chấp nhận, ví dụ như thông báo hoặc điều hướng
+      toast.success("Từ chối thành công");
+      navigate("/student/home");
+    } catch (error) {
+      console.error("Failed to confirm reschedule:", error);
+    }
+  }, [confirmReschedule, bookingId, newTimeFrameId]);
+
   return (
     <div className="flex justify-between items-center h-[100vh] p-5">
       <div className="flex items-center w-full pl-5">
@@ -77,6 +88,8 @@ function ConfirmReschedule() {
                 children="Từ chối"
                 styleClass="w-[180px] bg-transparent border border-[#D5D5D7] text-black"
                 fontSize="xl"
+                type="submit"
+                onClick={handleReject}
               />
 
               <Button

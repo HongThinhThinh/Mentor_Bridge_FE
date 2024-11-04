@@ -61,7 +61,7 @@ const DashboardLayout: React.FC = () => {
       <Layout
         style={{ padding: "0 26px 0 106px", background: colorBgContainer }}
       >
-        <Header title={getLabel(currentItem?.key,user?.role)} />
+        <Header title={getLabel(currentItem?.key, user?.role)} />
         <Content>
           <div
             style={{

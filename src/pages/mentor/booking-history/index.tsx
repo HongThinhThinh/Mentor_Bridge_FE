@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Card, Typography, Collapse, Steps, Tag, Avatar } from "antd";
+import { Card, Typography, Collapse, Steps, Tag, Avatar, Select } from "antd";
 import useBookingService from "../../../services/useBookingService";
 import { formatDateAndHour } from "../../../utils/dateFormat";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
 import { Role } from "../../../constants/role";
-import {
-  convertColorTag,
-  convertStatus,
-  convertStatusEnum,
-} from "../../../utils/convertStatus";
+import { convertColorTag, convertStatus } from "../../../utils/convertStatus";
 import { Button } from "../../../components/atoms/button/Button";
 
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
 const { Step } = Steps;
+const { Option } = Select;
+
 const BookingDetailCard = ({ title, children }) => (
   <Card style={{ marginBottom: 16 }}>
     <Text strong>{title}</Text>
@@ -79,15 +77,28 @@ const TreeBookingDetail = ({ booking }) => {
 
 const BookingHistory = () => {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState("");
   const { getBooking } = useBookingService();
+  const user = useCurrentUser();
 
   const fetch = async () => {
     try {
       const response = await getBooking();
       console.log(response);
       setData(response);
+      setFilteredData(response);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleStatusChange = (value) => {
+    setSelectedStatus(value);
+    if (value) {
+      setFilteredData(data.filter((booking) => booking.status === value));
+    } else {
+      setFilteredData(data);
     }
   };
 
@@ -97,25 +108,53 @@ const BookingHistory = () => {
 
   return (
     <div style={{ padding: 16 }}>
-      {data
-        ?.sort(
-          (a: Date | string, b: Date | string) =>
-            new Date(b?.createdAt) - new Date(a?.createdAt)
-        )
+      <Select
+        placeholder="Chọn trạng thái"
+        style={{ width: 200, marginBottom: 16 }}
+        onChange={handleStatusChange}
+        value={selectedStatus}
+      >
+        <Option value="">Tất cả</Option>
+        <Option value="REQUESTED">Yêu cầu</Option>
+        <Option value="ACCEPTED">Chấp nhận</Option>
+        <Option value="REJECTED">Từ chối</Option>
+        <Option value="CANCELLED">Hủy</Option>
+        <Option value="RESCHEDULED">Đặt lại lịch</Option>
+        <Option value="PENDING_RESCHEDULE">Đang chờ đặt lại lịch</Option>
+        <Option value="RESCHEDULE_REJECTED">Đặt lại lịch bị từ chối</Option>
+        <Option value="FINISHED">Hoàn thành</Option>
+      </Select>
+
+      {filteredData
+        ?.sort((a, b) => new Date(b?.createdAt) - new Date(a?.createdAt))
         .map((booking) => (
           <Card className="mb-3" key={booking?.id}>
             <Card.Meta
               avatar={
                 <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
               }
-              title={"Mã cuộc họp: " + booking?.id}
+              title={
+                <>
+                  <p>Mã cuộc họp: {booking?.id}</p>
+                  {user?.role === Role.STUDENT ? (
+                    <p>Cuộc họp với Mentor: {booking?.mentor?.fullName}</p>
+                  ) : (
+                    <p>
+                      Cuộc họp với:{" "}
+                      {booking?.team != null
+                        ? "Nhóm " + booking?.team?.code
+                        : booking?.student?.fullName}
+                    </p>
+                  )}
+                </>
+              }
               description={
                 <>
                   <Tag color={convertColorTag(booking?.status)}>
                     {convertStatus(booking?.status)}
                   </Tag>
                   <p className="my-2">
-                    <strong> Ngày tạo</strong>:{" "}
+                    <strong>Ngày tạo</strong>:{" "}
                     {formatDateAndHour(booking?.createdAt)}
                   </p>
                   <BookingDetailCard title="Khung thời gian">

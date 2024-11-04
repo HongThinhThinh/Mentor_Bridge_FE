@@ -142,7 +142,11 @@ export const router = createBrowserRouter([
       },
       {
         path: USER_ROUTES.BOOKING_HISTORY,
-        element: <BookingHistory />,
+        element: (
+          <ProtectedRoute>
+            <BookingHistory />
+          </ProtectedRoute>
+        ),
       },
       {
         path: USER_ROUTES.MESSAGE,
@@ -201,6 +205,14 @@ export const router = createBrowserRouter([
             element: <ChatDetail />,
           },
         ],
+      },
+      {
+        path: USER_ROUTES.BOOKING_HISTORY,
+        element: (
+          <ProtectedRoute>
+            <BookingHistory />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

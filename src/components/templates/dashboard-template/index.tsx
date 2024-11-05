@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import api from "../../../config/api";
 import UploadFileComponent from "../../atoms/upload-file";
 import moment from "moment";
+import { Role } from "../../../constants/role";
 
 export interface Column {
   title: string;
@@ -102,10 +103,18 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
     setIsFetching(true);
     try {
       const response = await api.get(apiURI);
+      console.log(apiURI);
       let formatData = response.data.data.content || response.data.data;
+
       if (!Array.isArray(formatData)) {
         formatData = [formatData];
       }
+
+      // Filter data only when the apiURI is 'admin'
+      if (apiURI === "admin") {
+        formatData = formatData.filter((item) => item?.role !== "ADMIN"); // Ensure the condition matches only 'ADMIN' role
+      }
+
       setDataSource(formatData);
     } catch (err: any) {
       toast.error(err.response?.data || "An error occurred");

@@ -51,6 +51,12 @@ function ManageTopic() {
 
   const columns: Column[] = [
     {
+      title: "Tên giảng viên",
+      dataIndex: ["creator", "fullName"],
+      key: "name",
+      render: (_, e) => e?.creator?.fullName,
+    },
+    {
       title: "Name",
       dataIndex: "name",
       key: "name",
@@ -92,16 +98,16 @@ function ManageTopic() {
         <div style={{ display: "flex", gap: "10px" }}>
           <Button
             type="primary"
-            onClick={() => handleAccept(id, record.reloadData)} // Pass the reloadData callback
-            loading={loading} // Optionally show loading state
+            onClick={() => handleAccept(id, record.reloadData)}
+            loading={loading}
           >
             Accept
           </Button>
           <Button
             type="primary"
             danger
-            onClick={() => handleReject(id, record.reloadData)} // Pass the reloadData callback
-            loading={loading} // Optionally show loading state
+            onClick={() => handleReject(id, record.reloadData)}
+            loading={loading}
           >
             Reject
           </Button>

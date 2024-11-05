@@ -34,17 +34,18 @@ function ManageUser() {
       dataIndex: "gender",
       key: "gender",
     },
-    // {
-    //   title: "Phone",
-    //   dataIndex: "phone",
-    //   key: "phone",
-    // },
     {
       title: "Role",
       dataIndex: "role",
       key: "role",
+      filters: [
+        { text: "MENTOR", value: "MENTOR" },
+        { text: "STUDENT", value: "STUDENT" },
+      ],
+      onFilter: (value, record) => record.role === value,
     },
   ];
+
   const formItems = (
     <>
       <Form.Item label="Enter name" name={"name"}>
@@ -55,6 +56,7 @@ function ManageUser() {
       </Form.Item>
     </>
   );
+
   return (
     <div>
       <DashboardTemplate

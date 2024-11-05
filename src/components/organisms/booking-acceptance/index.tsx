@@ -95,7 +95,8 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
       dataIndex: "topic",
       key: "topic",
       render: (id: string, record: any) => {
-        return <span>{record?.semester?.topics[0]?.name}</span>;
+        console.log(record);
+        return <span>{record?.topics?.name}</span>;
       },
     },
     {

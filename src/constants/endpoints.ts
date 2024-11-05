@@ -10,6 +10,7 @@ export enum USER_API {
   REGISTER = "register",
   LOGIN = "login",
   REFRESH = "refresh",
+  POINTS = "points",
 }
 //SEMESTER
 export enum SEMESTER_API {

@@ -176,12 +176,14 @@ function MeetingDetail({
                   <div className="flex flex-col gap-3">
                     {timeFrames?.filter(
                       (timeFrame: TimeFrame) =>
-                        timeFrame?.timeFrameStatus === "AVAILABLE"
+                        timeFrame?.timeFrameStatus === "AVAILABLE" ||
+                        timeFrame?.timeFrameStatus === "REQUESTED"
                     ).length > 0 ? (
                       timeFrames
                         .filter(
                           (timeFrame: TimeFrame) =>
-                            timeFrame?.timeFrameStatus === "AVAILABLE"
+                            timeFrame?.timeFrameStatus === "AVAILABLE" ||
+                            timeFrame?.timeFrameStatus === "REQUESTED"
                         )
                         .map((timeFrame: TimeFrame) => (
                           <>

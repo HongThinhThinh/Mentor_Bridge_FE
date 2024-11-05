@@ -38,6 +38,7 @@ const useAuthService = () => {
         const response = await callApi("post", USER_API.LOGIN, values);
         localStorage.setItem("token", response?.data?.token);
         localStorage.setItem("userId", response?.data?.id);
+        localStorage.setItem("refreshToken", response?.data?.refreshToken);
         dispatch(loginRedux(response?.data));
         navigateByRole(response.data.role);
         toast.success("Login Successfully");
@@ -57,6 +58,7 @@ const useAuthService = () => {
         const res = await callApi("post", USER_API.LOGIN_GOOGLE, { token });
         localStorage.setItem("token", res?.data?.token);
         localStorage.setItem("userId", res?.data?.id);
+        localStorage.setItem("refreshToken", res?.data?.refreshToken);
         dispatch(loginRedux(res?.data));
         navigateByRole(res?.data?.role);
       }
@@ -67,19 +69,14 @@ const useAuthService = () => {
   }, [callApi, dispatch, router]);
 
   const refreshAuthToken = useCallback(async () => {
-    const refreshToken = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     if (refreshToken) {
       const response = await callApi("post", USER_API.REFRESH, {
-        token: refreshToken,
+        refreshToken: refreshToken,
       });
       const newAccessToken = response.data.token;
-      const newRefreshToken = response.data.refreshToken;
-
-      // Update tokens in local storage
       localStorage.setItem("token", newAccessToken);
-      localStorage.setItem("refreshToken", newRefreshToken);
-      dispatch(loginRedux(response.data));
-
+      // dispatch(loginRedux(response.data));
       return newAccessToken;
     }
     throw new Error("Refresh token not available");

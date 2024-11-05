@@ -32,6 +32,23 @@ const StudentPages = () => {
   const [bookingNearset, setBookingNearset] = useState([]);
   const navigate = useNavigate();
   const user = useCurrentUser();
+
+  const [points, setPoints] = useState(0);
+  const { getPoints } = useStudentService();
+  const fetchPoints = async () => {
+    try {
+      const response = await getPoints();
+      console.log(response);
+      setPoints(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPoints();
+  }, []);
+
   const fetch = async () => {
     try {
       const response = await getBookingNearest();
@@ -174,25 +191,23 @@ const StudentPages = () => {
           >
             <div className="h-full w-full">
               <div className="text-white flex justify-between items-center">
-                <span className="text-xs-medium">
-                  Số điểm còn lại trong kì :
-                </span>
+                <span className="text-xs-medium">Tổng điểm trong kì (50)</span>
               </div>
               <PieChart
                 variant="secondary"
                 data={[
                   {
-                    id: "bad",
-                    label: "Phần còn lại",
-                    value: 100 - goodRate,
+                    id: "Tổng điểm còn lại",
+                    label: "Tổng điểm còn lại",
+                    value: points,
                   },
                   {
-                    id: "good",
-                    label: "Phản hồi tốt",
-                    value: goodRate,
+                    id: "Tổng điểm đã sử dụng",
+                    label: "Tổng điểm đã sử dụng",
+                    value: 50 - points,
                   },
                 ]}
-              ></PieChart>
+              />
             </div>
           </CustomizedCard>
         </div>

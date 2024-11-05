@@ -1,18 +1,17 @@
 import api from "../config/api";
 import { USER_API } from "../constants/endpoints";
-import { loginRedux } from "../redux/features/userSlice";
-import { store } from "../redux/store"; // Import the store directly
 
 export const refreshAuthToken = async () => {
-  const refreshToken = localStorage.getItem("token");
+  const refreshToken = localStorage.getItem("refreshToken");
   if (refreshToken) {
     const response = await api.post(USER_API.REFRESH, {
-      token: refreshToken,
+      refreshToken: refreshToken,
     });
 
-    const newAccessToken = response.data.token;
+    const newAccessToken = response.data.data.token;
+    console.log(response);
     localStorage.setItem("token", newAccessToken);
-    store.dispatch(loginRedux(response.data));
+    // store.dispatch(loginRedux(response.data));
 
     return newAccessToken;
   }

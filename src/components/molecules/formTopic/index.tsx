@@ -14,7 +14,7 @@ interface AddTopicFormProps {
 
 function AddTopicForm({ isOpen, onClose, fetchData }: AddTopicFormProps) {
   const { createTopic, loading } = useTopicService();
-  const { searchTeamMembers } = useStudentService();
+  const { searchTeam } = useStudentService();
   const [form] = Form.useForm();
   const [file, setFile] = useState<File | null>(null);
   const [assignToTeam, setAssignToTeam] = useState(false);
@@ -54,7 +54,7 @@ function AddTopicForm({ isOpen, onClose, fetchData }: AddTopicFormProps) {
     debounce(async (teamName: string) => {
       setSearchLoading(true);
       try {
-        const results = await searchTeamMembers(teamName);
+        const results = await searchTeam(teamName);
         setTeamSearchResults(results);
       } catch (error) {
         console.error("Error searching for teams:", error);
@@ -62,7 +62,7 @@ function AddTopicForm({ isOpen, onClose, fetchData }: AddTopicFormProps) {
         setSearchLoading(false);
       }
     }, 300), // Adjust the debounce time as needed
-    [searchTeamMembers]
+    [searchTeam]
   );
 
   const handleTeamSelect = (team: any) => {

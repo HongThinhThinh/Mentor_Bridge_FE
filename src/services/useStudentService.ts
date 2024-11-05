@@ -2,7 +2,7 @@
 import { useCallback } from "react";
 import useApiService from "../hooks/useApi";
 import { toast } from "react-toastify";
-import { ADMIN_API, TEAM_API } from "../constants/endpoints";
+import { ADMIN_API, TEAM_API, USER_API } from "../constants/endpoints";
 import { useDispatch } from "react-redux";
 import { useCurrentUser } from "../utils/getcurrentUser";
 import { loginRedux } from "../redux/features/userSlice";
@@ -28,6 +28,18 @@ const useStudentService = () => {
     },
     [callApi, setIsLoading]
   );
+  const getPoints = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      // check PATH
+      const response = await callApi("get", USER_API.POINTS);
+      return response?.data;
+    } catch (e: any) {
+      // console.error("Fetch User Team Error: ", e);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [callApi, setIsLoading]);
 
   const createTeam = useCallback(async () => {
     try {
@@ -53,6 +65,24 @@ const useStudentService = () => {
         const response = await callApi(
           "get",
           `${ADMIN_API.ADMIN}?search=${searchTerm}&role=STUDENT`
+        );
+        return response?.data;
+      } catch (e: any) {
+        // toast.error(e?.response?.data || "Có lỗi khi tìm kiếm thành viên");
+        console.error("Search Team Members Error: ", e);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi, setIsLoading]
+  );
+  const searchTeam = useCallback(
+    async (searchTerm: string) => {
+      try {
+        setIsLoading(true);
+        const response = await callApi(
+          "get",
+          `${TEAM_API.TEAM}?teamCode=${searchTerm}`
         );
         return response?.data;
       } catch (e: any) {
@@ -107,6 +137,8 @@ const useStudentService = () => {
   return {
     loading,
     createTeam,
+    getPoints,
+    searchTeam,
     getUserTeam,
     searchTeamMembers,
     inviteToGroup,

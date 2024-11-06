@@ -96,17 +96,29 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
       key: "topic",
       render: (id: string, record: any) => {
         console.log(record);
-        return <span>{record?.topics?.name}</span>;
+        const topicName = record?.team?.topics?.[0]?.name || "";
+        return <span>{topicName}</span>;
       },
     },
     {
-      title: "Mô tả",
-      dataIndex: "topic",
-      key: "description", // Đã sửa lại key để tránh trùng lặp
-      render: (id: string, record: any) => {
-        return <span>{record?.semester?.topics[0]?.description}</span>;
-      },
+      title: "Tài liệu nhóm",
+      dataIndex: "createdAt",
+      key: "document",
+      render: (id: string, record: any) => (
+        <a
+          className="underline text-blue"
+          onClick={() => {
+            downloadBase64File(
+              record?.team?.topics?.[0]?.files?.[0],
+              record?.team?.topics[0]?.files[0]?.name
+            );
+          }}
+        >
+          {record?.team?.topics[0]?.files[0]?.name}
+        </a>
+      ),
     },
+    ,
     {
       title: "Ngày tạo",
       dataIndex: "createdAt",
@@ -120,24 +132,7 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
         </span>
       ),
     },
-    {
-      title: "Tài liệu nhóm",
-      dataIndex: "createdAt",
-      key: "document",
-      render: (id: string, record: any) => (
-        <a
-          className="underline text-blue"
-          onClick={() => {
-            downloadBase64File(
-              record?.semester?.topics[0]?.files[0]?.content,
-              record?.semester?.topics[0]?.files[0]?.name
-            );
-          }}
-        >
-          {record?.semester?.topics[0]?.files[0]?.name}
-        </a>
-      ),
-    },
+
     {
       title: "Hành động",
       dataIndex: "id",

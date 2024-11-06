@@ -8,13 +8,17 @@ import useTopicService from "../../../services/useTopicService";
 import TopicList from "../../molecules/topic-section";
 import { Topic } from "../../../model/topic";
 import { formatDateToDDMMYY } from "../../../utils/dateFormat";
-import { Select } from "antd";
+import { Empty, Select } from "antd";
 import { debounce } from "lodash";
 import useBookingService from "../../../services/useBookingService";
 import CountdownTimer from "../../layouts/countdown-timer";
 import MeetingDetail from "../../organisms/meeting-detail";
 import GroupList from "../../molecules/team-section";
 import useMentorService from "../../../services/useMentorService";
+import { HiDotsHorizontal } from "react-icons/hi";
+import ContentsSection from "../../atoms/contents-section/ContentsSection";
+import TopicDetail from "../../organisms/topic-detail";
+import { convertStatus } from "../../../utils/convertStatus";
 
 const HomeTemplate = () => {
   const [loading, setLoading] = useState(false);
@@ -26,9 +30,19 @@ const HomeTemplate = () => {
   const [isOpenMeetingDetail, setIsOpenDetail] = useState(false);
   const { getBookingNearest } = useBookingService();
   const [bookingNearset, setBookingNearset] = useState([]);
-
+  const [open, setOpen] = useState<boolean>(false);
   const { getTeams } = useMentorService();
   const [teams, setTeams] = useState([]);
+  const [selectedTopic, setSelectedTopic] = useState<Topic>();
+
+  const handleOpenModal = (e: any) => {
+    setOpen(true);
+    setSelectedTopic(e);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
 
   const fetch = async () => {
     try {
@@ -38,6 +52,8 @@ const HomeTemplate = () => {
       console.log(error);
     }
   };
+
+  console.log(selectedTopic)
 
   const fetchTeams = async () => {
     try {
@@ -197,14 +213,14 @@ const HomeTemplate = () => {
                     { value: "APPROVE", label: "Đã đồng ý" },
                   ]}
                 />
-                <Button
+                {/* <Button
                   size="xs"
                   styleClass="bg-gradient-to-r from-[#151316] to-[#4D4252] text-white"
                   fontSize="xs"
                   onClick={() => setIsModalVisible(true)}
                 >
                   Thêm đề tài mới +
-                </Button>
+                </Button> */}
               </div>
               <AddTopicForm
                 fetchData={fetchTopics}
@@ -212,8 +228,42 @@ const HomeTemplate = () => {
                 isOpen={isModalVisible}
               />
             </div>
-            <TopicList topics={topic} />
+            {/* <TopicList topics={topic} /> */}
+            <ul className="space-y-4 overflow-y-scroll h-4/5">
+              {topic?.length > 0 ? (
+                topic?.map((topic, idx) => (
+                  <ContentsSection
+                    key={topic?.id} // Ensure unique keys for each list item
+                    time={convertStatus(topic?.status)}
+                    content={topic?.name}
+                    prefix={
+                      <div className="bg-white border w-8 h-8 justify-center flex items-center rounded-full">
+                        {idx + 1}
+                      </div>
+                    }
+                    suffix={
+                      <HiDotsHorizontal
+                        style={{ cursor: "pointer", marginRight: "20px" }}
+                        size={22}
+                        onClick={() => handleOpenModal(topic)}
+                      />
+                    }
+                    styleClass=" bg-[#f9fafb]"
+                  />
+                ))
+              ) : (
+                <Empty description="Hiện chưa có đề tài nào" />
+              )}
+            </ul>
           </CustomizedCard>
+          <TopicDetail
+            isOpen={open}
+            onCancel={handleCloseModal}
+            topic={selectedTopic}
+            isLeader={false}
+            // load={load}
+            // setLoad={setLoad}
+          />
         </div>
         <div className="h-[calc(50%-12px)]">
           <CustomizedCard

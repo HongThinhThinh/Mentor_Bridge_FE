@@ -5,6 +5,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import useTopicService from "../../../services/useTopicService";
 import useStudentService from "../../../services/useStudentService";
 import debounce from "lodash.debounce";
+import { Role } from "../../../constants/role";
 
 interface AddTopicFormProps {
   isOpen: boolean;
@@ -101,6 +102,12 @@ function AddTopicForm({ isOpen, onClose, fetchData }: AddTopicFormProps) {
       key: "email",
       render: (_, record) => record.user.email,
     },
+    {
+      title: "Chức vụ",
+      dataIndex: "Chức vụ",
+      key: "Chức vụ",
+      render: (_, record) => <span> {record?.role}</span>,
+    },
   ];
 
   return (
@@ -148,12 +155,14 @@ function AddTopicForm({ isOpen, onClose, fetchData }: AddTopicFormProps) {
             {teamSearchResults?.userTeams && (
               <div style={{ marginTop: 16 }}>
                 <Table
-                  dataSource={teamSearchResults?.userTeams}
+                  dataSource={teamSearchResults?.userTeams.filter(
+                    (item) => item?.role != Role?.MENTOR
+                  )}
                   columns={columns}
                   rowKey="id"
                   loading={searchLoading}
                   onRow={(record) => ({
-                    onClick: () => handleTeamSelect(record.user), // Select team on row click
+                    onClick: () => handleTeamSelect(record.user),
                   })}
                 />
               </div>

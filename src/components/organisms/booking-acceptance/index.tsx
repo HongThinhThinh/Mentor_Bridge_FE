@@ -1,4 +1,4 @@
-import { Popconfirm, Spin, Table } from "antd";
+import { Popconfirm, Spin, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 import { Column } from "../../templates/dashboard-template";
 import { Button } from "../../atoms/button/Button";
@@ -105,22 +105,31 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
       dataIndex: "createdAt",
       key: "document",
       render: (id: string, record: any) => (
-        <a
-          className="underline text-blue"
+        <span
+          className="underline text-blue cursor-pointer"
           onClick={() => {
             downloadBase64File(
-              record?.team?.topics?.[0]?.files?.[0],
+              record?.team?.topics?.[0]?.files?.[0].content,
               record?.team?.topics[0]?.files[0]?.name
             );
           }}
         >
           {record?.team?.topics[0]?.files[0]?.name}
-        </a>
+        </span>
       ),
     },
-    ,
     {
-      title: "Ngày tạo",
+      title: "Loại book",
+      dataIndex: "type",
+      key: "type",
+      render: (e: string, record: any) => (
+        <Tag color={record?.type === "TEAM" ? "green" : "geekblue"}>
+          {record?.type}
+        </Tag>
+      ),
+    },
+    {
+      title: "Loại book",
       dataIndex: "createdAt",
       key: "createdAt",
       render: (id: string, record: any) => (

@@ -34,6 +34,8 @@ function RoomChatDetail() {
     }
   };
 
+  console.log("data", data);
+
   useRealtime(async (body) => {
     if (body.body === "New message") {
       await fetch();
@@ -102,18 +104,18 @@ function RoomChatDetail() {
           alt=""
         />
         <div className="header__info">
-          <span>
-            {data?.users?.filter((item) => item.id != user.id)[0].name}
-          </span>
+          <span>{data?.name}</span>
           <div className="status">
             <div className="dot"></div>
-            <span>online</span>
+            {/* <span>online</span> */}
           </div>
         </div>
       </div>
       <div className="chat-detail__messages" ref={messagesContainerRef}>
         {data?.messages?.map((item) => (
           <Message
+            id={item?.id}
+            name={item?.user?.fullName}
             key={item.user?.id}
             text={item?.message}
             me={item.user?.id === user?.id ? "me" : ""}

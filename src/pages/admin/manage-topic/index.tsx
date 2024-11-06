@@ -44,8 +44,10 @@ function ManageTopic() {
         return <Tag color="red">Rejected</Tag>;
       case "approved":
         return <Tag color="green">APPROVED</Tag>;
+      case "active":
+        return <Tag color="green-inverse">ACTIVED</Tag>;
       default:
-        return <Tag color="blue">Unknown</Tag>;
+        return <Tag color="blue">{status}</Tag>;
     }
   };
 
@@ -135,6 +137,7 @@ function ManageTopic() {
         apiURI={TOPIC_API.TOPIC}
         formItems={formItems}
         title={title}
+        isRequest
         columns={columns}
       />
     </div>

@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import api from "../../../config/api";
 import UploadFileComponent from "../../atoms/upload-file";
 import moment from "moment";
-import { Role } from "../../../constants/role";
 
 export interface Column {
   title: string;
@@ -31,12 +30,14 @@ export interface DashboardTemplateProps {
   isCustom?: boolean;
   isReload?: boolean;
   isConfig?: boolean;
+  isRequest?: boolean;
 }
 
 export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
   isImport = false,
   isCustom = false,
   isConfig = false,
+  isRequest = false,
   isReload,
   columns,
   title,
@@ -207,9 +208,11 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
       {isImport ? (
         <UploadFileComponent fetchData={fetchData} />
       ) : (
-        <Button onClick={() => handleOpenModal()} type="primary">
-          Thiết lập {title}
-        </Button>
+        !isRequest && (
+          <Button onClick={() => handleOpenModal()} type="primary">
+            Thiết lập {title}
+          </Button>
+        )
       )}
 
       <Table

@@ -31,8 +31,10 @@ function AddTopicForm({ isOpen, onClose, fetchData }: AddTopicFormProps) {
       };
 
       if (assignToTeam && selectedTeam) {
-        topicData.teamId = selectedTeam.id;
+        topicData.teamId = teamSearchResults.id;
       }
+
+      console.log("topicData", topicData);
 
       await createTopic(topicData, file);
       fetchData();
@@ -67,6 +69,7 @@ function AddTopicForm({ isOpen, onClose, fetchData }: AddTopicFormProps) {
   );
 
   const handleTeamSelect = (team: any) => {
+    console.log(team);
     setSelectedTeam(team);
     setTeamSearchResults([]);
   };
@@ -161,9 +164,9 @@ function AddTopicForm({ isOpen, onClose, fetchData }: AddTopicFormProps) {
                   columns={columns}
                   rowKey="id"
                   loading={searchLoading}
-                  onRow={(record) => ({
-                    onClick: () => handleTeamSelect(record.user),
-                  })}
+                  // onRow={(record) => ({
+                  //   onClick: () => handleTeamSelect(record.user),
+                  // })}
                 />
               </div>
             )}

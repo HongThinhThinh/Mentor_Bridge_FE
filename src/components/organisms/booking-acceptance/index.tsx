@@ -1,4 +1,4 @@
-import { Popconfirm, Spin, Table } from "antd";
+import { Popconfirm, Spin, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 import { Column } from "../../templates/dashboard-template";
 import { Button } from "../../atoms/button/Button";
@@ -96,19 +96,40 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
       key: "topic",
       render: (id: string, record: any) => {
         console.log(record);
-        return <span>{record?.topics?.name}</span>;
+        const topicName = record?.team?.topics?.[0]?.name || "";
+        return <span>{topicName}</span>;
       },
     },
     {
-      title: "Mô tả",
-      dataIndex: "topic",
-      key: "description", // Đã sửa lại key để tránh trùng lặp
-      render: (id: string, record: any) => {
-        return <span>{record?.semester?.topics[0]?.description}</span>;
-      },
+      title: "Tài liệu nhóm",
+      dataIndex: "createdAt",
+      key: "document",
+      render: (id: string, record: any) => (
+        <span
+          className="underline text-blue cursor-pointer"
+          onClick={() => {
+            downloadBase64File(
+              record?.team?.topics?.[0]?.files?.[0].content,
+              record?.team?.topics[0]?.files[0]?.name
+            );
+          }}
+        >
+          {record?.team?.topics[0]?.files[0]?.name}
+        </span>
+      ),
     },
     {
-      title: "Ngày tạo",
+      title: "Loại book",
+      dataIndex: "type",
+      key: "type",
+      render: (e: string, record: any) => (
+        <Tag color={record?.type === "TEAM" ? "green" : "geekblue"}>
+          {record?.type}
+        </Tag>
+      ),
+    },
+    {
+      title: "Loại book",
       dataIndex: "createdAt",
       key: "createdAt",
       render: (id: string, record: any) => (
@@ -120,24 +141,7 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
         </span>
       ),
     },
-    {
-      title: "Tài liệu nhóm",
-      dataIndex: "createdAt",
-      key: "document",
-      render: (id: string, record: any) => (
-        <a
-          className="underline text-blue"
-          onClick={() => {
-            downloadBase64File(
-              record?.semester?.topics[0]?.files[0]?.content,
-              record?.semester?.topics[0]?.files[0]?.name
-            );
-          }}
-        >
-          {record?.semester?.topics[0]?.files[0]?.name}
-        </a>
-      ),
-    },
+
     {
       title: "Hành động",
       dataIndex: "id",

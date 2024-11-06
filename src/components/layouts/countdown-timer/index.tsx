@@ -82,15 +82,6 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
       ) : (
         <h6>Đang chờ xác nhận</h6>
       )}
-
-      <Modal
-        title="Xác nhận cuộc hẹn"
-        visible={isModalVisible}
-        onOk={handleModalOk}
-        onCancel={handleModalCancel}
-      >
-        <p>Bạn có muốn xác nhận cuộc hẹn đã thành công không?</p>
-      </Modal>
     </>
   );
 };

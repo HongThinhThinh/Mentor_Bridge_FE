@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useCallback } from "react";
-import { Button, Form, Input, Upload, Switch, Table, Modal } from "antd";
+import { Button, Form, Input, Upload, Switch, Table, Modal, Empty } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import useTopicService from "../../../services/useTopicService";
 import useStudentService from "../../../services/useStudentService";
@@ -30,10 +30,10 @@ function AddTopicForm({ isOpen, onClose, fetchData }: AddTopicFormProps) {
         description: values.description,
       };
 
-      if (assignToTeam && selectedTeam) {
+      if (assignToTeam && teamSearchResults) {
         topicData.teamId = teamSearchResults.id;
       }
-
+      console.log(teamSearchResults);
       console.log("topicData", topicData);
 
       await createTopic(topicData, file);
@@ -154,21 +154,21 @@ function AddTopicForm({ isOpen, onClose, fetchData }: AddTopicFormProps) {
                 onChange={(e) => handleTeamSearch(e.target.value)}
               />
             </Form.Item>
-
-            {teamSearchResults?.userTeams && (
-              <div style={{ marginTop: 16 }}>
-                <Table
-                  dataSource={teamSearchResults?.userTeams.filter(
-                    (item) => item?.role != Role?.MENTOR
-                  )}
-                  columns={columns}
-                  rowKey="id"
-                  loading={searchLoading}
-                  // onRow={(record) => ({
-                  //   onClick: () => handleTeamSelect(record.user),
-                  // })}
-                />
-              </div>
+            {teamSearchResults?.length > 0 ? (
+              teamSearchResults?.userTeams && (
+                <div style={{ marginTop: 16 }}>
+                  <Table
+                    dataSource={teamSearchResults?.userTeams.filter(
+                      (item) => item?.role != Role?.MENTOR
+                    )}
+                    columns={columns}
+                    rowKey="id"
+                    loading={searchLoading}
+                  />
+                </div>
+              )
+            ) : (
+              <Empty />
             )}
           </>
         )}

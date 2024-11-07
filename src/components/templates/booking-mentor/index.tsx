@@ -78,6 +78,8 @@ function BookingMentor({}: BookingMentorProps) {
 
   const handleBooking = async (id: string) => {
     setIsFetching(true); // Bật loading để cho người dùng thấy
+
+    console.log(selectedType);
     try {
       await sendBooking(id, selectedType);
       // Sau khi đặt lịch thành công, gọi lại fetchData để lấy lại danh sách giáo viên

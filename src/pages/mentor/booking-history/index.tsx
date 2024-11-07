@@ -19,7 +19,6 @@ import { Button } from "../../../components/atoms/button/Button";
 import useGetParams from "../../../hooks/useGetParams";
 import { User } from "../../../model/user";
 import { useNavigate } from "react-router-dom";
-import { MdDownloadDone } from "react-icons/md";
 import { IoMdDoneAll } from "react-icons/io";
 
 const { Title, Text } = Typography;

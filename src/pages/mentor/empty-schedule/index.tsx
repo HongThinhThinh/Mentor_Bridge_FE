@@ -19,7 +19,7 @@ const EmptySchedulePage = () => {
 
   return (
     <div className="relative">
-      <div className="absolute -top-[75px] left-56">
+      <div className="absolute -top-[75px] left-[230px] ">
         <UpdateScheduler />
       </div>
       <div className="mt-5 empty-schedule">
@@ -28,7 +28,7 @@ const EmptySchedulePage = () => {
             onCancel={() => setIsopen(false)}
             open={true}
             type="error"
-            message="Giảng viên vui lòng cập nhật lịch trống trước ngày 30-08-2024"
+            message="Giảng viên vui lòng cập nhật lịch trống"
             timeClose={3}
           />
         )}

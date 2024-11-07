@@ -60,7 +60,7 @@ const VerticalScheduler = ({ scheduleData }) => {
             start: `2024-01-01T${time.startTime}`, // Adjust the date to match startDate if needed
             end: `2024-01-01T${time.endTime}`,
             resource: dayResourceId,
-            text: `Event ${dayResourceId}`,
+            text: `Lịch trống của thứ ${dayResourceId}`,
           });
         });
       }

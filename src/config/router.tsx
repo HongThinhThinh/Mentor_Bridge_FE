@@ -97,7 +97,8 @@ export const router = createBrowserRouter([
   },
   {
     path: "/test",
-    element: <ConfirmReschedule />,
+    // element: <ConfirmReschedule />,
+    element: <BookingHistory  />
   },
 
   {

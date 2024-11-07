@@ -32,6 +32,7 @@ export interface ButtonProps {
   isDisabled?: boolean;
 
   loading?: boolean;
+  styles?: React.CSSProperties | undefined;
 }
 
 /** Primary UI component for user interaction */
@@ -47,6 +48,7 @@ export const Button = ({
   status = "default",
   isDisabled = false,
   loading,
+  styles,
   ...props
 }: ButtonProps) => {
   return (
@@ -69,6 +71,7 @@ export const Button = ({
       type={type}
       disabled={isDisabled}
       {...props}
+      style={styles}
     >
       {loading && (
         <svg

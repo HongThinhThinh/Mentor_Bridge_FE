@@ -11,7 +11,7 @@ const usePointsService = () => {
     async (bookingTypeEnum?: string, pointChangeType?: string) => {
       try {
         setIsLoading(true);
-        
+
         const params: Record<string, string | undefined> = {
           bookingTypeEnum,
           pointChangeType,
@@ -22,14 +22,12 @@ const usePointsService = () => {
           Object.entries(params).filter(([_, v]) => v != null)
         );
 
-        const response = await callApi(
-          "get",
-          POINTS_API.POINTS_HISTORY,
-          { params: filteredParams }
-        );
+        const response = await callApi("get", POINTS_API.POINTS_HISTORY, {
+          params: filteredParams,
+        });
 
         if (response?.data) {
-          toast.success("Fetched points history successfully!");
+          // toast.success("Fetched points history successfully!");
         }
 
         return response?.data;

@@ -6,7 +6,7 @@ export const convertStatus = (status: string): string => {
       return "Bị từ chối";
     case "active":
       return "Đã có nhóm chọn";
-      // return "Đang hoạt động";
+    // return "Đang hoạt động";
     case "inactive":
       return "Được chấp nhận";
     case "requested":
@@ -64,13 +64,12 @@ export const convertTeamType = (status: string): string => {
   }
 };
 
-
 export const convertPointChangeType = (status: string): string => {
   switch (status.toUpperCase()) {
     case "DEDUCTION":
       return "Khấu trừ";
     case "REFUND":
-      return "Hoàn tiền";
+      return "Hoàn điểm";
     default:
       return "Trống";
   }

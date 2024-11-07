@@ -90,7 +90,7 @@ function ConfirmReschedule() {
             <strong>
               {formatDate(bookingDetail?.timeFrame?.timeFrameFrom)}
             </strong>{" "}
-            sang ngày
+            sang
             <strong className="text-red-500">
               {" " + formatDate(newTime?.timeFrameFrom)}
             </strong>

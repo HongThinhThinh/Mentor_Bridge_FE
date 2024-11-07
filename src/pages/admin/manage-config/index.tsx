@@ -108,6 +108,7 @@ const ManageConfig: React.FC = () => {
 
   return (
     <DashboardTemplate
+      isNotDelete
       apiURI={CONFIG_API.CONFIG}
       formItems={formItems}
       title={title}

@@ -154,7 +154,7 @@ function AddTopicForm({ isOpen, onClose, fetchData }: AddTopicFormProps) {
                 onChange={(e) => handleTeamSearch(e.target.value)}
               />
             </Form.Item>
-            {teamSearchResults?.length > 0 ? (
+            {teamSearchResults?.userTeams?.length > 0 ? (
               teamSearchResults?.userTeams && (
                 <div style={{ marginTop: 16 }}>
                   <Table

@@ -39,11 +39,11 @@ export const getLabel = (key?: Key, role?: string): string | undefined => {
 
 const studentItems = [
   { label: "Trang Chủ", key: "home", icon: <HomeOutlined /> },
-  { label: "Đoạn chat", key: "messages", icon: <CommentOutlined /> },
+  { label: "Đoạn Chat", key: "messages", icon: <CommentOutlined /> },
   { label: "Lịch Trình", key: "schedule", icon: <CalendarOutlined /> },
   { label: "Đặt Lịch", key: "booking", icon: <BookOutlined /> },
   {
-    label: "Lịch sử đặt lịch",
+    label: "Lịch Sử Đặt Lịch",
     key: "booking-history",
     icon: <FieldTimeOutlined />,
   },
@@ -55,10 +55,10 @@ export const studentMenuItems: MenuItem[] = studentItems.map((item) =>
 
 const mentorItems = [
   { label: "Trang Chủ", key: "home", icon: <HomeOutlined /> },
-  { label: "Đoạn chat", key: "messages", icon: <CommentOutlined /> },
+  { label: "Đoạn Chat", key: "messages", icon: <CommentOutlined /> },
   { label: "Lịch Trình", key: "schedule", icon: <CalendarOutlined /> },
   {
-    label: "Lịch trống trong kỳ",
+    label: "Lịch Trống Trong Kỳ",
     key: "empty-schedule",
     icon: <BookOutlined />,
   },
@@ -68,7 +68,7 @@ const mentorItems = [
     icon: <SnippetsOutlined />,
   },
   {
-    label: "Lịch sử đặt lịch",
+    label: "Lịch Sử Xử Lí Yêu Cầu",
     key: "booking-history",
     icon: <FieldTimeOutlined />,
   },

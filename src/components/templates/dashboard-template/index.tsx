@@ -31,12 +31,14 @@ export interface DashboardTemplateProps {
   isReload?: boolean;
   isConfig?: boolean;
   isRequest?: boolean;
+  isNotDelete?: boolean;
 }
 
 export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
   isImport = false,
   isCustom = false,
   isConfig = false,
+  isNotDelete = false,
   isRequest = false,
   isReload,
   columns,
@@ -64,15 +66,19 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
               key: "id",
               render: (id: string, record: any) => (
                 <div style={{ gap: "10px", display: "flex" }}>
-                  <Popconfirm
-                    title={`Delete ${title}`}
-                    onConfirm={() => handleDelete(id)}
-                  >
-                    <Button type="primary" danger>
-                      Delete
-                    </Button>
-                  </Popconfirm>
-                  <span style={{ margin: "10px 5px" }}>|</span>
+                  {!isNotDelete && (
+                    <>
+                      <Popconfirm
+                        title={`Delete ${title}`}
+                        onConfirm={() => handleDelete(id)}
+                      >
+                        <Button type="primary" danger>
+                          Delete
+                        </Button>
+                      </Popconfirm>
+                      <span style={{ margin: "10px 5px" }}>|</span>
+                    </>
+                  )}
                   <Button
                     type="primary"
                     style={{ backgroundColor: "orange" }}

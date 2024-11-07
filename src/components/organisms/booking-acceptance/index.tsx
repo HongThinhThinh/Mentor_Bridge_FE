@@ -9,6 +9,8 @@ import {
   formatDateForRequest,
 } from "../../../utils/dateFormat";
 import { downloadBase64File } from "../../../utils/dowloadBase64File";
+import { Role } from "../../../constants/role";
+import { useCurrentUser } from "../../../utils/getcurrentUser";
 
 export interface BookingRecordData {
   id: string;
@@ -27,7 +29,7 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
   const [isFetching, setIsFetching] = useState(false);
 
   const { getBooking, updateBooking, loading } = useBookingService();
-
+  const user = useCurrentUser();
   const bookingColumns: Column[] = [
     {
       title: "Avatar",
@@ -56,12 +58,7 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
             backgroundColor: "#f9f9f9",
           }}
         >
-          <span style={{ fontWeight: "bold", fontSize: "14px" }}>
-            {record?.student
-              ? record.student.fullName
-              : record?.team?.userTeams[0]?.user?.fullName}
-          </span>
-          {record?.team && (
+          {record?.team ? (
             <div
               style={{
                 marginTop: "5px",
@@ -85,6 +82,10 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
                 </p>
               </div>
             </div>
+          ) : (
+            <span style={{ fontWeight: "bold", fontSize: "14px" }}>
+              {record?.student && record.student.fullName}
+            </span>
           )}
         </div>
       ),
@@ -95,8 +96,26 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
       dataIndex: "topic",
       key: "topic",
       render: (id: string, record: any) => {
-        console.log(record);
         const topicName = record?.team?.topics?.[0]?.name || "";
+        return <span>{topicName}</span>;
+      },
+    },
+    {
+      title: "Mentor",
+      dataIndex: "topic",
+      key: "topic",
+      render: (id: string, record: any) => {
+        let topicName = "";
+        const isCreator = record?.team?.topics.some(
+          (item) => item?.creator.id === user?.id
+        );
+
+        if (isCreator) {
+          topicName = "Đây là nhóm đang làm đề tài của bạn ";
+        } else {
+          topicName = "";
+        }
+
         return <span>{topicName}</span>;
       },
     },
@@ -174,6 +193,8 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
     },
   ];
 
+  console.log(dataSource);
+
   const fetchData = () => {
     getBooking(undefined, "REQUESTED")
       .then((response) => {
@@ -194,6 +215,7 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
   const handleReject = (id: string) => {
     setIsFetching(true);
     updateBooking(id, "REJECTED");
+    fetchData();
   };
 
   const handleApprove = (id: string) => {

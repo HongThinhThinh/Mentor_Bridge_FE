@@ -7,6 +7,7 @@ import useBookingService from "../../../services/useBookingService";
 import { Button } from "../../atoms/button/Button";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import useScheduleService from "../../../services/useScheduleService";
 
 function ConfirmReschedule() {
   const { loading, getBookingDetails, confirmReschedule } = useBookingService();
@@ -15,8 +16,10 @@ function ConfirmReschedule() {
   const newTimeFrameId = getParams("newTimeFrameId");
   const token = getParams("token");
   const navigate = useNavigate();
+  const { getNewTime } = useScheduleService();
 
   const [bookingDetail, setBookingDetail] = useState(null);
+  const [newTime, setNewTime] = useState(null);
   const [image, setImage] = useState(img);
 
   const formatDate = (isoDate: any) => {
@@ -34,11 +37,19 @@ function ConfirmReschedule() {
     const fetchBooking = async () => {
       try {
         const res = await getBookingDetails(bookingId);
-        console.log(res);
+
         setBookingDetail(res);
       } catch (error) {}
     };
+    const fetchNewTime = async () => {
+      try {
+        const newTime = await getNewTime(newTimeFrameId);
+
+        setNewTime(newTime);
+      } catch (error) {}
+    };
     fetchBooking();
+    fetchNewTime();
   }, []);
 
   const handleAccept = useCallback(async () => {
@@ -79,8 +90,10 @@ function ConfirmReschedule() {
             <strong>
               {formatDate(bookingDetail?.timeFrame?.timeFrameFrom)}
             </strong>{" "}
-            sang ngày <strong>[ngày mới]</strong> lúc <strong>[giờ mới]</strong>
-            .
+            sang ngày
+            <strong className="text-red-500">
+              {" " + formatDate(newTime?.timeFrameFrom)}
+            </strong>
             <br /> Bạn có chấp nhận sự thay đổi này không?
           </p>
 
@@ -93,8 +106,12 @@ function ConfirmReschedule() {
                 fontSize="base"
                 type="submit"
                 onClick={handleReject}
-                onMouseover={() => {setImage(img3)}}
-                onMouseout={() => {setImage(img)}}
+                onMouseover={() => {
+                  setImage(img3);
+                }}
+                onMouseout={() => {
+                  setImage(img);
+                }}
               />
 
               <Button
@@ -104,8 +121,12 @@ function ConfirmReschedule() {
                 styleClass="w-[200px] text-shade-300 bg-transparent border border-[#D5D5D7] 
          bg-gradient-to-r from-[#FF6001] from-43.73%  to-[#F9A26E] to-99.08%"
                 fontSize="base"
-                onMouseover={() => {setImage(img2)}}
-                onMouseout={() => {setImage(img)}}
+                onMouseover={() => {
+                  setImage(img2);
+                }}
+                onMouseout={() => {
+                  setImage(img);
+                }}
               />
             </div>
           </div>

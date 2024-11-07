@@ -266,7 +266,9 @@ const StudentPages = () => {
           >
             <div className="h-full w-full">
               <div className="text-white flex justify-between items-center">
-                <span className="text-xs-medium">Tổng điểm trong kì (50)</span>
+                <span className="text-xs-medium">
+                  Tổng điểm trong kì ({points?.totalStudentPoints})
+                </span>
                 <Button
                   styleClass="bg-[#FFFFFF30] rounded-[12px] h-[43px] w-[43px] flex justify-center items-center"
                   status="none"
@@ -284,12 +286,13 @@ const StudentPages = () => {
                   {
                     id: "Tổng điểm đã sử dụng",
                     label: "Tổng điểm đã sử dụng",
-                    value: 100 - (points ? points?.studentPoints : 0),
+                    value:
+                      points?.totalStudentPoints - points?.studentPoints || 0, // Subtract to get the total points used
                   },
                   {
                     id: "Tổng điểm còn lại",
                     label: "Tổng điểm còn lại",
-                    value: points ? points?.studentPoints : 0,
+                    value: points?.studentPoints || 0, // Remaining points
                   },
                 ]}
               />

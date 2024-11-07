@@ -116,8 +116,8 @@ const TreeBookingDetail = ({ booking }) => {
 };
 
 const BookingHistory = () => {
-  const [data, setData] = useState(bookingHistoryDummyData);
-  const [filteredData, setFilteredData] = useState(bookingHistoryDummyData);
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("");
   const { getBooking, makeBookingCompleted, getBookingDetails } =
     useBookingService();
@@ -144,14 +144,14 @@ const BookingHistory = () => {
   };
 
   useEffect(() => {
-    // fetch();
+    fetch();
   }, []);
 
   useEffect(() => {
-    // if (idBooking) {
-    //   setShow(true);
-    //   fetchBookingDetails();
-    // }
+    if (idBooking) {
+      setShow(true);
+      fetchBookingDetails();
+    }
   }, []);
   const fetch = async () => {
     try {
@@ -174,7 +174,7 @@ const BookingHistory = () => {
   };
 
   useEffect(() => {
-    // fetch();
+    fetch();
   }, []);
 
   return (

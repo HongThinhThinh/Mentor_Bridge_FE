@@ -98,6 +98,10 @@ const StudentPages = () => {
       });
   };
 
+  const isMentor = dataTeam?.userTeams?.filter(
+    (item) => item?.role === Role.MENTOR
+  ).length;
+
   useEffect(() => {
     fetchData();
   }, [selectedOption]);
@@ -227,15 +231,11 @@ const StudentPages = () => {
                       {" " +
                         dataTeam?.code +
                         " (" +
-                        (dataTeam?.userTeams.filter(
-                          (item) => item?.role === Role.MENTOR
-                        )
-                          ? dataTeam?.userTeams?.length - 1
-                          : dataTeam?.userTeams?.length) +
+                        (dataTeam?.userTeams?.length - isMentor) +
                         " thành viên)"}
                     </span>
                   </h3>
-                  {/* {isLeader && (
+                  {/* {isLeader && (  
                     <Button
                       size="sm"
                       fontSize="xs"

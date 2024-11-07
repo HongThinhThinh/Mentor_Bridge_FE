@@ -59,6 +59,10 @@ function StudentHomeUpcoming() {
     setDataTeam(response);
   };
 
+  const isMentor = dataTeam?.userTeams?.filter(
+    (item) => item?.role === Role.MENTOR
+  ).length;
+
   useEffect(() => {
     fetchDataGroups();
   }, [isReload]);
@@ -99,11 +103,7 @@ function StudentHomeUpcoming() {
                       {" " +
                         dataTeam?.code +
                         " (" +
-                        (dataTeam?.userTeams.filter(
-                          (item) => item?.role === Role.MENTOR
-                        )
-                          ? dataTeam?.userTeams?.length - 1
-                          : dataTeam?.userTeams?.length) +
+                        (dataTeam?.userTeams?.length - isMentor) +
                         " thành viên)"}
                     </span>
                   </h3>

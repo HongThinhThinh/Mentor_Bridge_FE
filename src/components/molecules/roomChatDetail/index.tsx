@@ -9,6 +9,7 @@ import Message from "../../atoms/message/Message";
 import { useStateValue } from "../../../context/stateProvider";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
 import useChatService from "../../../services/useChatService";
+import Typing from "../../atoms/typing";
 
 function RoomChatDetail() {
   const { theme, setShowChatList, setActive, setRealtime } = useStateValue();
@@ -123,7 +124,12 @@ function RoomChatDetail() {
           />
         ))}
       </div>
-      {typing}
+      {typing && (
+        <div>
+          {typing} đang nhập ...
+          {/* <Typing /> */}
+        </div>
+      )}
       <div className="chat-detail__input">
         <Input
           onKeyDown={handleKeyDown}
@@ -133,7 +139,7 @@ function RoomChatDetail() {
             // const response = await api.post(
             //   `/chat/typing/${idRef.current}/${user.name}`
             // );
-            await sendTyping(idRef.current, user.name);
+            await sendTyping(idRef.current, user.fullName);
           }}
           placeholder="Type a message"
           autoSize

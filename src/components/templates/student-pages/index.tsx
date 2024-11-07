@@ -199,12 +199,12 @@ const StudentPages = () => {
                   {
                     id: "Tổng điểm còn lại",
                     label: "Tổng điểm còn lại",
-                    value: points,
+                    value: points?.studentPoints,
                   },
                   {
                     id: "Tổng điểm đã sử dụng",
                     label: "Tổng điểm đã sử dụng",
-                    value: 50 - points,
+                    value: 50 - points?.studentPoints,
                   },
                 ]}
               />

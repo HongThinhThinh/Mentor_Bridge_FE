@@ -199,6 +199,7 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
   const handleApprove = (id: string) => {
     updateBooking(id, "ACCEPTED");
     setIsFetching(true);
+    fetchData();
   };
 
   return (

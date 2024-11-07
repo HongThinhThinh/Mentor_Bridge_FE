@@ -14,7 +14,11 @@ import useBookingService from "../../../services/useBookingService";
 import { formatDateAndHour } from "../../../utils/dateFormat";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
 import { Role } from "../../../constants/role";
-import { convertColorTag, convertStatus, convertTeamType } from "../../../utils/convertStatus";
+import {
+  convertColorTag,
+  convertStatus,
+  convertTeamType,
+} from "../../../utils/convertStatus";
 import { Button } from "../../../components/atoms/button/Button";
 import useGetParams from "../../../hooks/useGetParams";
 import { User } from "../../../model/user";
@@ -62,7 +66,8 @@ const TreeBookingDetail = ({ booking }) => {
             booking.type == "INDIVIDUAL" ? "Cuộc họp cá nhân" : "Cuộc họp nhóm"
           }`}
         >
-          {booking?.status != "ACCEPTED" ? null : (
+          {booking?.status != "ACCEPTED" ||
+          booking?.status != "RESCHEDULED" ? null : (
             <>
               <Text strong>Liên kết cuộc họp: </Text>
               <a
@@ -363,7 +368,7 @@ const BookingHistory = () => {
                   <BookingDetailCard
                     title={
                       <strong className="text-black text-sm-medium">
-                        Khung giờ
+                        Khung giờ:
                       </strong>
                     }
                   >

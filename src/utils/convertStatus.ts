@@ -19,6 +19,8 @@ export const convertStatus = (status: string): string => {
       return "Đã hoàn thành";
     case "pending_reschedule":
       return "Đang đợi dời lịch";
+    case "rescheduled":
+      return "Đã dời lịch";
     case "approved":
       return "Chưa có nhóm chọn";
     default:

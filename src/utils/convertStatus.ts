@@ -45,10 +45,33 @@ export const convertColorTag = (status: string): string => {
     case "ACCEPTED":
       return "#52c41a";
     case "REJECTED":
-      return "#f5222d";
+      return "#D43900";
     case "FINISHED":
       return "#70c7f4";
     default:
       return "#000000";
+  }
+};
+
+export const convertTeamType = (status: string): string => {
+  switch (status.toUpperCase()) {
+    case "INDIVIDUAL":
+      return "Cá nhân";
+    case "TEAM":
+      return "Nhóm";
+    default:
+      return "Trống";
+  }
+};
+
+
+export const convertPointChangeType = (status: string): string => {
+  switch (status.toUpperCase()) {
+    case "DEDUCTION":
+      return "Khấu trừ";
+    case "REFUND":
+      return "Hoàn tiền";
+    default:
+      return "Trống";
   }
 };

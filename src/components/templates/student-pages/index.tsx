@@ -5,19 +5,20 @@ import { Button } from "../../atoms/button/Button";
 import { PieChart } from "../../molecules/chart/pie-chart/PieChart";
 import ContentsSection from "../../atoms/contents-section/ContentsSection";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
-import GroupSections from "../../molecules/group-sections";
 import useStudentService from "../../../services/useStudentService";
 import ModalInvite from "../../molecules/modal-invite";
 import useBookingService from "../../../services/useBookingService";
-import { Empty, Select, Tag } from "antd";
-import { formatDateToDDMMYY, formatHours } from "../../../utils/dateFormat";
-import { convertStatus, convertStatusEnum } from "../../../utils/convertStatus";
+import { Empty, Modal, Select, Table } from "antd";
+import { formatDateAndHour, formatDateToDDMMYY, formatHours } from "../../../utils/dateFormat";
+import { convertPointChangeType, convertStatus, convertStatusEnum, convertTeamType } from "../../../utils/convertStatus";
 import CountdownTimer from "../../layouts/countdown-timer";
 import MeetingDetail from "../../organisms/meeting-detail";
 import { useNavigate } from "react-router-dom";
 import { STUDENT_ROUTES } from "../../../constants/routes";
 import { GiQueenCrown } from "react-icons/gi";
 import { Role } from "../../../constants/role";
+import { EyeOutlined } from "@ant-design/icons";
+import usePointsService from "../../../services/usePointService";
 
 const StudentPages = () => {
   const [loading, setLoading] = useState(true);
@@ -32,6 +33,42 @@ const StudentPages = () => {
   const [bookingNearset, setBookingNearset] = useState([]);
   const navigate = useNavigate();
   const user = useCurrentUser();
+  const [pointsHistory, setPointsHistory] = useState([]);
+
+  const { getPointsHistory } = usePointsService();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const columns = [
+    {
+      title: "Loại đặt lịch",
+      dataIndex: "bookingTypeEnum",
+      key: "bookingTypeEnum",
+      render: (_, record) => <span>{convertTeamType(record?.bookingTypeEnum)}</span>
+    },
+    {
+      title: "Loại thay đổi",
+      dataIndex: "pointChangeType",
+      key: "pointChangeType",
+      render: (_, record) => <Button fontSize="xs" fontWeight="book" size="xxs" status="none" styles={{background: record?.pointChangeType === "DEDUCTION" ? "#D43900" : "#70c7f4" }}>{convertPointChangeType(record?.pointChangeType)}</Button>
+    },
+    {
+      title: "Điểm",
+      dataIndex: "changePoints",
+      key: "changePoints",
+    },
+    {
+      title: "Điểm còn lại",
+      dataIndex: "newPoints",
+      key: "newPoints",
+    },
+    {
+      title: "Thời điểm",
+      dataIndex: "changeTime",
+      key: "changeTime",
+      render: (_, record) => <span>{formatDateAndHour(record?.changeTime)}</span>,
+    },
+  ];
+
 
   const [points, setPoints] = useState(0);
   const { getPoints } = useStudentService();
@@ -110,6 +147,15 @@ const StudentPages = () => {
     setSelectedOption(value); // Update selected option
   };
 
+  const fetchPointsHistory = async () => {
+    try {
+      const response = await getPointsHistory();
+      setPointsHistory(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="pt-6 pb-10 h-full w-full flex gap-6" id="student-dashboard">
       <div className="w-1/4 h-full gap-6 flex flex-col">
@@ -173,9 +219,9 @@ const StudentPages = () => {
                   onClick={() =>
                     navigate(
                       "/" +
-                        STUDENT_ROUTES.STUDENT +
-                        "/" +
-                        STUDENT_ROUTES.BOOKING
+                      STUDENT_ROUTES.STUDENT +
+                      "/" +
+                      STUDENT_ROUTES.BOOKING
                     )
                   }
                   size="xs"
@@ -195,20 +241,27 @@ const StudentPages = () => {
           >
             <div className="h-full w-full">
               <div className="text-white flex justify-between items-center">
-                <span className="text-xs-medium">Tổng điểm trong kì (100)</span>
+                <span className="text-xs-medium">Tổng điểm trong kì (50)</span>
+                <Button
+                  styleClass="bg-[#FFFFFF30] rounded-[12px] h-[43px] w-[43px] flex justify-center items-center"
+                  status="none"
+                  onClick={() => { setIsOpen(true); fetchPointsHistory(); }}
+                >
+                  <EyeOutlined />
+                </Button>
               </div>
               <PieChart
                 variant="secondary"
                 data={[
                   {
-                    id: "Tổng điểm còn lại",
-                    label: "Tổng điểm còn lại",
-                    value: points?.studentPoints,
-                  },
-                  {
                     id: "Tổng điểm đã sử dụng",
                     label: "Tổng điểm đã sử dụng",
-                    value: 100 - points?.studentPoints,
+                    value: 100 - (points ? points?.studentPoints : 0),
+                  },
+                  {
+                    id: "Tổng điểm còn lại",
+                    label: "Tổng điểm còn lại",
+                    value: points ? points?.studentPoints : 0,
                   },
                 ]}
               />
@@ -278,7 +331,7 @@ const StudentPages = () => {
                             "Thành viên nhóm"
                           )
                         }
-                        // value="Đang xử lý"
+                      // value="Đang xử lý"
                       />
                     ))}
                 </ul>
@@ -338,6 +391,22 @@ const StudentPages = () => {
           </div>
         )}
       </div>
+
+
+      <Modal
+        width={800}
+        title="Thêm đề tài mới"
+        open={isOpen}
+        onCancel={() => setIsOpen(false)}
+        footer={null}
+      >
+        <Table
+          dataSource={pointsHistory}
+          columns={columns}
+          rowKey="id"
+          loading={loading}
+        />
+      </Modal>
     </div>
   );
 };

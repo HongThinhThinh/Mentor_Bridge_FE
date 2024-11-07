@@ -105,7 +105,10 @@ function RoomChatDetail() {
           alt=""
         />
         <div className="header__info">
-          <span>{data?.name}</span>
+          <span>
+            {data?.name ||
+              data?.users?.filter((item) => item.id != user.id)[0].fullName}
+          </span>
           <div className="status">
             <div className="dot"></div>
             {/* <span>online</span> */}

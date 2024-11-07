@@ -9,8 +9,17 @@ import useStudentService from "../../../services/useStudentService";
 import ModalInvite from "../../molecules/modal-invite";
 import useBookingService from "../../../services/useBookingService";
 import { Empty, Modal, Select, Table } from "antd";
-import { formatDateAndHour, formatDateToDDMMYY, formatHours } from "../../../utils/dateFormat";
-import { convertPointChangeType, convertStatus, convertStatusEnum, convertTeamType } from "../../../utils/convertStatus";
+import {
+  formatDateAndHour,
+  formatDateToDDMMYY,
+  formatHours,
+} from "../../../utils/dateFormat";
+import {
+  convertPointChangeType,
+  convertStatus,
+  convertStatusEnum,
+  convertTeamType,
+} from "../../../utils/convertStatus";
 import CountdownTimer from "../../layouts/countdown-timer";
 import MeetingDetail from "../../organisms/meeting-detail";
 import { useNavigate } from "react-router-dom";
@@ -43,13 +52,28 @@ const StudentPages = () => {
       title: "Loại đặt lịch",
       dataIndex: "bookingTypeEnum",
       key: "bookingTypeEnum",
-      render: (_, record) => <span>{convertTeamType(record?.bookingTypeEnum)}</span>
+      render: (_, record) => (
+        <span>{convertTeamType(record?.bookingTypeEnum)}</span>
+      ),
     },
     {
       title: "Loại thay đổi",
       dataIndex: "pointChangeType",
       key: "pointChangeType",
-      render: (_, record) => <Button fontSize="xs" fontWeight="book" size="xxs" status="none" styles={{background: record?.pointChangeType === "DEDUCTION" ? "#D43900" : "#70c7f4" }}>{convertPointChangeType(record?.pointChangeType)}</Button>
+      render: (_, record) => (
+        <Button
+          fontSize="xs"
+          fontWeight="book"
+          size="xxs"
+          status="none"
+          styles={{
+            background:
+              record?.pointChangeType === "DEDUCTION" ? "#D43900" : "#70c7f4",
+          }}
+        >
+          {convertPointChangeType(record?.pointChangeType)}
+        </Button>
+      ),
     },
     {
       title: "Điểm",
@@ -62,13 +86,14 @@ const StudentPages = () => {
       key: "newPoints",
     },
     {
-      title: "Thời điểm",
+      title: "Thời gian",
       dataIndex: "changeTime",
       key: "changeTime",
-      render: (_, record) => <span>{formatDateAndHour(record?.changeTime)}</span>,
+      render: (_, record) => (
+        <span>{formatDateAndHour(record?.changeTime)}</span>
+      ),
     },
   ];
-
 
   const [points, setPoints] = useState(0);
   const { getPoints } = useStudentService();
@@ -219,9 +244,9 @@ const StudentPages = () => {
                   onClick={() =>
                     navigate(
                       "/" +
-                      STUDENT_ROUTES.STUDENT +
-                      "/" +
-                      STUDENT_ROUTES.BOOKING
+                        STUDENT_ROUTES.STUDENT +
+                        "/" +
+                        STUDENT_ROUTES.BOOKING
                     )
                   }
                   size="xs"
@@ -245,7 +270,10 @@ const StudentPages = () => {
                 <Button
                   styleClass="bg-[#FFFFFF30] rounded-[12px] h-[43px] w-[43px] flex justify-center items-center"
                   status="none"
-                  onClick={() => { setIsOpen(true); fetchPointsHistory(); }}
+                  onClick={() => {
+                    setIsOpen(true);
+                    fetchPointsHistory();
+                  }}
                 >
                   <EyeOutlined />
                 </Button>
@@ -331,7 +359,7 @@ const StudentPages = () => {
                             "Thành viên nhóm"
                           )
                         }
-                      // value="Đang xử lý"
+                        // value="Đang xử lý"
                       />
                     ))}
                 </ul>
@@ -392,10 +420,9 @@ const StudentPages = () => {
         )}
       </div>
 
-
       <Modal
         width={800}
-        title="Thêm đề tài mới"
+        title="Điểm trừ/hoàn lịch họp"
         open={isOpen}
         onCancel={() => setIsOpen(false)}
         footer={null}

@@ -9,7 +9,7 @@ import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
 import useAuthService from "../../services/useUserService";
 
 function Login() {
-  const { login, loginGoogle,loading } = useAuthService();
+  const { login, loginGoogle, loading } = useAuthService();
 
   const handleLogin = async (values: any) => {
     await login(values);
@@ -105,7 +105,7 @@ function Login() {
               các mentor có kỹ năng phù hợp.
             </p>
           </div>
-          <div className="flex float-end pr-10 text-shade-300">
+          {/* <div className="flex float-end pr-10 text-shade-300">
             <Button
               status="deny"
               children={<LuArrowLeft className="w-[20px] h-[30px]" />}
@@ -118,7 +118,7 @@ function Login() {
               styleClass="flex items-center justify-center bg-transparent border border-[#D5D5D7] ml-2"
               size="xs"
             />
-          </div>
+          </div> */}
         </div>
         <h1 className="flex items-center justify-center"></h1>
       </Col>

@@ -195,7 +195,7 @@ const StudentPages = () => {
           >
             <div className="h-full w-full">
               <div className="text-white flex justify-between items-center">
-                <span className="text-xs-medium">Tổng điểm trong kì (50)</span>
+                <span className="text-xs-medium">Tổng điểm trong kì (100)</span>
               </div>
               <PieChart
                 variant="secondary"
@@ -208,7 +208,7 @@ const StudentPages = () => {
                   {
                     id: "Tổng điểm đã sử dụng",
                     label: "Tổng điểm đã sử dụng",
-                    value: 50 - points?.studentPoints,
+                    value: 100 - points?.studentPoints,
                   },
                 ]}
               />

@@ -5,7 +5,8 @@ export const convertStatus = (status: string): string => {
     case "deny":
       return "Bị từ chối";
     case "active":
-      return "Đang hoạt động";
+      return "Đã có nhóm chọn";
+      // return "Đang hoạt động";
     case "inactive":
       return "Được chấp nhận";
     case "requested":
@@ -18,6 +19,8 @@ export const convertStatus = (status: string): string => {
       return "Đã hoàn thành";
     case "pending_reschedule":
       return "Đang đợi dời lịch";
+    case "approved":
+      return "Chưa có nhóm chọn";
     default:
       return status;
   }

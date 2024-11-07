@@ -9,7 +9,7 @@ import GroupSections from "../../molecules/group-sections";
 import useStudentService from "../../../services/useStudentService";
 import ModalInvite from "../../molecules/modal-invite";
 import useBookingService from "../../../services/useBookingService";
-import { Empty, Select } from "antd";
+import { Empty, Select, Tag } from "antd";
 import { formatDateToDDMMYY, formatHours } from "../../../utils/dateFormat";
 import { convertStatus, convertStatusEnum } from "../../../utils/convertStatus";
 import CountdownTimer from "../../layouts/countdown-timer";
@@ -235,6 +235,14 @@ const StudentPages = () => {
                         " thành viên)"}
                     </span>
                   </h3>
+                  <Button
+                    size="md"
+                    fontSize="md"
+                    children={`Số điểm còn lại của nhóm: ${points?.teamPoints}`}
+                    styleClass="rounded-lg text-black"
+                    status="none"
+                  />
+
                   {/* {isLeader && (  
                     <Button
                       size="sm"

@@ -14,13 +14,12 @@ import useBookingService from "../../../services/useBookingService";
 import { formatDateAndHour } from "../../../utils/dateFormat";
 import { useCurrentUser } from "../../../utils/getcurrentUser";
 import { Role } from "../../../constants/role";
-import { convertColorTag, convertStatus } from "../../../utils/convertStatus";
+import { convertColorTag, convertStatus, convertTeamType } from "../../../utils/convertStatus";
 import { Button } from "../../../components/atoms/button/Button";
 import useGetParams from "../../../hooks/useGetParams";
 import { User } from "../../../model/user";
 import { useNavigate } from "react-router-dom";
 import { IoMdDoneAll } from "react-icons/io";
-import { bookingHistoryDummyData } from "../../../dummy-data/booking-dummy-data";
 
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
@@ -88,7 +87,7 @@ const TreeBookingDetail = ({ booking }) => {
             <Text type="secondary">Email: {booking?.mentor?.email}</Text>
           </BookingDetailCard>
         ) : (
-          <BookingDetailCard title="Thông tin nhóm: ">
+          <BookingDetailCard title="Thông tin: ">
             {booking?.team != null ? (
               <>
                 <Text type="secondary">Mã nhóm: {booking?.team?.code}</Text>

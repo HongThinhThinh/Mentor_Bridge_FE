@@ -46,3 +46,7 @@ export enum TEAM_API {
 export enum NOTIFICATIONAPIS {
   NOTIFICATION = "notifications",
 }
+
+export enum POINTS_API {
+  POINTS_HISTORY = "points/history",
+}

@@ -22,8 +22,6 @@ import { useNavigate } from "react-router-dom";
 import { IoMdDoneAll } from "react-icons/io";
 import { bookingHistoryDummyData } from "../../../dummy-data/booking-dummy-data";
 
-
-
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
 const { Step } = Steps;
@@ -37,6 +35,7 @@ const BookingDetailCard = ({ title, children }) => (
 );
 
 const TreeBookingDetail = ({ booking }) => {
+  console.log(booking.status);
   const user = useCurrentUser();
   return (
     <Collapse bordered={false}>
@@ -59,16 +58,25 @@ const TreeBookingDetail = ({ booking }) => {
           </Steps>
         </BookingDetailCard>
 
-        <BookingDetailCard title={`Loại: ${booking.type}`}>
-          <Text strong>Liên kết cuộc họp: </Text>
-          <a
-            href={booking.meetLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: "#1890ff" }}
-          >
-            {booking.meetLink}
-          </a>
+        <BookingDetailCard
+          title={`Loại: ${
+            booking.type == "INDIVIDUAL" ? "Cuộc họp cá nhân" : "Cuộc họp nhóm"
+          }`}
+        >
+          {booking?.status == "REQUESTED" ? null : (
+            <>
+              <Text strong>Liên kết cuộc họp: </Text>
+              <a
+                href={booking.meetLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "#1890ff" }}
+              >
+                {booking.meetLink}
+              </a>
+            </>
+          )}
+
           <br />
         </BookingDetailCard>
         {user?.role === Role.STUDENT ? (
@@ -279,53 +287,87 @@ const BookingHistory = () => {
         .map((booking) => (
           <Card className="pt-3 mb-3" key={booking?.id}>
             <Card.Meta
-            
               title={
                 <div className="flex justify-between">
                   <div className="flex gap-2">
-                  <Avatar src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                  <p className="flex justify-between">
-                    <Button fontSize="xs" fontWeight="book" size="xxs" status="none" variant="outlined">{booking?.id}</Button>
-                    {booking?.timeFrame?.timeFrameStatus === "COMPLETED" &&
-                      booking?.status !== "FINISHED" &&
-                      user?.role === Role.MENTOR && (
-                        <Popconfirm
-                          title="Bạn có chắc là đã tham gia cuộc họp này rồi chứ ?"
-                          onConfirm={() => makeBookingCompleted(booking?.id)}
-                        >
-                          <Button variant="frosted-glass" status="date">
-                            Đánh dấu hoàn thành
-                          </Button>
-                        </Popconfirm>
-                      )}
-                  </p>
+                    <Avatar src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                    <p className="flex justify-between">
+                      <Button
+                        fontSize="xs"
+                        fontWeight="book"
+                        size="xxs"
+                        status="none"
+                        variant="outlined"
+                      >
+                        {booking?.id}
+                      </Button>
+                      {booking?.timeFrame?.timeFrameStatus === "COMPLETED" &&
+                        booking?.status !== "FINISHED" &&
+                        user?.role === Role.MENTOR && (
+                          <Popconfirm
+                            title="Bạn có chắc là đã tham gia cuộc họp này rồi chứ ?"
+                            onConfirm={() => makeBookingCompleted(booking?.id)}
+                          >
+                            <Button variant="frosted-glass" status="date">
+                              Đánh dấu hoàn thành
+                            </Button>
+                          </Popconfirm>
+                        )}
+                    </p>
                   </div>
 
                   {user?.role === Role.STUDENT ? (
-                     <Button fontSize="xs" fontWeight="book" size="xxs" status="none" variant="outlined"><p>Cuộc họp với Mentor: {booking?.mentor?.fullName}</p></Button>
+                    <Button
+                      fontSize="xs"
+                      fontWeight="book"
+                      size="xxs"
+                      status="none"
+                      variant="outlined"
+                    >
+                      <p>Cuộc họp với Mentor: {booking?.mentor?.fullName}</p>
+                    </Button>
                   ) : (
-                    <Button fontSize="xs" fontWeight="book" size="xxs" status="none" variant="outlined">
-                    <p>
-                      Cuộc họp với:{" "}
-                      {booking?.team != null
-                        ? "Nhóm " + booking?.team?.code
-                        : booking?.student?.fullName}
-                    </p>
+                    <Button
+                      fontSize="xs"
+                      fontWeight="book"
+                      size="xxs"
+                      status="none"
+                      variant="outlined"
+                    >
+                      <p>
+                        Cuộc họp với:{" "}
+                        {booking?.team != null
+                          ? "Nhóm " + booking?.team?.code
+                          : booking?.student?.fullName}
+                      </p>
                     </Button>
                   )}
                 </div>
               }
               description={
                 <>
-                  <Button fontSize="xs" fontWeight="book" size="xxs" status="none" styles={{background: convertColorTag(booking?.status)}}>
+                  <Button
+                    fontSize="xs"
+                    fontWeight="book"
+                    size="xxs"
+                    status="none"
+                    styles={{ background: convertColorTag(booking?.status) }}
+                  >
                     {convertStatus(booking?.status)}
                   </Button>
                   <p className="my-2 text-sm-book">
-                    <strong className="text-black text-sm-medium">Ngày tạo</strong>:{" "}
-                    {formatDateAndHour(booking?.createdAt)}
+                    <strong className="text-black text-sm-medium">
+                      Ngày tạo
+                    </strong>
+                    : {formatDateAndHour(booking?.createdAt)}
                   </p>
-                  <BookingDetailCard title={
-                    <strong className="text-black text-sm-medium">Khung giờ</strong>}>
+                  <BookingDetailCard
+                    title={
+                      <strong className="text-black text-sm-medium">
+                        Khung giờ
+                      </strong>
+                    }
+                  >
                     <Text type="secondary" className="text-sm-book">
                       Từ:{" "}
                       {new Date(

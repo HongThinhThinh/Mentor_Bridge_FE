@@ -62,7 +62,7 @@ const TreeBookingDetail = ({ booking }) => {
             booking.type == "INDIVIDUAL" ? "Cuộc họp cá nhân" : "Cuộc họp nhóm"
           }`}
         >
-          {booking?.status == "REQUESTED" ? null : (
+          {booking?.status != "ACCEPTED" ? null : (
             <>
               <Text strong>Liên kết cuộc họp: </Text>
               <a

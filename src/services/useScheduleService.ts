@@ -92,12 +92,29 @@ const useScheduleService = () => {
     }
   }, []);
 
+  const getNewTime = useCallback(
+    async (id?: any) => {
+      try {
+        setIsLoading(true);
+
+        const response = await callApi("get", `${SCHEDULE_API.SCHEDULE}/timeFrame/${id}`);
+        return response?.data;
+      } catch (e: any) {
+        console.error("Fetch NewTimeId Eror: ", e);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi, setIsLoading]
+  );
+
   return {
     checkSchedule,
     loading,
     sendSchedule,
     getSchedule,
     getWeeklyTimeFrame,
+    getNewTime,
   };
 };
 

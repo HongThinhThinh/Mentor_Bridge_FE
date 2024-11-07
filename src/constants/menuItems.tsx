@@ -3,12 +3,11 @@ import { Link } from "react-router-dom";
 import {
   BookOutlined,
   CalendarOutlined,
+  CommentOutlined,
+  FieldTimeOutlined,
   HomeOutlined,
-  PieChartOutlined,
   SnippetsOutlined,
-  WechatOutlined,
 } from "@ant-design/icons";
-import { GrHistory } from "react-icons/gr";
 import { Key } from "react";
 
 export type MenuItem = Required<MenuProps>["items"][number];
@@ -38,22 +37,15 @@ export const getLabel = (key?: Key, role?: string): string | undefined => {
   return undefined;
 };
 
-export const adminMenuItems: MenuItem[] = [
-  getItem("Topic", "topic", <PieChartOutlined />),
-  getItem("Food", "food", <PieChartOutlined />),
-  getItem("Product", "product", <PieChartOutlined />),
-  getItem("Voucher", "voucher", <PieChartOutlined />),
-];
-
 const studentItems = [
   { label: "Trang Chủ", key: "home", icon: <HomeOutlined /> },
-  { label: "Đoạn chat", key: "messages", icon: <WechatOutlined /> },
+  { label: "Đoạn chat", key: "messages", icon: <CommentOutlined /> },
   { label: "Lịch Trình", key: "schedule", icon: <CalendarOutlined /> },
   { label: "Đặt Lịch", key: "booking", icon: <BookOutlined /> },
   {
     label: "Lịch sử đặt lịch",
     key: "booking-history",
-    icon: <GrHistory />,
+    icon: <FieldTimeOutlined />,
   },
 ];
 
@@ -63,7 +55,7 @@ export const studentMenuItems: MenuItem[] = studentItems.map((item) =>
 
 const mentorItems = [
   { label: "Trang Chủ", key: "home", icon: <HomeOutlined /> },
-  { label: "Đoạn chat", key: "messages", icon: <WechatOutlined /> },
+  { label: "Đoạn chat", key: "messages", icon: <CommentOutlined /> },
   { label: "Lịch Trình", key: "schedule", icon: <CalendarOutlined /> },
   {
     label: "Lịch trống trong kỳ",
@@ -78,7 +70,7 @@ const mentorItems = [
   {
     label: "Lịch sử đặt lịch",
     key: "booking-history",
-    icon: <GrHistory />,
+    icon: <FieldTimeOutlined />,
   },
 ];
 

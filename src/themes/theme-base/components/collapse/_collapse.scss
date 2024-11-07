@@ -10,5 +10,11 @@
             margin-bottom: 16px;
             border-radius: 9999px;
         }
+        &:last-child {
+            border-radius: 9999px;
+            & .ant-collapse-header {
+                border-radius: 9999px;
+            }
+        }
     }
 }

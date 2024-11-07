@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import img from "../../../assets/avatar.svg";
+import img from "../../../assets/frog.png";
+import img2 from "../../../assets/frog-happy.png";
+import img3 from "../../../assets/frog-sad.png";
 import useGetParams from "../../../hooks/useGetParams";
 import useBookingService from "../../../services/useBookingService";
 import { Button } from "../../atoms/button/Button";
@@ -15,6 +17,7 @@ function ConfirmReschedule() {
   const navigate = useNavigate();
 
   const [bookingDetail, setBookingDetail] = useState(null);
+  const [image, setImage] = useState(img);
 
   const formatDate = (isoDate: any) => {
     const date = new Date(isoDate);
@@ -63,11 +66,11 @@ function ConfirmReschedule() {
   return (
     <div className="flex justify-between items-center h-[100vh] p-5">
       <div className="flex items-center w-full pl-5">
-        <div className="max-w-2xl mb-8">
-          <h1 className="text-2xl-medium  leading-snug tracking-tight text-gray-800 lg:text-xl lg:leading-tight xl:text-3xl xl:leading-tight dark:text-white">
+        <div className="max-w-xl mb-8">
+          <h1 className="text-xl-book  leading-snug tracking-tight text-gray-800 lg:text-xl lg:leading-tight xl:text-3xl xl:leading-tight dark:text-white">
             Xin chào,
           </h1>
-          <p className="py-5 text-xl-medium font-normal leading-normal text-black lg:text-2xl-black xl:text-2xl-black dark:text-gray-300 ">
+          <p className="py-5 text-xl-light font-normal leading-normal text-black lg:text-2xl-black xl:text-2xl-black dark:text-gray-300 ">
             Giảng viên{" "}
             <span className="font-bold">
               {bookingDetail?.mentor?.fullName + " "}
@@ -87,9 +90,11 @@ function ConfirmReschedule() {
                 status="feedback"
                 children="Từ chối"
                 styleClass="w-[180px] bg-transparent border border-[#D5D5D7] text-black"
-                fontSize="xl"
+                fontSize="base"
                 type="submit"
                 onClick={handleReject}
+                onMouseover={() => {setImage(img3)}}
+                onMouseout={() => {setImage(img)}}
               />
 
               <Button
@@ -98,7 +103,9 @@ function ConfirmReschedule() {
                 children="Chấp nhận"
                 styleClass="w-[200px] text-shade-300 bg-transparent border border-[#D5D5D7] 
          bg-gradient-to-r from-[#FF6001] from-43.73%  to-[#F9A26E] to-99.08%"
-                fontSize="xl"
+                fontSize="base"
+                onMouseover={() => {setImage(img2)}}
+                onMouseout={() => {setImage(img)}}
               />
             </div>
           </div>
@@ -107,8 +114,8 @@ function ConfirmReschedule() {
       <div className="flex items-center justify-center w-full lg:w-1/2">
         <div className="">
           <img
-            className="h-80 w-64"
-            src={img}
+            className="h-full w-full bg-cover"
+            src={image}
             alt="Avatar image"
             loading="lazy"
           />

@@ -1,3 +1,4 @@
+import { MouseEventHandler } from "react";
 import { FontSize, FontWeight } from "../../../constants/typography";
 import "./index.scss";
 export interface ButtonProps {
@@ -18,7 +19,11 @@ export interface ButtonProps {
   /** Button contents */
   children: React.ReactNode;
   /** Optional click handler */
-  onClick?: Function;
+  onClick?: MouseEventHandler<HTMLButtonElement> | undefined;
+  /** Optional click handler */
+  onMouseover?: MouseEventHandler<HTMLButtonElement> | undefined;
+  /** Optional click handler */
+  onMouseout?: MouseEventHandler<HTMLButtonElement> | undefined;
   /*** background button */
   status?:
     | "default"
@@ -32,6 +37,7 @@ export interface ButtonProps {
   isDisabled?: boolean;
 
   loading?: boolean;
+  styles?: React.CSSProperties | undefined;
 }
 
 /** Primary UI component for user interaction */
@@ -47,6 +53,10 @@ export const Button = ({
   status = "default",
   isDisabled = false,
   loading,
+  styles,
+  onMouseout,
+  onMouseover,
+  onClick,
   ...props
 }: ButtonProps) => {
   return (
@@ -69,6 +79,10 @@ export const Button = ({
       type={type}
       disabled={isDisabled}
       {...props}
+      style={styles}
+      onMouseOver={onMouseover}
+      onMouseOut={onMouseout}
+      onClick={onClick}
     >
       {loading && (
         <svg

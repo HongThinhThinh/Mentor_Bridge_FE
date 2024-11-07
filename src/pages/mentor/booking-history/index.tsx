@@ -19,8 +19,10 @@ import { Button } from "../../../components/atoms/button/Button";
 import useGetParams from "../../../hooks/useGetParams";
 import { User } from "../../../model/user";
 import { useNavigate } from "react-router-dom";
-import { MdDownloadDone } from "react-icons/md";
 import { IoMdDoneAll } from "react-icons/io";
+import { bookingHistoryDummyData } from "../../../dummy-data/booking-dummy-data";
+
+
 
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
@@ -28,21 +30,22 @@ const { Step } = Steps;
 const { Option } = Select;
 
 const BookingDetailCard = ({ title, children }) => (
-  <Card style={{ marginBottom: 16 }}>
+  <div style={{ marginBottom: 16 }}>
     <Text strong>{title}</Text>
     <div>{children}</div>
-  </Card>
+  </div>
 );
 
 const TreeBookingDetail = ({ booking }) => {
   const user = useCurrentUser();
   return (
-    <Collapse bordered={false} style={{ marginBottom: 16 }}>
+    <Collapse bordered={false}>
       <Panel header={"Xem chi tiết"} key={booking.id}>
         <BookingDetailCard title="Lịch sử đặt chỗ">
           <Steps
             direction="vertical"
             current={booking.bookingHistories.length - 1}
+            className="pt-4"
           >
             {booking.bookingHistories.map((history) => (
               <Step
@@ -113,8 +116,8 @@ const TreeBookingDetail = ({ booking }) => {
 };
 
 const BookingHistory = () => {
-  const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
+  const [data, setData] = useState(bookingHistoryDummyData);
+  const [filteredData, setFilteredData] = useState(bookingHistoryDummyData);
   const [selectedStatus, setSelectedStatus] = useState("");
   const { getBooking, makeBookingCompleted, getBookingDetails } =
     useBookingService();
@@ -141,14 +144,14 @@ const BookingHistory = () => {
   };
 
   useEffect(() => {
-    fetch();
+    // fetch();
   }, []);
 
   useEffect(() => {
-    if (idBooking) {
-      setShow(true);
-      fetchBookingDetails();
-    }
+    // if (idBooking) {
+    //   setShow(true);
+    //   fetchBookingDetails();
+    // }
   }, []);
   const fetch = async () => {
     try {
@@ -171,7 +174,7 @@ const BookingHistory = () => {
   };
 
   useEffect(() => {
-    fetch();
+    // fetch();
   }, []);
 
   return (
@@ -274,15 +277,15 @@ const BookingHistory = () => {
       {filteredData
         ?.sort((a, b) => new Date(b?.createdAt) - new Date(a?.createdAt))
         .map((booking) => (
-          <Card className="mb-3" key={booking?.id}>
+          <Card className="pt-3 mb-3" key={booking?.id}>
             <Card.Meta
-              avatar={
-                <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
-              }
+            
               title={
-                <>
+                <div className="flex justify-between">
+                  <div className="flex gap-2">
+                  <Avatar src="https://ionicframework.com/docs/img/demos/avatar.svg" />
                   <p className="flex justify-between">
-                    Mã cuộc họp: {booking?.id}
+                    <Button fontSize="xs" fontWeight="book" size="xxs" status="none" variant="outlined">{booking?.id}</Button>
                     {booking?.timeFrame?.timeFrameStatus === "COMPLETED" &&
                       booking?.status !== "FINISHED" &&
                       user?.role === Role.MENTOR && (
@@ -296,37 +299,41 @@ const BookingHistory = () => {
                         </Popconfirm>
                       )}
                   </p>
+                  </div>
 
                   {user?.role === Role.STUDENT ? (
-                    <p>Cuộc họp với Mentor: {booking?.mentor?.fullName}</p>
+                     <Button fontSize="xs" fontWeight="book" size="xxs" status="none" variant="outlined"><p>Cuộc họp với Mentor: {booking?.mentor?.fullName}</p></Button>
                   ) : (
+                    <Button fontSize="xs" fontWeight="book" size="xxs" status="none" variant="outlined">
                     <p>
                       Cuộc họp với:{" "}
                       {booking?.team != null
                         ? "Nhóm " + booking?.team?.code
                         : booking?.student?.fullName}
                     </p>
+                    </Button>
                   )}
-                </>
+                </div>
               }
               description={
                 <>
-                  <Tag color={convertColorTag(booking?.status)}>
+                  <Button fontSize="xs" fontWeight="book" size="xxs" status="none" styles={{background: convertColorTag(booking?.status)}}>
                     {convertStatus(booking?.status)}
-                  </Tag>
-                  <p className="my-2">
-                    <strong>Ngày tạo</strong>:{" "}
+                  </Button>
+                  <p className="my-2 text-sm-book">
+                    <strong className="text-black text-sm-medium">Ngày tạo</strong>:{" "}
                     {formatDateAndHour(booking?.createdAt)}
                   </p>
-                  <BookingDetailCard title="Khung thời gian">
-                    <Text type="secondary">
+                  <BookingDetailCard title={
+                    <strong className="text-black text-sm-medium">Khung giờ</strong>}>
+                    <Text type="secondary" className="text-sm-book">
                       Từ:{" "}
                       {new Date(
                         booking?.timeFrame?.timeFrameFrom
                       ).toLocaleString()}
                     </Text>
                     <br />
-                    <Text type="secondary">
+                    <Text type="secondary" className="text-sm-book">
                       Đến:{" "}
                       {new Date(
                         booking?.timeFrame?.timeFrameTo

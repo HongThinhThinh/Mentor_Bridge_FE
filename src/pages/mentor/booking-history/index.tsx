@@ -66,20 +66,20 @@ const TreeBookingDetail = ({ booking }) => {
             booking.type == "INDIVIDUAL" ? "Cuộc họp cá nhân" : "Cuộc họp nhóm"
           }`}
         >
-          {booking?.status != "ACCEPTED" ||
-          booking?.status != "RESCHEDULED" ? null : (
-            <>
-              <Text strong>Liên kết cuộc họp: </Text>
-              <a
-                href={booking.meetLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: "#1890ff" }}
-              >
-                {booking.meetLink}
-              </a>
-            </>
-          )}
+          {booking?.status == "ACCEPTED" ||
+            (booking?.status == "RESCHEDULED" && (
+              <>
+                <Text strong>Liên kết cuộc họp: </Text>
+                <a
+                  href={booking.meetLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "#1890ff" }}
+                >
+                  {booking.meetLink}
+                </a>
+              </>
+            ))}
 
           <br />
         </BookingDetailCard>

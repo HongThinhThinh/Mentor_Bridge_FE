@@ -148,7 +148,7 @@ function BookingAcceptance({ columns }: BookingAcceptanceProps) {
       ),
     },
     {
-      title: "Loại book",
+      title: "Ngày book",
       dataIndex: "createdAt",
       key: "createdAt",
       render: (id: string, record: any) => (
